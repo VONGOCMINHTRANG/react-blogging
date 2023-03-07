@@ -1,8 +1,9 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const PostTitleStyles = styled.h3`
   margin-bottom: ${(props) => props.marginBottom || '0px'};
-  span {
+  a {
     font-weight: bold;
     line-height: 1.5;
     display: block;
@@ -10,10 +11,10 @@ const PostTitleStyles = styled.h3`
   }
 `
 
-const PostTitle = ({ children, ...props }) => {
+const PostTitle = ({ children, to = '/', ...props }) => {
   return (
     <PostTitleStyles className="post-title" {...props}>
-      <span>{children}</span>
+      <NavLink to={to}>{children}</NavLink>
     </PostTitleStyles>
   )
 }

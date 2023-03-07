@@ -51,45 +51,47 @@ const SidebarStyles = styled.ul`
     color: rgb(29, 192, 113);
     background-color: rgb(241, 251, 247);
   }
+
+  @media (min-width: 951px) {
+    display: none;
+  }
 `
 
 const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = '0' }) => {
   return (
-    <>
-      <SidebarStyles className={className}>
-        <div>
-          <div className="header">
-            <div className="header-main">
-              <Link to="/">
-                <img src="/logo.png" alt="react-blogging" className="logo-sidebar" />
-              </Link>
-              <h2 className="font-semibold">Monkey Blogging</h2>
-            </div>
-            <div className="text-3xl font-semibold cursor-pointer">
-              <IconArrowLeft onClick={() => setOpen(false)}></IconArrowLeft>
-            </div>
+    <SidebarStyles className={className}>
+      <div>
+        <div className="header">
+          <div className="header-main">
+            <Link to="/">
+              <img src="/logo.png" alt="react-blogging" className="logo-sidebar" />
+            </Link>
+            <h2 className="font-semibold">React Blogging</h2>
           </div>
-          <div className="search-input">
-            <Search></Search>
-          </div>
-
-          <div className="mt-5">
-            {SidebarData.length > 0 &&
-              SidebarData.slice(number1, number2).map((item) => (
-                <li className="menu-item" key={item.title}>
-                  <div className="flex items-center gap-x-4">
-                    <span>{item.icon}</span>
-                    <a href={item.url}>{item.title}</a>
-                  </div>
-                  <span>
-                    <IconArrowDown></IconArrowDown>
-                  </span>
-                </li>
-              ))}
+          <div className="text-3xl font-semibold cursor-pointer">
+            <IconArrowLeft onClick={() => setOpen(false)}></IconArrowLeft>
           </div>
         </div>
-      </SidebarStyles>
-    </>
+        <div className="search-input">
+          <Search></Search>
+        </div>
+
+        <div className="mt-5">
+          {SidebarData.length > 0 &&
+            SidebarData.slice(number1, number2).map((item) => (
+              <li className="menu-item" key={item.title}>
+                <div className="flex items-center gap-x-4">
+                  <span>{item.icon}</span>
+                  <a href={item.url}>{item.title}</a>
+                </div>
+                <span>
+                  <IconArrowDown></IconArrowDown>
+                </span>
+              </li>
+            ))}
+        </div>
+      </div>
+    </SidebarStyles>
   )
 }
 

@@ -3,15 +3,13 @@ import PostImage from './PostImage'
 import PostCategory from './PostCategory'
 import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
-import { useEffect, useState } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../firebase/firebase-config'
 
 const PostItemStyles = styled.div`
   height: 270px;
   width: 100%;
   border-radius: 16px;
   position: relative;
+  cursor: pointer;
   .post {
     &-content {
       position: absolute;
@@ -41,10 +39,12 @@ const PostItem = ({
   time,
   author,
   src,
+  to,
+  ...props
 }) => {
   return (
-    <PostItemStyles className="post-item">
-      <PostImage src={src} to="#"></PostImage>
+    <PostItemStyles className="post-item" {...props}>
+      <PostImage to={to} src={src}></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">

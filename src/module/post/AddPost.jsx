@@ -12,18 +12,9 @@ import Radio from 'components/radio'
 import { Button } from 'components/button'
 import slugify from 'slugify'
 import { postStatus } from 'utils/constants'
-import ImageUpload from 'components/image'
+import { ImageUpload } from 'components/image'
 import useFirebaseImage from 'hooks/useFirebaseImage'
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  serverTimestamp,
-  where,
-} from 'firebase/firestore'
+import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import { Dropdown } from 'components/dropdown'
 import { Content } from 'components/content'
@@ -69,6 +60,7 @@ const AddPostStyles = styled.div`
 const AddPost = () => {
   const [categories, setCategories] = useState([])
   const [selectCategory, setSelectCategory] = useState('')
+  const [loading, setLoading] = useState(false)
   const { userInfo } = useAuth()
 
   const {
@@ -91,45 +83,53 @@ const AddPost = () => {
     },
   })
 
-  const { image, progress, handleSelectImage, handleDeleteImage } = useFirebaseImage(
-    setValue,
-    getValues
-  )
+  const { image, setImage, progress, setProgress, handleSelectImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues)
 
   const watchStatus = watch('status')
   const watchHot = watch('hot')
 
   const handleAddPost = async (values) => {
-    const cloneValues = { ...values }
-    cloneValues.slug = slugify(values.slug || values.title, { lower: true })
-    cloneValues.status = Number(values.status)
-    const colRef = collection(db, 'posts')
-    await addDoc(colRef, {
-      ...cloneValues,
-      // title: cloneValues.title,
-      // slug: cloneValues.slug,
-      // hot: cloneValues.hot,
-      // status: cloneValues.status,
-      // categoryId: cloneValues.categoryId,
-      image,
-      userId: userInfo.uid,
-      createdAt: serverTimestamp(),
-    })
+    try {
+      setLoading(true)
+      const cloneValues = { ...values }
+      cloneValues.slug = slugify(values.slug || values.title, { lower: true })
+      cloneValues.status = Number(values.status)
+      const colRef = collection(db, 'posts')
+      await addDoc(colRef, {
+        ...cloneValues,
+        // title: cloneValues.title,
+        // slug: cloneValues.slug,
+        // hot: cloneValues.hot,
+        // status: cloneValues.status,
+        // categoryId: cloneValues.categoryId,
+        image,
+        userId: userInfo.uid,
+        createdAt: serverTimestamp(),
+      })
 
-    toast.success('Create new post successfully', {
-      pauseOnHover: false,
-      delay: 100,
-    })
-    reset({
-      title: '',
-      slug: '',
-      status: 2,
-      categoryId: '',
-      hot: false,
-      image: '',
-    })
-    setSelectCategory('')
-    console.log(cloneValues)
+      toast.success('Create new post successfully', {
+        pauseOnHover: false,
+        delay: 100,
+      })
+      reset({
+        title: '',
+        slug: '',
+        status: 2,
+        categoryId: '',
+        hot: false,
+        image: '',
+      })
+      setImage('')
+      setProgress(0)
+      setSelectCategory('')
+      console.log(cloneValues)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -151,7 +151,7 @@ const AddPost = () => {
   }, [])
 
   useEffect(() => {
-    document.title = 'React Blogging - Add new post'
+    document.title = 'Add new post'
   }, [])
 
   const handleClickOption = (item) => {
@@ -269,8 +269,8 @@ const AddPost = () => {
           </div>
           <Button
             type="submit"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
+            isLoading={loading}
+            disabled={loading}
             onClick={handleSubmit(handleAddPost)}
           >
             Add new post
