@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const PostMetaStyles = styled.div`
@@ -16,12 +17,14 @@ const PostMetaStyles = styled.div`
       border-radius: 100rem;
     }
     &-author {
+      font-size: calc(0.5em + 0.5vw);
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
   }
+
   @media (max-width: 540px) {
     .post-meta {
       font-size: calc(0.5em + 0.5vw);
@@ -29,12 +32,14 @@ const PostMetaStyles = styled.div`
   }
 `
 
-const PostMeta = ({ time = '27/12/2023', author = 'Vo Ngoc Minh Trang', ...props }) => {
+const PostMeta = ({ time = '', author = '', to = '/', ...props }) => {
   return (
     <PostMetaStyles className="post-meta" {...props}>
       <span className="post-time">{time}</span>
       <span className="post-dot"></span>
-      <span className="post-author">{author}</span>
+      <NavLink to={to} className="post-author">
+        {author}
+      </NavLink>
     </PostMetaStyles>
   )
 }
