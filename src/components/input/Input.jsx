@@ -46,10 +46,12 @@ const Input = ({
   hasIcon = false,
   control,
   className = '',
+  rules,
   ...props
 }) => {
   const { field } = useController({
     control,
+    rules,
     name,
     defaultValue: '',
   })

@@ -1,7 +1,10 @@
 import { IconTrash } from 'components/icon'
 import { LoadingSpinner } from 'components/loading'
+import { useController } from 'react-hook-form'
 
 const ImageUpload = ({
+  control,
+  rules,
   name,
   className = '',
   progress = 0,
@@ -9,6 +12,11 @@ const ImageUpload = ({
   handleDeleteImage = () => {},
   ...props
 }) => {
+  const { field } = useController({
+    control,
+    rules,
+    name,
+  })
   return (
     <label
       className={`cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[200px] rounded-lg h-[250px] shadow-lg relative overflow-hidden group bg-[#E7ECF3]`}
@@ -18,6 +26,7 @@ const ImageUpload = ({
         type="file"
         className="hidden-input"
         onChange={() => {}}
+        {...field}
         {...props}
       ></input>
       {progress !== 0 && !image && (

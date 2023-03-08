@@ -10,6 +10,7 @@ import { useState } from 'react'
 export default function useFirebaseImage(setValue, getValues) {
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState('')
+  const [errorFileType, setErrorFileType] = useState('')
   if (!setValue || !getValues) return
 
   const handleUploadImage = (file) => {
@@ -34,7 +35,7 @@ export default function useFirebaseImage(setValue, getValues) {
         }
       },
       (error) => {
-        console.log('Error')
+        console.log(error)
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -48,6 +49,11 @@ export default function useFirebaseImage(setValue, getValues) {
   const handleSelectImage = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    if (!file.name.match(/\.(jpg|jpeg|png|avif)$/)) {
+      setErrorFileType(true)
+      return
+    }
+    setErrorFileType(false)
     setValue('image_name', file.name)
     handleUploadImage(file)
   }
@@ -70,6 +76,7 @@ export default function useFirebaseImage(setValue, getValues) {
   return {
     image,
     setImage,
+    errorFileType,
     progress,
     setProgress,
     handleSelectImage,

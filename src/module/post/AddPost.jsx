@@ -4,7 +4,6 @@ import { Label } from 'components/label'
 import DashboardLayout from 'module/dashboard/DashboardLayout'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { useEffect, useState } from 'react'
 import { Toggle } from 'components/toggle'
@@ -20,6 +19,7 @@ import { Dropdown } from 'components/dropdown'
 import { Content } from 'components/content'
 import { useAuth } from 'contexts/auth-context'
 import { toast } from 'react-toastify'
+import { Editor } from 'components/Editor'
 
 const AddPostStyles = styled.div`
   .image-content {
@@ -28,22 +28,6 @@ const AddPostStyles = styled.div`
     align-items: center;
     text-align: center;
     pointer-events: none;
-  }
-  .entry-content {
-    font-size: 20px;
-    width: 100%;
-  }
-  .quill {
-    position: relative;
-  }
-  .ql {
-    &-editor {
-      font-size: 18px;
-      p {
-        line-height: 2;
-        margin-bottom: 20px;
-      }
-    }
   }
   .button {
     padding: calc(0.7em + 0.5vw);
@@ -62,12 +46,12 @@ const AddPost = () => {
   const [selectCategory, setSelectCategory] = useState('')
   const [loading, setLoading] = useState(false)
   const { userInfo } = useAuth()
-
   const {
+    register,
     handleSubmit,
     control,
     watch,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
     setValue,
     getValues,
     reset,
@@ -82,12 +66,19 @@ const AddPost = () => {
       hot: false,
     },
   })
-
-  const { image, setImage, progress, setProgress, handleSelectImage, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues)
-
+  const {
+    image,
+    setImage,
+    errorFileType,
+    progress,
+    setProgress,
+    handleSelectImage,
+    handleDeleteImage,
+  } = useFirebaseImage(setValue, getValues)
   const watchStatus = watch('status')
   const watchHot = watch('hot')
+
+  console.log(errors)
 
   const handleAddPost = async (values) => {
     try {
@@ -97,17 +88,17 @@ const AddPost = () => {
       cloneValues.status = Number(values.status)
       const colRef = collection(db, 'posts')
       await addDoc(colRef, {
-        ...cloneValues,
-        // title: cloneValues.title,
-        // slug: cloneValues.slug,
-        // hot: cloneValues.hot,
-        // status: cloneValues.status,
-        // categoryId: cloneValues.categoryId,
+        title: cloneValues.title,
+        slug: cloneValues.slug,
+        hot: cloneValues.hot,
+        status: cloneValues.status,
+        categoryId: cloneValues.categoryId,
         image,
+        image_name: cloneValues.image_name,
         userId: userInfo.uid,
         createdAt: serverTimestamp(),
+        // editor: cloneValues.editor,
       })
-
       toast.success('Create new post successfully', {
         pauseOnHover: false,
         delay: 100,
@@ -150,13 +141,13 @@ const AddPost = () => {
     getDataFirebase()
   }, [])
 
-  useEffect(() => {
-    document.title = 'Add new post'
-  }, [])
-
   const handleClickOption = (item) => {
     setValue('categoryId', item.id)
     setSelectCategory(item)
+  }
+
+  const handleEditor = (editorState) => {
+    setValue('editor', editorState)
   }
 
   return (
@@ -167,14 +158,22 @@ const AddPost = () => {
           <div className="form-layout">
             <Field>
               <Label htmlFor="title">Title</Label>
-              <Input
-                name="title"
-                type="text"
-                placeholder="Enter your title"
-                control={control}
-                required
-              ></Input>
+              <div className="flex flex-col gap-y-2 w-full">
+                <Input
+                  name="title"
+                  type="text"
+                  placeholder="Enter your title"
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                ></Input>
+                {errors?.title?.type === 'required' && (
+                  <div className="text-red-500 text-sm italic">Please enter your title</div>
+                )}
+              </div>
             </Field>
+
             <Field>
               <Label htmlFor="slug">Slug</Label>
               <Input
@@ -188,29 +187,93 @@ const AddPost = () => {
           <div className="form-layout">
             <Field>
               <Label htmlFor="image">Image</Label>
-              <ImageUpload
-                onChange={handleSelectImage}
-                progress={progress}
-                name="image"
-                image={image}
-                handleDeleteImage={handleDeleteImage}
-              ></ImageUpload>
+              <div className="w-full flex flex-col gap-y-2">
+                {progress === 0 ? (
+                  <ImageUpload
+                    onChange={handleSelectImage}
+                    progress={progress}
+                    name="image"
+                    image={image}
+                    handleDeleteImage={handleDeleteImage}
+                    control={control}
+                    rules={{
+                      required: true,
+                      pattern: [`/\.(jpg|jpeg|png|gif)$/`],
+                    }}
+                  ></ImageUpload>
+                ) : (
+                  <ImageUpload
+                    onChange={handleSelectImage}
+                    progress={progress}
+                    name="image"
+                    image={image}
+                    handleDeleteImage={handleDeleteImage}
+                    control={control}
+                    rules={{
+                      required: false,
+                    }}
+                  ></ImageUpload>
+                )}
+
+                {errors?.image?.type === 'required' && progress === 0 && !errorFileType && (
+                  <div className="text-red-500 text-sm italic">
+                    Please choose picture for your post
+                  </div>
+                )}
+                {errorFileType && (
+                  <div className="text-red-500 text-sm italic">
+                    Please choose picture has format *.png, *.jpg, *.jpeg, *.avif
+                  </div>
+                )}
+              </div>
             </Field>
             <Field>
               <Label htmlFor="category">Category</Label>
-              <Dropdown>
-                <Dropdown.Select
-                  placeholder={`${selectCategory.name || 'Select your category'}`}
-                ></Dropdown.Select>
-                <Dropdown.List>
-                  {categories.length > 0 &&
-                    categories.map((item) => (
-                      <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
-                        {item.name}
-                      </Dropdown.Option>
-                    ))}
-                </Dropdown.List>
-              </Dropdown>
+              <div className="flex flex-col gap-y-2 w-full">
+                <Dropdown>
+                  {!selectCategory.name && (
+                    <>
+                      <Dropdown.Select
+                        name="dropdown"
+                        control={control}
+                        rules={{ required: true }}
+                        placeholder="Select your category"
+                      ></Dropdown.Select>
+                      <Dropdown.List>
+                        {categories.length > 0 &&
+                          categories.map((item) => (
+                            <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
+                              {item.name}
+                            </Dropdown.Option>
+                          ))}
+                      </Dropdown.List>
+                    </>
+                  )}
+
+                  {selectCategory.name && (
+                    <>
+                      <Dropdown.Select
+                        name="dropdown"
+                        control={control}
+                        rules={{ required: false }}
+                        placeholder={`${selectCategory.name}`}
+                      ></Dropdown.Select>
+                      <Dropdown.List>
+                        {categories.length > 0 &&
+                          categories.map((item) => (
+                            <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
+                              {item.name}
+                            </Dropdown.Option>
+                          ))}
+                      </Dropdown.List>
+                    </>
+                  )}
+                </Dropdown>
+                {errors?.dropdown?.type === 'required' && !selectCategory.name && (
+                  <div className="text-red-500 text-sm italic">Please select your category</div>
+                )}
+              </div>
+
               {selectCategory?.name && (
                 <span className="inline-block p-3 text-sm font-semibold text-green-600 rounded-lg bg-green-300">
                   {selectCategory?.name}
@@ -221,8 +284,24 @@ const AddPost = () => {
           <div className="form-layout">
             <Field>
               <Label htmlFor="content">Content</Label>
-              <div className="entry-content">
-                <ReactQuill name="content" theme={'snow'} />
+              <div className="w-full flex flex-col gap-y-2">
+                <Editor
+                  onChange={handleEditor}
+                  control={control}
+                  name="editor"
+                  rules={{
+                    required: false,
+                    minLength: 50,
+                  }}
+                ></Editor>
+                {errors?.editor?.type === 'required' && (
+                  <div className="text-red-500 text-sm italic">Please enter your content</div>
+                )}
+                {errors?.editor?.type === 'minLength' && (
+                  <div className="text-red-500 text-sm italic">
+                    Your content must be at least 50 characters
+                  </div>
+                )}
               </div>
             </Field>
           </div>

@@ -3,6 +3,7 @@ import { useDropdown } from './dropdown-context'
 const Option = (props) => {
   const { onClick } = props
   const { setShow } = useDropdown()
+
   const handleClick = () => {
     onClick && onClick()
     setShow(false)
