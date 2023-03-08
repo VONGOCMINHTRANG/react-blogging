@@ -88,12 +88,20 @@ const AddCategory = () => {
           <div className="form-layout">
             <Field>
               <Label htmlFor="name">Name</Label>
-              <Input
-                control={control}
-                name="name"
-                type="text"
-                placeholder="Enter your category name"
-              ></Input>
+              <div className="flex flex-col gap-y-2 w-full">
+                <Input
+                  control={control}
+                  name="name"
+                  type="text"
+                  placeholder="Enter your category name"
+                  rules={{
+                    required: true,
+                  }}
+                ></Input>
+                {errors?.name?.type === 'required' && (
+                  <div className="text-red-500 text-sm italic">Please enter your category name</div>
+                )}
+              </div>
             </Field>
             <Field>
               <Label htmlFor="slug">Slug</Label>
