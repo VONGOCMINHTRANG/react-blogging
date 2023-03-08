@@ -51,7 +51,7 @@ const AddPost = () => {
     handleSubmit,
     control,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     getValues,
     reset,
@@ -77,8 +77,6 @@ const AddPost = () => {
   } = useFirebaseImage(setValue, getValues)
   const watchStatus = watch('status')
   const watchHot = watch('hot')
-
-  console.log(errors)
 
   const handleAddPost = async (values) => {
     try {
@@ -110,14 +108,14 @@ const AddPost = () => {
         categoryId: '',
         hot: false,
         image: '',
+        createdAt: new Date(),
       })
       setImage('')
       setProgress(0)
       setSelectCategory('')
-      console.log(cloneValues)
+      // console.log(cloneValues)
     } catch (error) {
       setLoading(false)
-      console.log(error)
     } finally {
       setLoading(false)
     }
