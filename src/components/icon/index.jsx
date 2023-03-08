@@ -15,6 +15,9 @@ import IconUser from './IconUser'
 import IconLogout from './IconLogout'
 import IconCheck from './IconCheck'
 import IconTrash from './IconTrash'
+import IconActionDelete from './IconActionDelete'
+import IconActionEdit from './IconActionEdit'
+import IconActionView from './IconActionView'
 
 export {
   IconEyeOpen,
@@ -34,4 +37,7 @@ export {
   IconLogout,
   IconCheck,
   IconTrash,
+  IconActionDelete,
+  IconActionView,
+  IconActionEdit,
 }

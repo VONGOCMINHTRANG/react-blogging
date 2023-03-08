@@ -10,6 +10,15 @@ const TableStyles = styled.table`
     font-weight: bold;
     text-align: center;
   }
+  th,
+  td {
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  td {
+    padding: 15px 30px;
+    text-align: center;
+  }
   @media (max-width: 540px) {
     th {
       padding: 10px;
@@ -30,6 +39,7 @@ const Table = ({
   item3 = 'item3',
   item4 = 'item4',
   item5 = 'item5',
+  children,
 }) => {
   return (
     <TableStyles>
@@ -42,7 +52,7 @@ const Table = ({
           <th>{item5}</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      {children}
     </TableStyles>
   )
 }
