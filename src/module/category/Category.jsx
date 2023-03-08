@@ -3,7 +3,7 @@ import Content from 'components/content/Content'
 import DashboardLayout from 'module/dashboard/DashboardLayout'
 import Search from 'components/search/Search'
 import { Table } from 'components/table'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { LabelStatus } from 'components/label'
 import { IconActionDelete, IconActionEdit, IconActionView } from 'components/icon'
@@ -71,6 +71,7 @@ const CategoryStyles = styled.div`
 const Category = () => {
   const [categoryList, setCategoryList] = useState([])
   const colRef = collection(db, 'categories')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchCategoryData = async () => {
@@ -83,7 +84,6 @@ const Category = () => {
           })
         })
         setCategoryList(results)
-        console.log(categoryList)
       })
     }
     fetchCategoryData()
@@ -113,7 +113,7 @@ const Category = () => {
                       <span className="italic text-gray-400">{item?.slug}</span>
                     </td>
                     <td>
-                      {item?.status === categoryStatus.APPROVED ? (
+                      {Number(item?.status) === categoryStatus.APPROVED ? (
                         <LabelStatus type="success">Approved</LabelStatus>
                       ) : (
                         <LabelStatus type="danger">Unapproved</LabelStatus>
@@ -122,7 +122,9 @@ const Category = () => {
                     <td>
                       <div className="flex justify-center items-center gap-x-3">
                         <IconActionView></IconActionView>
-                        <IconActionEdit></IconActionEdit>
+                        <IconActionEdit
+                          onClick={() => navigate(`/manage/update-category?id=${item?.id}`)}
+                        ></IconActionEdit>
                         <IconActionDelete></IconActionDelete>
                       </div>
                     </td>
