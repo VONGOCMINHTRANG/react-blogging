@@ -1,11 +1,21 @@
 import { useDropdown } from './dropdown-context'
+import { useController } from 'react-hook-form'
 
-const Select = ({ placeholder = '' }) => {
+const Select = ({ value, name, control, rules, placeholder = '' }) => {
   const { toggle, show } = useDropdown()
+  const { field } = useController({
+    name,
+    control,
+    rules,
+    defaultValue: '',
+  })
 
   return (
     <div
       className="flex items-center justify-between p-5 bg-[#E7ECF3] rounded cursor-pointer font-medium"
+      control={control}
+      value={value}
+      {...field}
       onClick={toggle}
     >
       <span>{placeholder}</span>

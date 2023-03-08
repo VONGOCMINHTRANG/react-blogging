@@ -33,7 +33,6 @@ const PostFeatureItemStyles = styled.div`
   a {
     font-weight: bold;
     line-height: 1.5;
-    display: block;
   }
   @media (max-width: 767px) {
     .post {
