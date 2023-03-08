@@ -15,6 +15,7 @@ import User from 'module/user/User'
 import AddCategory from 'module/category/AddCategory'
 import Category from 'module/category/Category'
 import UpdateUser from 'module/user/UpdateUser'
+import CategoryUpdate from 'module/category/CategoryUpdate'
 
 function App() {
   return (
@@ -32,8 +33,9 @@ function App() {
           <Route path="/manage/posts" element={<Posts></Posts>}></Route>
           <Route path="/manage/user" element={<User></User>}></Route>
           <Route path="/manage/update-user" element={<UpdateUser></UpdateUser>}></Route>
-          <Route path="/manage/add-category" element={<AddCategory></AddCategory>}></Route>
           <Route path="/manage/category" element={<Category></Category>}></Route>
+          <Route path="/manage/add-category" element={<AddCategory></AddCategory>}></Route>
+          <Route path="/manage/update-category" element={<CategoryUpdate></CategoryUpdate>}></Route>
         </Routes>
       </AuthProvider>
     </>

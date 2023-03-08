@@ -1,18 +1,19 @@
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Button } from 'components/button'
 import Content from 'components/content/Content'
 import { Field } from 'components/field'
 import { Input } from 'components/input'
 import { Label } from 'components/label'
 import Radio from 'components/radio'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import DashboardLayout from 'module/dashboard/DashboardLayout'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import slugify from 'slugify'
 import styled from 'styled-components'
 import { categoryStatus } from 'utils/constants'
+import { getDoc, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
+import slugify from 'slugify'
+import { toast } from 'react-toastify'
 
 const AddCategoryStyles = styled.div`
   .button {
@@ -26,9 +27,10 @@ const AddCategoryStyles = styled.div`
     }
   }
 `
-
-const AddCategory = () => {
+const CategoryUpdate = () => {
   const [loading, setLoading] = useState(false)
+  const [params] = useSearchParams()
+  const navigate = useNavigate()
   const {
     handleSubmit,
     control,
@@ -37,57 +39,49 @@ const AddCategory = () => {
     reset,
   } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      name: '',
-      slug: '',
-      status: 1,
-      createdAt: new Date(),
-    },
+    defaultValues: {},
   })
   const watchStatus = watch('status')
+  const categoryId = params.get('id')
 
-  const handleAddCategory = async (values) => {
+  const handleUpdateCategory = async (values) => {
     if (!isValid) return
     try {
-      const cloneValues = { ...values }
-      cloneValues.slug = slugify(values.slug || values.name, { lower: true })
-      cloneValues.status = Number(values.status)
-      const colRef = collection(db, 'categories')
-      await addDoc(colRef, {
-        // ...cloneValues,
-        name: cloneValues.name,
-        slug: cloneValues.slug,
-        status: cloneValues.status,
-        createdAt: serverTimestamp(),
+      const colRef = doc(db, 'categories', categoryId)
+      await updateDoc(colRef, {
+        name: values.name,
+        slug: slugify(values.slug || values.name, { lower: true }),
+        status: Number(values.status),
       })
-      // console.log(cloneValues)
-      toast.success('Create new category successfully', {
-        pauseOnHover: false,
-        delay: 100,
-      })
+      toast.success('Update category successfully')
       setLoading(true)
-      reset({
-        name: '',
-        slug: '',
-        status: 1,
-        createdAt: new Date(),
-      })
+      navigate('/manage/category')
     } catch (error) {
-      console.log(error)
+      setLoading(false)
       toast.error('Something wrong!', {
         pauseOnHover: false,
         delay: 100,
       })
-      setLoading(false)
+      console.log(error)
     } finally {
       setLoading(false)
     }
   }
 
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      const colRef = doc(db, 'categories', categoryId)
+      const singleDoc = await getDoc(colRef)
+      reset(singleDoc.data())
+    }
+    fetchCategoryData()
+  }, [categoryId])
+
+  if (!categoryId) return null
   return (
     <DashboardLayout>
       <AddCategoryStyles>
-        <Content title="New category" desc="Add new category"></Content>
+        <Content title="Update category" desc={`Update your category id : ${categoryId}`}></Content>
         <form>
           <div className="form-layout">
             <Field>
@@ -142,11 +136,11 @@ const AddCategory = () => {
           </div>
           <Button
             type="submit"
-            onClick={handleSubmit(handleAddCategory)}
+            onClick={handleSubmit(handleUpdateCategory)}
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >
-            Add category
+            Update category
           </Button>
         </form>
       </AddCategoryStyles>
@@ -154,4 +148,4 @@ const AddCategory = () => {
   )
 }
 
-export default AddCategory
+export default CategoryUpdate

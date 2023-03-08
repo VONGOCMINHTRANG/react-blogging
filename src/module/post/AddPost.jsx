@@ -80,7 +80,6 @@ const AddPost = () => {
 
   const handleAddPost = async (values) => {
     try {
-      setLoading(true)
       const cloneValues = { ...values }
       cloneValues.slug = slugify(values.slug || values.title, { lower: true })
       cloneValues.status = Number(values.status)
@@ -101,6 +100,7 @@ const AddPost = () => {
         pauseOnHover: false,
         delay: 100,
       })
+      setLoading(true)
       reset({
         title: '',
         slug: '',
@@ -115,6 +115,11 @@ const AddPost = () => {
       setSelectCategory('')
       // console.log(cloneValues)
     } catch (error) {
+      console.log(error)
+      toast.error('Something wrong!', {
+        pauseOnHover: false,
+        delay: 100,
+      })
       setLoading(false)
     } finally {
       setLoading(false)
