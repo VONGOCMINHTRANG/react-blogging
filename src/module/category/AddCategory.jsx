@@ -4,17 +4,17 @@ import { Field } from 'components/field'
 import { Input } from 'components/input'
 import { Label } from 'components/label'
 import Radio from 'components/radio'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import DashboardLayout from 'module/dashboard/DashboardLayout'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import slugify from 'slugify'
 import styled from 'styled-components'
 import { categoryStatus } from 'utils/constants'
+import { db } from '../../firebase/firebase-config'
 
 const AddCategoryStyles = styled.div`
-  /* .hidden-input {
-    opacity: 0;
-  } */
   .button {
     width: 200px;
   }
@@ -28,27 +28,58 @@ const AddCategoryStyles = styled.div`
 `
 
 const AddCategory = () => {
+  const [loading, setLoading] = useState(false)
   const {
     handleSubmit,
     control,
     formState: { errors, isSubmitting, isValid },
     watch,
+    reset,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       name: '',
       slug: '',
       status: 1,
+      createdAt: new Date(),
     },
   })
+  const watchStatus = watch('status')
 
   const handleAddCategory = async (values) => {
-    const cloneValues = { ...values }
-    cloneValues.slug = slugify(values.slug || values.name)
-    cloneValues.status = Number(values.status)
-    console.log(cloneValues)
+    if (!isValid) return
+    try {
+      const cloneValues = { ...values }
+      cloneValues.slug = slugify(values.slug || values.name, { lower: true })
+      cloneValues.status = Number(values.status)
+      const colRef = collection(db, 'categories')
+      setLoading(true)
+      await addDoc(colRef, {
+        // ...cloneValues,
+        name: cloneValues.name,
+        slug: cloneValues.slug,
+        status: cloneValues.status,
+        createdAt: serverTimestamp(),
+      })
+      console.log(cloneValues)
+      toast.success('Create new category successfully', {
+        pauseOnHover: false,
+        delay: 100,
+      })
+      reset({
+        name: '',
+        slug: '',
+        status: 1,
+        createdAt: new Date(),
+      })
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    } finally {
+      setLoading(false)
+    }
   }
-  const watchStatus = watch('status')
+
   return (
     <DashboardLayout>
       <AddCategoryStyles>

@@ -97,7 +97,7 @@ const HomeFeature = () => {
 
   useEffect(() => {
     const fetchPostFeatureData = async () => {
-      const q = query(postsRef, where('hot', '==', true), limit(6))
+      const q = query(postsRef, where('hot', '==', true), where('status', '==', 1), limit(6))
       onSnapshot(q, (snapshot) => {
         let posts = []
         snapshot.docs.forEach((doc) => {
