@@ -191,6 +191,15 @@ const Category = () => {
       <CategoryStyles>
         <Content title="Categories" desc="Here is our categories"></Content>
         <div className="utilities">
+          <Link to="/manage/add-category">
+            <Button type="button" backgroundColor="#e7ecf3">
+              Create category
+            </Button>
+          </Link>
+          <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
+        </div>
+
+        {/* <div className="utilities">
           <div className="flex gap-10 w-full">
             <Link to="/manage/add-category">
               <Button type="button" backgroundColor="#e7ecf3">
@@ -200,7 +209,7 @@ const Category = () => {
             <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
           </div>
         </div>
-        <div className="flex py-2">Total of categories : {total}</div>
+        <div className="flex py-2">Total of categories : {total}</div> */}
         <div className="table-menu">
           <Table item1="Id" item2="Name" item3="Slug" item4="Status" item5="Actions">
             <tbody>

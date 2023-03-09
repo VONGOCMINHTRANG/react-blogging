@@ -20,7 +20,7 @@ const MenuStyles = styled.div`
     color: rgb(29, 192, 113);
     background-color: rgb(241, 251, 247);
   }
-  @media (max-width: 950px) {
+  @media (max-width: 1239px) {
     display: none;
   }
 `
