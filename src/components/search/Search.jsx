@@ -41,10 +41,10 @@ const SearchStyles = styled.div`
   }
 `
 
-const Search = ({ placeholder = 'Search posts...' }) => {
+const Search = ({ placeholder = 'Search posts...', ...props }) => {
   return (
     <SearchStyles className="search">
-      <input type="text" placeholder={placeholder} className="search-input" />
+      <input type="text" placeholder={placeholder} className="search-input" {...props} />
       <span className="search-icon">
         <IconSearch></IconSearch>
       </span>
