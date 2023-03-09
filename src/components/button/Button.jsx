@@ -27,11 +27,11 @@ const ButtonStyles = styled.div`
  *
  */
 
-const Button = ({ type = 'button', onClick = () => {}, children, ...props }) => {
+const Button = ({ type = 'button', onClick = () => {}, className = '', children, ...props }) => {
   const { isLoading } = props
   const child = !!isLoading ? <LoadingSpinner></LoadingSpinner> : children
   return (
-    <ButtonStyles className="button" type={type} onClick={onClick} {...props}>
+    <ButtonStyles className={`button ${className}`} type={type} onClick={onClick} {...props}>
       {child}
     </ButtonStyles>
   )
