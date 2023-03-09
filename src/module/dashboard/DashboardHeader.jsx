@@ -52,7 +52,7 @@ const DashboardHeaderStyles = styled.div`
     }
 
     /* Tablet */
-    @media (min-width:541px) and (max-width:950px)
+    @media (min-width:541px) and (max-width: 1239px)
     {   
         padding: 20px;
         display: flex;

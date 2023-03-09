@@ -12,16 +12,12 @@ const DashboardLayoutStyles = styled.div`
     width: 100%;
   }
   .dashboard-children {
-    margin-left: 2em;
     background-color: white;
     width: 100%;
   }
   @media (max-width: 767px) {
     .dashboard-main {
       padding: 20px;
-    }
-    .dashboard-children {
-      margin-left: 0px;
     }
   }
 `

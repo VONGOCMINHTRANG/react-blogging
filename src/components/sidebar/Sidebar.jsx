@@ -52,7 +52,7 @@ const SidebarStyles = styled.ul`
     background-color: rgb(241, 251, 247);
   }
 
-  @media (min-width: 951px) {
+  @media (min-width: 1240px) {
     display: none;
   }
 `
