@@ -7,11 +7,21 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { LabelStatus } from 'components/label'
 import { IconActionDelete, IconActionEdit, IconActionView } from 'components/icon'
-import { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { useEffect, useRef, useState } from 'react'
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  limit,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import { categoryStatus } from 'utils/constants'
 import Swal from 'sweetalert2'
+import { debounce } from 'lodash'
 
 const CategoryStyles = styled.div`
   .button {
@@ -71,7 +81,8 @@ const CategoryStyles = styled.div`
 
 const Category = () => {
   const [categoryList, setCategoryList] = useState([])
-  const colRef = collection(db, 'categories')
+  const [categoryCount, setCategoryCount] = useState(0)
+  const [filter, setFilter] = useState('')
   const navigate = useNavigate()
 
   const handleDeleteCategory = async (docId) => {
@@ -94,9 +105,18 @@ const Category = () => {
     })
   }
 
+  const handleInputFilter = debounce((e) => {
+    setFilter(e.target.value)
+  }, 500)
+
   useEffect(() => {
+    const colRef = collection(db, 'categories')
+    const newRef = filter
+      ? query(colRef, where('name', '>=', filter), where('name', '<=', filter + 'utf8'))
+      : colRef
     const fetchCategoryData = async () => {
-      onSnapshot(colRef, (snapshot) => {
+      onSnapshot(newRef, (snapshot) => {
+        setCategoryCount(snapshot.size)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -108,7 +128,7 @@ const Category = () => {
       })
     }
     fetchCategoryData()
-  }, [])
+  }, [filter])
 
   return (
     <DashboardLayout>
@@ -120,7 +140,7 @@ const Category = () => {
               Create category
             </Button>
           </Link>
-          <Search placeholder="Search category..."></Search>
+          <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
         </div>
         <div className="table-menu">
           <Table item1="Id" item2="Name" item3="Slug" item4="Status" item5="Actions">

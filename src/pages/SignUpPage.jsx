@@ -7,7 +7,7 @@ import { Button } from 'components/button'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { toast } from 'react-toastify'
-import { updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth, db } from '../firebase/firebase-config'
 import { useNavigate } from 'react-router-dom'
 import { doc, setDoc } from 'firebase/firestore'
@@ -43,10 +43,10 @@ const SignUpPage = () => {
     // console.log("handleSignUp ~ values", values);
 
     try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password)
       await updateProfile(auth.currentUser, {
         displayName: values.fullname,
       })
-
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         fullname: values.fullname,
         email: values.email,
@@ -81,10 +81,6 @@ const SignUpPage = () => {
       })
     }
   }, [errors])
-
-  useEffect(() => {
-    document.title = 'Register Page'
-  }, [])
 
   return (
     <AuthenticationPage>
