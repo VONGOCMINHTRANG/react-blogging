@@ -33,28 +33,8 @@ const TableStyles = styled.table`
   }
 `
 
-const Table = ({
-  item1 = 'item1',
-  item2 = 'item2',
-  item3 = 'item3',
-  item4 = 'item4',
-  item5 = 'item5',
-  children,
-}) => {
-  return (
-    <TableStyles>
-      <thead>
-        <tr>
-          <th>{item1}</th>
-          <th>{item2}</th>
-          <th>{item3}</th>
-          <th>{item4}</th>
-          <th>{item5}</th>
-        </tr>
-      </thead>
-      {children}
-    </TableStyles>
-  )
+const Table = ({ children }) => {
+  return <TableStyles>{children}</TableStyles>
 }
 
 export default Table

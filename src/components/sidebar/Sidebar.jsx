@@ -52,12 +52,18 @@ const SidebarStyles = styled.ul`
     background-color: rgb(241, 251, 247);
   }
 
-  @media (min-width: 1240px) {
+  @media (min-width: 949px) {
     display: none;
   }
 `
 
-const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = '0' }) => {
+const Sidebar = ({
+  className = '',
+  setOpen = () => {},
+  number1 = '0',
+  number2 = '0',
+  onClick = () => {},
+}) => {
   return (
     <SidebarStyles className={className}>
       <div>
@@ -79,15 +85,15 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
         <div className="mt-5">
           {SidebarData.length > 0 &&
             SidebarData.slice(number1, number2).map((item) => (
-              <li className="menu-item" key={item.title}>
+              <Link to={item.url} className="menu-item" key={item.title}>
                 <div className="flex items-center gap-x-4">
                   <span>{item.icon}</span>
-                  <a href={item.url}>{item.title}</a>
+                  <span>{item.title}</span>
                 </div>
                 <span>
                   <IconArrowDown></IconArrowDown>
                 </span>
-              </li>
+              </Link>
             ))}
         </div>
       </div>

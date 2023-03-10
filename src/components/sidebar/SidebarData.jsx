@@ -4,7 +4,6 @@ import {
   IconContact,
   IconDashboard,
   IconHome,
-  IconLogout,
   IconPost,
   IconUser,
 } from 'components/icon'
@@ -31,7 +30,7 @@ export const SidebarData = [
     icon: <IconDashboard></IconDashboard>,
   },
   {
-    url: '/manage/post',
+    url: '/manage/posts',
     title: 'Post',
     icon: <IconPost></IconPost>,
   },
@@ -44,9 +43,5 @@ export const SidebarData = [
     url: '/manage/user',
     title: 'User',
     icon: <IconUser></IconUser>,
-  },
-  {
-    title: 'Logout',
-    icon: <IconLogout></IconLogout>,
   },
 ]

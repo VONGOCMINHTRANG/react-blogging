@@ -21,8 +21,4 @@ export const MenuData = [
     icon: <IconUser></IconUser>,
     url: '/manage/user',
   },
-  {
-    title: 'Logout',
-    icon: <IconLogout></IconLogout>,
-  },
 ]

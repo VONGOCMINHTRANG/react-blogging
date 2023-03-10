@@ -6,28 +6,31 @@ const MenuStyles = styled.div`
   background: rgb(255, 255, 255);
   border-radius: 12px;
   height: fit-content;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
   .menu-item {
     display: flex;
+    flex: 1 1 0%;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     padding: 14px 20px;
     font-weight: 600;
-    color: rgb(128, 129, 145);
-    margin-bottom: 20px;
+    color: rgb(29, 192, 113);
     cursor: pointer;
   }
   .menu-item:hover {
-    color: rgb(29, 192, 113);
     background-color: rgb(241, 251, 247);
   }
-  @media (max-width: 1239px) {
+  @media (max-width: 949px) {
     display: none;
   }
 `
 
 const Menu = () => {
   return (
-    <MenuStyles className="menu shadow-lg">
+    <MenuStyles className="menu shadow-lg border">
       {MenuData.length > 0 &&
         MenuData.map((item) => (
           <Link to={item.url} className="menu-item" key={item.title}>

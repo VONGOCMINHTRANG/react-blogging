@@ -37,7 +37,6 @@ const SignInPage = () => {
   })
 
   const handleSignIn = async (values) => {
-    // console.log(values);
     if (!isValid) return
 
     try {
