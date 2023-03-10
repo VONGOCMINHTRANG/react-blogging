@@ -22,7 +22,7 @@
 # User
 
 - id
-- displayName
+- username
 - email
 - password
 - avatar

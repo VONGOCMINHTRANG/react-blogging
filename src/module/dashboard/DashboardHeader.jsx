@@ -2,7 +2,9 @@ import { Blur } from 'components/blur'
 import { Button } from 'components/button'
 import { IconMenu } from 'components/icon'
 import { Sidebar } from 'components/sidebar'
-import { useState } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../firebase/firebase-config'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -40,6 +42,15 @@ const DashboardHeaderStyles = styled.div`
       background-position: center center;
     }
   }
+  .logout{
+    padding:  0 10px;
+    font-weight: 600;
+    color: ${(props) => props.theme.secondary};;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   @media (max-width:540px){
         .logo{
             display: none;
@@ -52,7 +63,7 @@ const DashboardHeaderStyles = styled.div`
     }
 
     /* Tablet */
-    @media (min-width:541px) and (max-width: 1239px)
+    @media (min-width:541px) and (max-width: 949px)
     {   
         padding: 20px;
         display: flex;
@@ -72,6 +83,13 @@ const DashboardHeaderStyles = styled.div`
 
 const DashboardHeader = () => {
   const [open, setOpen] = useState(false)
+  const [avatar, setAvatar] = useState()
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setAvatar(user?.photoURL)
+    })
+  }, [])
 
   return (
     <DashboardHeaderStyles className="dashboard-header">
@@ -88,18 +106,18 @@ const DashboardHeader = () => {
         className={open ? 'visible translate-x-0' : 'invisible -translate-x-full'}
         setOpen={setOpen}
         number1="3"
-        number2="8"
+        number2="7"
       ></Sidebar>
       <Link to="/" className="logo">
         <img src="/logo.png" alt="react-blogging" className="block w-10" />
-        <span className="text-gray-600">React blogging</span>
+        <span className="text-gray-500">React blogging</span>
       </Link>
       <div className="header-right">
         <Link to="/manage/add-post" className="inline">
           <Button type="button">Write new post</Button>
         </Link>
         <Link to="/manage/user" className="header-avatar">
-          <img src="/avatar.jpg" alt="avatar" />
+          <img src={avatar ? avatar : '/avatar.jpg'} alt="avatar" />
         </Link>
       </div>
     </DashboardHeaderStyles>
