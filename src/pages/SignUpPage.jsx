@@ -72,11 +72,14 @@ const SignUpPage = () => {
       })
       navigate('/')
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use')
+      if (error.code === 'auth/email-already-in-use') {
         toast.error('The email address is already in use', {
           pauseOnHover: false,
           delay: 100,
         })
+      } else {
+        console.log(error)
+      }
     }
   }
 

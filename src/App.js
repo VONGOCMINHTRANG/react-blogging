@@ -16,6 +16,7 @@ import AddCategory from 'module/category/AddCategory'
 import Category from 'module/category/Category'
 import UpdateUser from 'module/user/UpdateUser'
 import CategoryUpdate from 'module/category/CategoryUpdate'
+import AddUser from 'module/user/AddUser'
 
 function App() {
   return (
@@ -29,10 +30,17 @@ function App() {
           <Route path="/post/:postId" element={<DetailPostPage></DetailPostPage>}></Route>
           <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+
+          {/* Manage Post */}
           <Route path="/manage/add-post" element={<AddPost></AddPost>}></Route>
           <Route path="/manage/posts" element={<Posts></Posts>}></Route>
+
+          {/* Manage User */}
           <Route path="/manage/user" element={<User></User>}></Route>
           <Route path="/manage/update-user" element={<UpdateUser></UpdateUser>}></Route>
+          <Route path="/manage/add-user" element={<AddUser></AddUser>}></Route>
+
+          {/* Manage Category */}
           <Route path="/manage/category" element={<Category></Category>}></Route>
           <Route path="/manage/add-category" element={<AddCategory></AddCategory>}></Route>
           <Route path="/manage/update-category" element={<CategoryUpdate></CategoryUpdate>}></Route>

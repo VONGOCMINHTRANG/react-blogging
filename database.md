@@ -27,6 +27,6 @@
 - password
 - avatar
 - status: 1(active) 2(pending) 3(ban)
-- role: 1(Admin) 2(Mod) 3(User)
+- role: 1(Admin) 2(Moderator) 3(Editor) 4(User)
 - permissions: "ADD_POST"
 - createdAt
