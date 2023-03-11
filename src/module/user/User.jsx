@@ -60,6 +60,9 @@ const User = () => {
           <Link to="/manage/update-user">
             <Button type="button">Update user</Button>
           </Link>
+          <Link to="/manage/add-user">
+            <Button type="button">Create user</Button>
+          </Link>
         </div>
         <UserTable data={userList}></UserTable>
       </UserStyles>

@@ -1,9 +1,13 @@
 import { IconActionDelete, IconActionEdit, IconActionView } from 'components/icon'
 import { LabelStatus } from 'components/label'
 import { Table } from 'components/table'
+import { db } from '../../firebase/firebase-config'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import Swal from 'sweetalert2'
 import { userRole, userStatus } from 'utils/constants'
+import { deleteUser } from 'firebase/auth'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;
@@ -28,7 +32,24 @@ const UserTable = ({ data }) => {
   //   console.log(data)
 
   const navigate = useNavigate()
-  const handleDeleteUser = () => {}
+  const handleDeleteUser = async (user) => {
+    const colRef = doc(db, 'users', user)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Deleted!', 'Your user has been deleted.', 'success')
+        await deleteDoc(colRef)
+      }
+    })
+  }
+
   return (
     <UserTableStyles className="table-menu">
       <Table>
@@ -72,19 +93,22 @@ const UserTable = ({ data }) => {
                   {Number(user?.status) === userStatus.PENDING && (
                     <LabelStatus type="warning">Pending</LabelStatus>
                   )}
-                  {Number(user?.status) === userStatus.BAN && (
-                    <LabelStatus type="danger">Ban</LabelStatus>
+                  {Number(user?.status) === userStatus.BANNED && (
+                    <LabelStatus type="danger">Banned</LabelStatus>
                   )}
                 </td>
                 <td>
                   {Number(user?.role) === userRole.ADMIN && (
                     <LabelStatus type="danger">Admin</LabelStatus>
                   )}
-                  {Number(user?.role) === userRole.MOD && (
-                    <LabelStatus type="warning">Mod</LabelStatus>
+                  {Number(user?.role) === userRole.MODERATOR && (
+                    <LabelStatus type="warning">Moderator</LabelStatus>
+                  )}
+                  {Number(user?.role) === userRole.EDITOR && (
+                    <LabelStatus type="success">Editor</LabelStatus>
                   )}
                   {Number(user?.role) === userRole.USER && (
-                    <LabelStatus type="success">User</LabelStatus>
+                    <LabelStatus type="alert">User</LabelStatus>
                   )}
                 </td>
                 <td>

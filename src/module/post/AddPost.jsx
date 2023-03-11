@@ -192,6 +192,7 @@ const AddPost = () => {
               <div className="w-full flex flex-col gap-y-2">
                 {progress === 0 ? (
                   <ImageUpload
+                    className="!h-[250px]"
                     onChange={handleSelectImage}
                     progress={progress}
                     name="image"
@@ -205,6 +206,7 @@ const AddPost = () => {
                   ></ImageUpload>
                 ) : (
                   <ImageUpload
+                    className="!h-[250px]"
                     onChange={handleSelectImage}
                     progress={progress}
                     name="image"

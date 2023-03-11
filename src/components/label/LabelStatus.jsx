@@ -11,10 +11,10 @@ const LabelStatusStyles = styled.span`
 `
 /**
  *
- * @param type - "default" "success" "warning" "danger"
+ * @param type - "alert" "success" "warning" "danger"
  * @returns
  */
-const LabelStatus = ({ children, type = 'default' }) => {
+const LabelStatus = ({ children, type = 'success' }) => {
   let styleClassName = 'text-gray-500 bg-gray-100'
   switch (type) {
     case 'success':
@@ -26,7 +26,8 @@ const LabelStatus = ({ children, type = 'default' }) => {
     case 'danger':
       styleClassName = 'text-red-500 bg-red-100'
       break
-
+    case 'alert':
+      styleClassName = 'text-purple-500 bg-purple-100'
     default:
       break
   }
@@ -35,7 +36,7 @@ const LabelStatus = ({ children, type = 'default' }) => {
 
 LabelStatus.propTypes = {
   children: PropTypes.node,
-  type: PropTypes.oneOf(['default', 'success', 'warning', 'danger']).isRequired,
+  type: PropTypes.oneOf(['alert', 'success', 'warning', 'danger']).isRequired,
 }
 
 export default LabelStatus

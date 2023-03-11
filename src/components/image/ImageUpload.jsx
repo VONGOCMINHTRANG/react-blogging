@@ -1,6 +1,7 @@
 import { IconTrash } from 'components/icon'
 import { LoadingSpinner } from 'components/loading'
 import { useController } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 const ImageUpload = ({
   control,
@@ -19,7 +20,7 @@ const ImageUpload = ({
   })
   return (
     <label
-      className={`cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[200px] rounded-lg h-[250px] shadow-lg relative overflow-hidden group bg-[#E7ECF3]`}
+      className={`${className} cursor-pointer flex items-center justify-center border border-dashed w-full h-[200px] rounded-lg shadow-lg relative overflow-hidden group bg-[#E7ECF3]`}
     >
       <input
         name={name}
@@ -66,6 +67,13 @@ const ImageUpload = ({
       )}
     </label>
   )
+}
+
+ImageUpload.propTypes = {
+  name: PropTypes.string,
+  className: PropTypes.string,
+  progress: PropTypes.number,
+  image: PropTypes.string,
 }
 
 export default ImageUpload
