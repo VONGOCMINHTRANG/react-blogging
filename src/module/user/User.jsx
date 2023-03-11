@@ -57,9 +57,6 @@ const User = () => {
       <UserStyles>
         <Content title="User" desc="Manage your information."></Content>
         <div className="utilities">
-          <Link to="/manage/update-user">
-            <Button type="button">Update user</Button>
-          </Link>
           <Link to="/manage/add-user">
             <Button type="button">Create user</Button>
           </Link>

@@ -1,10 +1,7 @@
 import { Button } from 'components/button'
 import { Overlay } from 'components/overlay'
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
-import { AuthProvider, useAuth } from 'contexts/auth-context'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../firebase/firebase-config'
+import { AuthProvider } from 'contexts/auth-context'
 
 const HomeBannerStyles = styled.div`
   position: relative;
@@ -68,30 +65,6 @@ const HomeBannerStyles = styled.div`
 `
 
 const HomeBanner = () => {
-  // const [creditials, setCreditials] = useState([])
-  // const { userInfo } = useAuth()
-  // console.log(userInfo?.uid)
-
-  // useEffect(() => {
-  //   try {
-  //     const fetchUserData = async () => {
-  //       const docRef = doc(db, 'users', userInfo?.uid)
-  //       const docSnap = await getDoc(docRef)
-  //       let results = []
-  //       if (docSnap.exists()) {
-  //         results.push({
-  //           role: docSnap.data().status,
-  //           status: docSnap.data().role,
-  //         })
-  //         setCreditials(results)
-  //       }
-  //     }
-  //     fetchUserData()
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }, [])
-
   return (
     <AuthProvider>
       <HomeBannerStyles>

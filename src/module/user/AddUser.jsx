@@ -71,7 +71,7 @@ const AddUser = () => {
       cloneValues.status = Number(values.status)
       cloneValues.role = Number(values.role)
       cloneValues.avatar = image
-      console.log(cloneValues)
+      // console.log(cloneValues)
       await createUserWithEmailAndPassword(auth, values.email, values.password)
       await addDoc(collection(db, 'users'), {
         fullname: values.fullname,

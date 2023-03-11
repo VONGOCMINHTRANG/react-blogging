@@ -4,6 +4,9 @@ import { useAuth } from 'contexts/auth-context'
 import NotFoundPage from 'pages/NotFoundPage'
 import styled from 'styled-components'
 import DashboardHeader from './DashboardHeader'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../../firebase/firebase-config'
+import { useEffect, useState } from 'react'
 
 const DashboardLayoutStyles = styled.div`
   .dashboard-main {
@@ -24,9 +27,31 @@ const DashboardLayoutStyles = styled.div`
 `
 
 const DashboardLayout = ({ children }) => {
+  const [creditials, setCreditials] = useState([])
   const { userInfo } = useAuth()
-  // console.log(userInfo)
   if (!userInfo) return <NotFoundPage></NotFoundPage>
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       if (!userInfo?.uid) return null
+  //       const docRef = doc(db, 'users', userInfo?.uid)
+  //       const docSnap = await getDoc(docRef)
+  //       let results = []
+  //       if (docSnap.exists()) {
+  //         results.push({
+  //           role: docSnap.data().role,
+  //           status: docSnap.data().status,
+  //         })
+  //         console.log(results)
+  //         setCreditials(results)
+  //       }
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   fetchUserData()
+  // }, [])
 
   return (
     <DashboardLayoutStyles>
