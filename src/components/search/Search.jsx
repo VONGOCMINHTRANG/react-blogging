@@ -45,7 +45,7 @@ const Search = ({ placeholder = 'Search posts...', ...props }) => {
   return (
     <SearchStyles className="search">
       <input type="text" placeholder={placeholder} className="search-input" {...props} />
-      <span className="search-icon">
+      <span className="search-icon cursor-pointer">
         <IconSearch></IconSearch>
       </span>
     </SearchStyles>

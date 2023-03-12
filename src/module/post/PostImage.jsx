@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const PostImageStyles = styled.div`
@@ -20,11 +20,11 @@ const PostImageStyles = styled.div`
 const PostImage = ({ to, src = '/background.jpg', ...props }) => {
   if (to) {
     return (
-      <Link to={`/${to}`}>
+      <NavLink to={`/${to}`}>
         <PostImageStyles className="post-image" {...props}>
           <img src={src} alt="post-item" loading="lazy" />
         </PostImageStyles>
-      </Link>
+      </NavLink>
     )
   }
   return (

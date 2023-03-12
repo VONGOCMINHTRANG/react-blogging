@@ -3,10 +3,8 @@ import PostImage from './PostImage'
 import PostCategory from './PostCategory'
 import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
-import { useEffect, useState } from 'react'
-import { getDoc, doc } from 'firebase/firestore'
-import { db } from '../../firebase/firebase-config'
 import slugify from 'slugify'
+import { Overlay } from 'components/overlay'
 
 const PostFeatureItemStyles = styled.div`
   height: 270px;
@@ -54,58 +52,57 @@ const PostFeatureItemStyles = styled.div`
   }
 `
 const PostFeatureItem = ({ data }) => {
-  const [user, setUser] = useState('')
-  const [category, setCategory] = useState('')
+  const { category, user } = data
   const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      if (data.categoryId) {
-        const docRef = doc(db, 'categories', data.categoryId)
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-          setCategory(docSnap.data())
-        } else {
-          console.log(`Can't find category document!`)
-        }
-      }
-    }
-    fetchCategory()
-  }, [data.categoryId])
+  // useEffect(() => {
+  //   const fetchCategory = async () => {
+  //     if (data.categoryId) {
+  //       const docRef = doc(db, 'categories', data.categoryId)
+  //       const docSnap = await getDoc(docRef)
+  //       if (docSnap.exists()) {
+  //         setCategory(docSnap.data())
+  //       } else {
+  //         console.log(`Can't find category document!`)
+  //       }
+  //     }
+  //   }
+  //   fetchCategory()
+  // }, [data.categoryId])
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (data.userId) {
-        const docRef = doc(db, 'users', data.userId)
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-          setUser(docSnap.data())
-        } else {
-          console.log(`Can't find user document!`)
-        }
-      }
-    }
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     if (data.userId) {
+  //       const docRef = doc(db, 'users', data.userId)
+  //       const docSnap = await getDoc(docRef)
+  //       if (docSnap.exists()) {
+  //         setUser(docSnap.data())
+  //       } else {
+  //         console.log(`Can't find user document!`)
+  //       }
+  //     }
+  //   }
 
-    fetchUser()
-  }, [data.userId])
+  //   fetchUser()
+  // }, [data.userId])
 
   if (!data || !data.id) return null
 
   return (
     <PostFeatureItemStyles className="post-feature-item">
       <PostImage src={data.image}></PostImage>
-      <div className="post-overlay"></div>
+      <Overlay></Overlay>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory to={category?.slug}>{category?.name}</PostCategory>
+          <PostCategory to={category.slug}>{category.name}</PostCategory>
           <PostMeta
             time={formatDate}
-            author={user?.fullname}
-            to={slugify(user?.fullname || '', { lower: true })}
+            author={user.fullname}
+            to={slugify(user.fullname || '', { lower: true })}
           ></PostMeta>
         </div>
-        <PostTitle to={data.slug}>{data.title}</PostTitle>
+        <PostTitle to={`/detail-post?${data?.slug}`}>{data.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   )

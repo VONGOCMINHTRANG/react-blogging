@@ -17,6 +17,7 @@ import Category from 'module/category/Category'
 import UpdateUser from 'module/user/UpdateUser'
 import CategoryUpdate from 'module/category/CategoryUpdate'
 import AddUser from 'module/user/AddUser'
+import UpdatePost from 'module/post/UpdatePost'
 
 function App() {
   return (
@@ -27,13 +28,14 @@ function App() {
           <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>
           <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
           <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
-          <Route path="/post/:postId" element={<DetailPostPage></DetailPostPage>}></Route>
+          <Route path="/detail-post" element={<DetailPostPage></DetailPostPage>}></Route>
           <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
 
           {/* Manage Post */}
           <Route path="/manage/add-post" element={<AddPost></AddPost>}></Route>
           <Route path="/manage/posts" element={<Posts></Posts>}></Route>
+          <Route path="/manage/update-post" element={<UpdatePost></UpdatePost>}></Route>
 
           {/* Manage User */}
           <Route path="/manage/user" element={<User></User>}></Route>

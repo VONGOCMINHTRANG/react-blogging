@@ -24,10 +24,10 @@ const PostContent = () => {
     <PostContentStyles>
       <div className="post-content">
         <PostContentMain></PostContentMain>
-        <Link to="/dashboard" className="author">
+        <div className="author">
           <AuthorImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJJJ0-fWdGnRwxXq6CXOWZ-YdbaVg76wle3w&usqp=CAU"></AuthorImage>
           <AuthorContent></AuthorContent>
-        </Link>
+        </div>
       </div>
     </PostContentStyles>
   )

@@ -11,7 +11,7 @@ const PostTitleStyles = styled.h3`
   }
 `
 
-const PostTitle = ({ children, to = '/', ...props }) => {
+const PostTitle = ({ children, to = '/detail-post', ...props }) => {
   return (
     <PostTitleStyles className="post-title" {...props}>
       <NavLink to={to}>{children}</NavLink>
