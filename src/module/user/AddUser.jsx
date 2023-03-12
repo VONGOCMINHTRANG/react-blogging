@@ -22,6 +22,13 @@ const AddUserStyles = styled.div`
     width: 200px;
   }
 
+  @media (max-width: 540px) {
+    .radio-list,
+    .role-list {
+      flex-direction: column;
+    }
+  }
+
   @media (max-width: 1024px) {
     .form-layout {
       display: flex;
@@ -248,7 +255,7 @@ const AddUser = () => {
           <div className="form-layout">
             <Field>
               <Label htmlFor="status">Status</Label>
-              <div className="flex flex-wrap gap-5">
+              <div className="radio-list flex flex-wrap gap-5">
                 <Radio
                   name="status"
                   control={control}
@@ -277,7 +284,7 @@ const AddUser = () => {
             </Field>
             <Field>
               <Label htmlFor="role">Role</Label>
-              <div className="flex flex-wrap gap-5">
+              <div className="role-list flex flex-wrap gap-5">
                 <Radio
                   name="role"
                   control={control}

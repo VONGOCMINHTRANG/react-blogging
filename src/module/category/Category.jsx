@@ -7,8 +7,6 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   limit,
   onSnapshot,
@@ -114,33 +112,38 @@ const Category = () => {
 
   useEffect(() => {
     const fetchCategoryData = async () => {
-      const colRef = collection(db, 'categories')
-      const newRef = filter
-        ? query(colRef, where('name', '>=', filter), where('name', '<=', filter + 'utf8'))
-        : query(colRef, limit(4))
+      try {
+        const colRef = collection(db, 'categories')
+        const newRef = filter
+          ? query(colRef, where('name', '>=', filter), where('name', '<=', filter + 'utf8'))
+          : query(colRef, limit(4))
 
-      const documentSnapshots = await getDocs(newRef)
-      const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
-      // console.log(documentSnapshots.docs[0].id)
-      // console.log('last', lastVisible)
-      setLastDoc(lastVisible)
+        const documentSnapshots = await getDocs(newRef)
+        const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        // console.log(documentSnapshots.docs[0].id)
+        // console.log('last', lastVisible)
+        setLastDoc(lastVisible)
 
-      onSnapshot(colRef, (snapshot) => {
-        setTotal(snapshot.size)
-      })
-
-      onSnapshot(newRef, (snapshot) => {
-        let results = []
-        snapshot.docs.forEach((doc) => {
-          results.push({
-            id: doc.id,
-            ...doc.data(),
-          })
+        onSnapshot(colRef, (snapshot) => {
+          setTotal(snapshot.size)
         })
-        setCategoryList(results)
-      })
-      setLastDoc(lastVisible)
+
+        onSnapshot(newRef, (snapshot) => {
+          let results = []
+          snapshot.docs.forEach((doc) => {
+            results.push({
+              id: doc.id,
+              ...doc.data(),
+            })
+          })
+          setCategoryList(results)
+        })
+        setLastDoc(lastVisible)
+      } catch (error) {
+        console.log(error)
+      }
     }
+
     fetchCategoryData()
   }, [filter])
 

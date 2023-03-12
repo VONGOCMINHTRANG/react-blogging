@@ -7,7 +7,7 @@ import {
 } from 'firebase/storage'
 import { useState } from 'react'
 
-export default function useFirebaseImage(setValue, getValues, imageName = null, callback) {
+export default function useFirebaseImage(setValue, getValues, imageName = null, callback = null) {
   const [progress, setProgress] = useState(0)
   const [image, setImage] = useState('')
   const [errorFileType, setErrorFileType] = useState('')
