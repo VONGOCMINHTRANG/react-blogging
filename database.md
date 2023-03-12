@@ -4,12 +4,12 @@
 - title
 - slug
 - image
-- createdAt
 - status: 1(approved) 2(pending) 3(reject)
 - hot (true || false)
 - content
-- userId
-- categoryId
+- user: [id, username, fullname, avatar, description]
+- categoryId: [id, name, slug]
+- createdAt
 
 # Category
 

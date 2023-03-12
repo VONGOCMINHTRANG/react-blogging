@@ -11,7 +11,7 @@ const PostContentMainStyles = styled.div`
     margin-bottom: 30px;
     font-size: calc(1em + 1vw);
   }
-  p {
+  .container-content {
     line-height: 2;
     margin-bottom: 20px;
     overflow-wrap: break-word;
@@ -36,21 +36,21 @@ const PostContentMain = ({
       <h1>
         <strong>{title}</strong>
       </h1>
-      <p>
+      <div className="container-content">
         <PostImage className="image-content" src={src}></PostImage>
-      </p>
-      <p>
+      </div>
+      <div className="container-content">
         For those of you who have a day to spare in Innsbruck and are looking for a day of epic
         adventure in the Austrian Alps, one of the most breathtaking hike syou can do is a hike to
         Olpererhütte, a mountain hut located in the middle of the Austrian Alps on the Olperer
         mountain, which is part of the Zillertal Alps, overlooking Schlegeis Stausee reservoir.
-      </p>
-      <p>
+      </div>
+      <div className="container-content">
         The hike is also known as the place where you can get that epic photo of yourself on a
         floating suspension bridge you often see on Instagram. It is one of the best hiking
         experiences I had in Austria and if you are wondering if it can be done as a one-day trip
         from Innsbruck, you are in the right place.
-      </p>
+      </div>
     </PostContentMainStyles>
   )
 }

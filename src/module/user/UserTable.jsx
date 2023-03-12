@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { userRole, userStatus } from 'utils/constants'
-import { deleteUser } from 'firebase/auth'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;

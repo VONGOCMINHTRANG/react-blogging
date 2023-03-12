@@ -3,6 +3,7 @@ import PostImage from './PostImage'
 import PostCategory from './PostCategory'
 import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
+import { Overlay } from 'components/overlay'
 
 const PostItemStyles = styled.div`
   height: 270px;
@@ -45,7 +46,7 @@ const PostItem = ({
   return (
     <PostItemStyles className="post-item" {...props}>
       <PostImage to={to} src={src}></PostImage>
-      <div className="post-overlay"></div>
+      <Overlay></Overlay>
       <div className="post-content">
         <div className="post-top">
           <PostCategory>{category}</PostCategory>

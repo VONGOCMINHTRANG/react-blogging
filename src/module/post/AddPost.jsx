@@ -13,7 +13,16 @@ import slugify from 'slugify'
 import { postStatus } from 'utils/constants'
 import { ImageUpload } from 'components/image'
 import useFirebaseImage from 'hooks/useFirebaseImage'
-import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import { Dropdown } from 'components/dropdown'
 import { Content } from 'components/content'
@@ -32,6 +41,7 @@ const AddPostStyles = styled.div`
   .button {
     padding: calc(0.7em + 0.5vw);
     width: 200px;
+    margin-bottom: 2.5rem;
   }
   @media (max-width: 767px) {
     .form-layout {
@@ -61,7 +71,8 @@ const AddPost = () => {
       slug: '',
       status: 2,
       image: '',
-      categoryId: '',
+      category: {},
+      user: {},
       hot: false,
     },
   })
@@ -76,22 +87,37 @@ const AddPost = () => {
   } = useFirebaseImage(setValue, getValues)
   const watchStatus = watch('status')
   const watchHot = watch('hot')
+  const handleEditor = (editorState) => {
+    setValue('editor', editorState)
+  }
+
+  const handleClickOption = async (item) => {
+    // setValue('categoryId', item.id)
+    const colRef = doc(db, 'categories', item.id)
+    const docData = await getDoc(colRef)
+    setValue('category', {
+      id: docData.id,
+      ...docData.data(),
+    })
+    setSelectCategory(item)
+  }
 
   const handleAddPost = async (values) => {
     try {
       const cloneValues = { ...values }
       cloneValues.slug = slugify(values.slug || values.title, { lower: true })
       cloneValues.status = Number(values.status)
+      // console.log(cloneValues)
       const colRef = collection(db, 'posts')
       await addDoc(colRef, {
         title: cloneValues.title,
         slug: cloneValues.slug,
-        hot: cloneValues.hot,
-        status: cloneValues.status,
-        categoryId: cloneValues.categoryId,
         image,
         image_name: cloneValues.image_name,
-        userId: userInfo.uid,
+        hot: cloneValues.hot,
+        status: cloneValues.status,
+        category: cloneValues.category,
+        user: cloneValues.user,
         createdAt: serverTimestamp(),
         // editor: cloneValues.editor,
       })
@@ -104,7 +130,8 @@ const AddPost = () => {
         title: '',
         slug: '',
         status: 2,
-        categoryId: '',
+        categoryy: {},
+        user: {},
         hot: false,
         image: '',
         createdAt: new Date(),
@@ -126,6 +153,25 @@ const AddPost = () => {
   }
 
   useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        if (!userInfo.email) return
+        const q = query(collection(db, 'users'), where('email', '==', userInfo.email))
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+          setValue('user', {
+            id: doc.id,
+            ...doc.data(),
+          })
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchCurrentUser()
+  }, [userInfo.email])
+
+  useEffect(() => {
     async function getDataFirebase() {
       const colRef = collection(db, 'categories')
       const q = query(colRef, where('status', '==', 1))
@@ -142,15 +188,6 @@ const AddPost = () => {
     }
     getDataFirebase()
   }, [])
-
-  const handleClickOption = (item) => {
-    setValue('categoryId', item.id)
-    setSelectCategory(item)
-  }
-
-  const handleEditor = (editorState) => {
-    setValue('editor', editorState)
-  }
 
   return (
     <DashboardLayout>
