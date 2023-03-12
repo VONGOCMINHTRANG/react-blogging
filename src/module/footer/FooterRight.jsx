@@ -29,19 +29,19 @@ const FooterRight = () => {
       </p>
       <div className="social-media">
         <Link to="/#">
-          <FaFacebookSquare className="h-8 w-8 text-black/40"></FaFacebookSquare>
+          <FaFacebookSquare className="h-8 w-8 text-green-500"></FaFacebookSquare>
         </Link>
         <Link to="/#">
-          <FaInstagram className="h-8 w-8 text-black/40"></FaInstagram>
+          <FaInstagram className="h-8 w-8 text-green-500"></FaInstagram>
         </Link>
         <Link to="/#">
-          <BsLinkedin className="h-8 w-8 text-black/40"></BsLinkedin>
+          <BsLinkedin className="h-8 w-8 text-green-500"></BsLinkedin>
         </Link>
         <Link to="/#">
-          <FaPinterestSquare className="h-8 w-8 text-black/40"></FaPinterestSquare>
+          <FaPinterestSquare className="h-8 w-8 text-green-500"></FaPinterestSquare>
         </Link>
         <Link to="/#">
-          <FaTwitterSquare className="h-8 w-8 text-black/40"></FaTwitterSquare>
+          <FaTwitterSquare className="h-8 w-8 text-green-500"></FaTwitterSquare>
         </Link>
       </div>
     </FooterRightStyles>

@@ -33,7 +33,13 @@ const UpdateUserStyles = styled.div`
   .button {
     width: 200px;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 540px) {
+    .radio-list,
+    .role-list {
+      flex-direction: column;
+    }
+  }
+  @media (max-width: 1024px) {
     .form-layout {
       display: flex;
       flex-direction: column;
@@ -302,7 +308,7 @@ const UpdateUser = () => {
           <div className="form-layout">
             <Field>
               <Label htmlFor="status">Status</Label>
-              <div className="flex flex-wrap gap-5">
+              <div className="radio-list flex flex-wrap gap-5">
                 <Radio
                   name="status"
                   control={control}
@@ -331,7 +337,7 @@ const UpdateUser = () => {
             </Field>
             <Field>
               <Label htmlFor="role">Role</Label>
-              <div className="flex flex-wrap gap-5">
+              <div className="role-list flex flex-wrap gap-5">
                 <Radio
                   name="role"
                   control={control}

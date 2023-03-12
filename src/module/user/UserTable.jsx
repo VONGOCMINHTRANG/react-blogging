@@ -19,6 +19,10 @@ const UserTableStyles = styled.div`
     td {
       font-size: calc(0.6em + 0.5vw);
     }
+    .status {
+      display: flex;
+      flex-direction: column;
+    }
   }
   @media (min-width: 541px) and (max-width: 949px) {
     .th,

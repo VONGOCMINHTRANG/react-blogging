@@ -11,6 +11,10 @@ const FooterStyles = styled.div`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 28px 20px;
+  color: ${(props) => props.theme.secondary};
+  .title {
+    color: ${(props) => props.theme.secondary} !important;
+  }
   .container {
     display: grid;
     grid-template-columns: repeat(3, minmax(0px, 1fr));
@@ -18,6 +22,11 @@ const FooterStyles = styled.div`
   .title {
     color: gray;
     border-top: none;
+  }
+  .logo {
+    display: block;
+    max-width: 200px;
+    height: auto;
   }
   @media (max-width: 950px) {
     .container {
@@ -31,7 +40,11 @@ const Footer = () => {
   return (
     <FooterStyles>
       <div className="container">
-        <Title>React Blogging</Title>
+        <div className="flex flex-col justify-center gap-y-2">
+          <img src="/logo.png" className="logo" alt="react-blogging" />
+          <Title>React Blogging</Title>
+        </div>
+
         <div className="footer-left">
           <FooterLeft></FooterLeft>
         </div>
