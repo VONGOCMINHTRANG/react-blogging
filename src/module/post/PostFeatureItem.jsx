@@ -102,7 +102,7 @@ const PostFeatureItem = ({ data }) => {
             to={slugify(user.fullname || '', { lower: true })}
           ></PostMeta>
         </div>
-        <PostTitle to={`/detail-post?${data?.slug}`}>{data.title}</PostTitle>
+        <PostTitle to={`/detail-post/${data?.slug}`}>{data.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   )

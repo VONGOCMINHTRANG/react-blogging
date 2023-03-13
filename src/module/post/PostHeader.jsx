@@ -21,6 +21,12 @@ const PostHeaderStyles = styled.div`
       flex: 1 1 0%;
       max-width: 640px;
     }
+    &-category {
+      color: #909090;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      font-size: 18px;
+    }
     &-title {
       a {
         font-size: 36px;
@@ -54,14 +60,16 @@ const PostHeaderStyles = styled.div`
   }
 `
 
-const PostHeader = () => {
+const PostHeader = ({ data }) => {
+  const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
+  const formatDate = new Date(time).toLocaleDateString('vi-VI')
   return (
     <PostHeaderStyles className="post-header">
-      <PostImage src="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bGFwdG9wJTIwZGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"></PostImage>
+      <PostImage src={data?.image}></PostImage>
       <div className="post-info">
-        <PostCategory>Kiến thức</PostCategory>
-        <PostTitle>A Complete Olpererhütte Hiking Guide From Innsbruck</PostTitle>
-        <PostMeta></PostMeta>
+        <PostCategory>{data?.category?.name}</PostCategory>
+        <PostTitle>{data?.title}</PostTitle>
+        <PostMeta time={formatDate} author={data?.user?.fullname}></PostMeta>
       </div>
     </PostHeaderStyles>
   )

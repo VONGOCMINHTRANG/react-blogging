@@ -29,6 +29,7 @@ import { Content } from 'components/content'
 import { useAuth } from 'contexts/auth-context'
 import { toast } from 'react-toastify'
 import { Editor } from 'components/Editor'
+import { debounce } from 'lodash'
 
 const AddPostStyles = styled.div`
   .image-content {
@@ -54,13 +55,13 @@ const AddPostStyles = styled.div`
 const AddPost = () => {
   const [categories, setCategories] = useState([])
   const [selectCategory, setSelectCategory] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [content, setContent] = useState('')
   const { userInfo } = useAuth()
   const {
     handleSubmit,
     control,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
     getValues,
     reset,
@@ -87,9 +88,9 @@ const AddPost = () => {
   } = useFirebaseImage(setValue, getValues)
   const watchStatus = watch('status')
   const watchHot = watch('hot')
-  const handleEditor = (editorState) => {
-    setValue('editor', editorState)
-  }
+  const handleEditor = debounce((contentState) => {
+    setContent('editor', contentState)
+  }, 1000)
 
   const handleClickOption = async (item) => {
     // setValue('categoryId', item.id)
@@ -119,13 +120,12 @@ const AddPost = () => {
         category: cloneValues.category,
         user: cloneValues.user,
         createdAt: serverTimestamp(),
-        // editor: cloneValues.editor,
+        editor: cloneValues.editor,
       })
       toast.success('Create new post successfully', {
         pauseOnHover: false,
         delay: 100,
       })
-      setLoading(true)
       reset({
         title: '',
         slug: '',
@@ -134,6 +134,7 @@ const AddPost = () => {
         user: {},
         hot: false,
         image: '',
+        content: '',
         createdAt: new Date(),
       })
       setImage('')
@@ -146,9 +147,6 @@ const AddPost = () => {
         pauseOnHover: false,
         delay: 100,
       })
-      setLoading(false)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -238,7 +236,6 @@ const AddPost = () => {
                     control={control}
                     rules={{
                       required: true,
-                      pattern: [`/.(jpg|jpeg|png|gif)$/`],
                     }}
                   ></ImageUpload>
                 ) : (
@@ -322,30 +319,26 @@ const AddPost = () => {
               )}
             </Field>
           </div>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="content">Content</Label>
-              <div className="w-full flex flex-col gap-y-2">
-                <Editor
-                  onChange={handleEditor}
-                  control={control}
-                  name="editor"
-                  rules={{
-                    required: false,
-                    minLength: 50,
-                  }}
-                ></Editor>
-                {errors?.editor?.type === 'required' && (
-                  <div className="text-red-500 text-sm italic">Please enter your content</div>
-                )}
-                {errors?.editor?.type === 'minLength' && (
-                  <div className="text-red-500 text-sm italic">
-                    Your content must be at least 50 characters
-                  </div>
-                )}
+          <Field>
+            <Label htmlFor="content">Content</Label>
+            <Editor
+              onChange={handleEditor}
+              control={control}
+              name="editor"
+              rules={{
+                required: true,
+                minLength: 10,
+              }}
+            ></Editor>
+            {errors?.editor?.type === 'required' && (
+              <div className="text-red-500 text-sm italic">Please enter your content</div>
+            )}
+            {errors?.editor?.type === 'minLength' && (
+              <div className="text-red-500 text-sm italic">
+                Your content must be at least 50 characters
               </div>
-            </Field>
-          </div>
+            )}
+          </Field>
           <div className="form-layout">
             <Field>
               <Label htmlFor="feature-post">Feature post</Label>
@@ -389,8 +382,8 @@ const AddPost = () => {
           </div>
           <Button
             type="submit"
-            isLoading={loading}
-            disabled={loading}
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
             onClick={handleSubmit(handleAddPost)}
           >
             Add new post

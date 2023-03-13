@@ -11,7 +11,7 @@ export const FooterLeftData = [
   {
     name: 'phone',
     icon: <AiTwotonePhone className="text-green-500 h-6 w-6"></AiTwotonePhone>,
-    content: '0909090909',
+    content: '0393981372',
   },
   {
     name: 'email',

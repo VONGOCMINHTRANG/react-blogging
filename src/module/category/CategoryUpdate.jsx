@@ -28,7 +28,6 @@ const AddCategoryStyles = styled.div`
   }
 `
 const CategoryUpdate = () => {
-  const [loading, setLoading] = useState(false)
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const {
@@ -54,17 +53,13 @@ const CategoryUpdate = () => {
         status: Number(values.status),
       })
       toast.success('Update category successfully')
-      setLoading(true)
       navigate('/manage/category')
     } catch (error) {
-      setLoading(false)
       toast.error('Something wrong!', {
         pauseOnHover: false,
         delay: 100,
       })
       console.log(error)
-    } finally {
-      setLoading(false)
     }
   }
 
