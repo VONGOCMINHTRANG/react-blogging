@@ -23,11 +23,11 @@ const AuthorContentStyles = styled.div`
   }
 `
 
-const AuthorContent = ({ name = 'Vo Ngoc Minh Trang', email = 'vnmt2712@gmail.com', ...props }) => {
+const AuthorContent = ({ name = '', email = '', ...props }) => {
   return (
     <AuthorContentStyles className="author-content" {...props}>
-      <div className="author-name">Vo Ngoc Minh Trang</div>
-      <div className="author-email">vnmt2712@gmail.com</div>
+      <div className="author-name">{name}</div>
+      <div className="author-email">{email}</div>
     </AuthorContentStyles>
   )
 }

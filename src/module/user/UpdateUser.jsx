@@ -176,7 +176,6 @@ const UpdateUser = () => {
                     control={control}
                     rules={{
                       required: true,
-                      pattern: [`/.(jpg|jpeg|png|gif)$/`],
                     }}
                   ></ImageUpload>
                 ) : (

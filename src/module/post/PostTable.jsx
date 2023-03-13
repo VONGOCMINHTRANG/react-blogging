@@ -86,7 +86,7 @@ const PostTable = ({ data }) => {
                 <td>
                   <div className="flex justify-center items-center gap-x-3">
                     <IconActionView
-                      onClick={() => navigate(`/detail-post?${post?.slug}`)}
+                      onClick={() => navigate(`/detail-post/${post?.slug}`)}
                     ></IconActionView>
                     <IconActionEdit
                       onClick={() => navigate(`/manage/update-post?id=${post?.id}`)}

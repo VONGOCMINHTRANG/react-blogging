@@ -28,7 +28,6 @@ const AddCategoryStyles = styled.div`
 `
 
 const AddCategory = () => {
-  const [loading, setLoading] = useState(false)
   const {
     handleSubmit,
     control,
@@ -65,7 +64,6 @@ const AddCategory = () => {
         pauseOnHover: false,
         delay: 100,
       })
-      setLoading(true)
       reset({
         name: '',
         slug: '',
@@ -78,9 +76,6 @@ const AddCategory = () => {
         pauseOnHover: false,
         delay: 100,
       })
-      setLoading(false)
-    } finally {
-      setLoading(false)
     }
   }
 

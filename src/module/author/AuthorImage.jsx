@@ -5,6 +5,7 @@ const AuthorImageStyles = styled.div`
   width: 40px;
   height: 40px;
   flex-shrink: 0;
+  border: solid 1px #cf9fff;
   border-radius: 100%;
   margin-right: 1em;
   justify-content: center;
@@ -16,7 +17,7 @@ const AuthorImageStyles = styled.div`
   }
 `
 
-const AuthorImage = ({ to = '/dashboard', src = '/avatar.jpg' }) => {
+const AuthorImage = ({ to = '', src = '/avatar.jpg' }) => {
   if (to) {
     return (
       <Link to={`/${to}`} className="block">
