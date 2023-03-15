@@ -2,14 +2,19 @@ import { useState } from 'react'
 import Input from './Input'
 import { IconEyeClose, IconEyeOpen } from 'components/icon'
 
-const InputPasswordToggle = ({ control, rules }) => {
+const InputPasswordToggle = ({
+  control,
+  rules,
+  placeholder = 'Enter your password',
+  name = 'password',
+}) => {
   const [togglePassword, setTogglePassword] = useState(false)
   return (
     <>
       <Input
         type={togglePassword ? 'text' : 'password'}
-        placeholder="Enter your password"
-        name="password"
+        placeholder={placeholder}
+        name={name}
         control={control}
         rules={rules}
       >

@@ -1,3 +1,6 @@
+import { db } from '../../firebase/firebase-config'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import Slider from 'react-slick'
 import styled from 'styled-components'
@@ -9,7 +12,9 @@ const PostRelatedStyles = styled.div`
   }
 `
 
-const PostRelated = () => {
+const PostRelated = ({ categoryId = '' }) => {
+  const [posts, setPosts] = useState([])
+
   function NextArrow({ onClick }) {
     return (
       <FiArrowRight
@@ -57,13 +62,31 @@ const PostRelated = () => {
       },
     ],
   }
+
+  useEffect(() => {
+    try {
+      const docRef = query(collection(db, 'posts'), where('categoryId', '==', categoryId))
+      onSnapshot(docRef, (snapshot) => {
+        let results = []
+        snapshot.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
+          })
+          console.log(results)
+          setPosts(results)
+        })
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [categoryId])
+
   return (
     <PostRelatedStyles className="post-related">
       <Slider {...settings}>
-        <PostRelatedItem></PostRelatedItem>
-        <PostRelatedItem></PostRelatedItem>
-        <PostRelatedItem></PostRelatedItem>
-        <PostRelatedItem></PostRelatedItem>
+        {posts?.length > 0 &&
+          posts?.map((post) => <PostRelatedItem post={post} key={post.id}></PostRelatedItem>)}
       </Slider>
     </PostRelatedStyles>
   )

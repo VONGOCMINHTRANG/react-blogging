@@ -108,7 +108,7 @@ const UpdateUser = () => {
         ...values,
         avatar: image,
       })
-      toast.success(`Create new user with email : ${values.email} successfully !!!`, {
+      toast.success(`Update user with email : ${values.email} successfully !!!`, {
         pauseOnHover: false,
         delay: 100,
       })
@@ -155,10 +155,7 @@ const UpdateUser = () => {
   return (
     <DashboardLayout>
       <UpdateUserStyles>
-        <Content
-          title="Account Information"
-          desc={`Update your account information id : ${userId}`}
-        ></Content>
+        <Content title="Update User" desc={`Update user id : ${userId}`}></Content>
         <form>
           <Field>
             <Label htmlFor="avatar">Avatar</Label>

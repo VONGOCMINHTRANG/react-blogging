@@ -4,6 +4,7 @@ import PostCategory from './PostCategory'
 import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
 import { Overlay } from 'components/overlay'
+import slugify from 'slugify'
 
 const PostItemStyles = styled.div`
   height: 270px;
@@ -25,6 +26,16 @@ const PostItemStyles = styled.div`
       align-items: center;
       margin-bottom: 16px;
     }
+    &-title: hover {
+      color: ${(props) => props.theme.secondary};
+      transition: all 0.1s linear;
+    }
+    &-meta {
+      a: hover {
+        color: ${(props) => props.theme.secondary};
+        transition: all 0.1s linear;
+      }
+    }
   }
   a {
     font-weight: bold;
@@ -34,25 +45,25 @@ const PostItemStyles = styled.div`
   }
 `
 
-const PostItem = ({
-  category = 'Kiến thức',
-  title = 'A Complete Olpererhütte Hiking Guide From Innsbruck',
-  time,
-  author,
-  src,
-  to,
-  ...props
-}) => {
+const PostItem = ({ data, ...props }) => {
+  const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
+  const formatDate = new Date(time).toLocaleDateString('vi-VI')
   return (
     <PostItemStyles className="post-item" {...props}>
-      <PostImage to={to} src={src}></PostImage>
+      <PostImage to={`/detail-post/${data?.slug}`} src={data?.image}></PostImage>
       <Overlay></Overlay>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory>{category}</PostCategory>
-          <PostMeta time={time} author={author}></PostMeta>
+          <PostCategory to={`/category/${slugify(data?.category?.name || '', { lower: true })}`}>
+            {data?.category?.name}
+          </PostCategory>
+          <PostMeta
+            time={formatDate}
+            author={data?.user?.fullname}
+            to={`/${slugify(data?.user?.fullname || '', { lower: true })}`}
+          ></PostMeta>
         </div>
-        <PostTitle>{title}</PostTitle>
+        <PostTitle to={`/detail-post/${data?.slug}`}>{data?.title}</PostTitle>
       </div>
     </PostItemStyles>
   )

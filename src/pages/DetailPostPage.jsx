@@ -1,7 +1,7 @@
 import Layout from 'components/layout/Layout'
 import { Title } from 'components/title'
 import { db } from '../firebase/firebase-config'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, getDocs, limit, onSnapshot, query, where } from 'firebase/firestore'
 import PostContent from 'module/post/PostContent'
 import PostHeader from 'module/post/PostHeader'
 import PostRelated from 'module/post/PostRelated'
@@ -39,6 +39,10 @@ const DetailPostPage = () => {
     fetchDetailPostData()
   }, [slug])
 
+  useEffect(() => {
+    document.body.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [slug])
+
   if (!slug) return <NotFoundPage></NotFoundPage>
   return (
     <DetailPostPageStyles>
@@ -48,7 +52,7 @@ const DetailPostPage = () => {
           <PostContent data={postInfo}></PostContent>
           <div className="post-related">
             <Title>Related Posts</Title>
-            <PostRelated></PostRelated>
+            <PostRelated categoryId={postInfo?.categoryId}></PostRelated>
           </div>
         </div>
       </Layout>

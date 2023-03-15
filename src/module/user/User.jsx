@@ -17,6 +17,8 @@ import { db } from '../../firebase/firebase-config'
 import UserTable from './UserTable'
 import Search from 'components/search/Search'
 import { debounce } from 'lodash'
+import { useAuth } from 'contexts/auth-context'
+import { userRole } from 'utils/constants'
 
 const UserStyles = styled.div`
   .button {
@@ -72,6 +74,7 @@ const UserStyles = styled.div`
 const USER_PER_PAGE = 1
 
 const User = () => {
+  const { userInfo } = useAuth()
   const [userList, setUserList] = useState([])
   const [filter, setFilter] = useState('')
   const [lastDoc, setLastDoc] = useState()
@@ -140,6 +143,7 @@ const User = () => {
     fetchCategoryData()
   }, [filter])
 
+  if (userInfo.role !== userRole.ADMIN) return null
   return (
     <DashboardLayout>
       <UserStyles>

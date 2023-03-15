@@ -18,6 +18,8 @@ import { debounce } from 'lodash'
 import PostTable from './PostTable'
 import { Button } from 'components/button'
 import { Link } from 'react-router-dom'
+import { useAuth } from 'contexts/auth-context'
+import { userRole } from 'utils/constants'
 
 const PostsStyles = styled.div`
   .button {
@@ -73,6 +75,7 @@ const PostsStyles = styled.div`
 const POST_PER_PAGE = 1
 
 const Posts = () => {
+  const { userInfo } = useAuth()
   const [postList, setPostList] = useState([])
   const [filter, setFilter] = useState('')
   const [total, setTotal] = useState(0)
@@ -140,6 +143,7 @@ const Posts = () => {
     fetchPostData()
   }, [filter])
 
+  if (userInfo.role !== userRole.ADMIN) return null
   return (
     <DashboardLayout>
       <PostsStyles>

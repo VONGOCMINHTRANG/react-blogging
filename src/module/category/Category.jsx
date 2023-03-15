@@ -17,6 +17,8 @@ import {
 import { db } from '../../firebase/firebase-config'
 import { debounce } from 'lodash'
 import CategoryTable from './CategoryTable'
+import { useAuth } from 'contexts/auth-context'
+import { userRole } from 'utils/constants'
 
 const CategoryStyles = styled.div`
   .button {
@@ -75,6 +77,7 @@ const CategoryStyles = styled.div`
 const CATEGORY_PER_PAGE = 1
 
 const Category = () => {
+  const { userInfo } = useAuth()
   const [categoryList, setCategoryList] = useState([])
   const [filter, setFilter] = useState('')
   const [lastDoc, setLastDoc] = useState()
@@ -146,6 +149,8 @@ const Category = () => {
 
     fetchCategoryData()
   }, [filter])
+
+  if (userInfo.role !== userRole.ADMIN) return
 
   return (
     <DashboardLayout>

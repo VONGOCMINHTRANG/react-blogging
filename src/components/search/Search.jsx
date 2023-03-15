@@ -41,7 +41,7 @@ const SearchStyles = styled.div`
   }
 `
 
-const Search = ({ placeholder = 'Search posts...', ...props }) => {
+const Search = ({ placeholder = 'Search post...', ...props }) => {
   return (
     <SearchStyles className="search">
       <input type="text" placeholder={placeholder} className="search-input" {...props} />

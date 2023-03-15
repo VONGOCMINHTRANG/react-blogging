@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../firebase/firebase-config'
+import { auth, db } from '../firebase/firebase-config'
 import { useContext, useState, createContext, useEffect } from 'react'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
 
 const AuthContext = createContext()
 function AuthProvider(props) {
@@ -8,8 +9,18 @@ function AuthProvider(props) {
   const value = { userInfo, setUserInfo }
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      // console.log(user);
-      setUserInfo(user)
+      if (user) {
+        const docRef = query(collection(db, 'users'), where('email', '==', user.email))
+        onSnapshot(docRef, (snapshot) => {
+          snapshot.forEach((doc) => {
+            setUserInfo({
+              ...user,
+              ...doc.data(),
+            })
+            console.log(userInfo)
+          })
+        })
+      }
     })
   }, [])
   return <AuthContext.Provider value={value} {...props}></AuthContext.Provider>

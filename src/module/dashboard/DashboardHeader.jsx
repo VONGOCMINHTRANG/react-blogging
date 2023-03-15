@@ -7,6 +7,8 @@ import { auth } from '../../firebase/firebase-config'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useAuth } from 'contexts/auth-context'
+import NotFoundPage from 'pages/NotFoundPage'
 
 const DashboardHeaderStyles = styled.div`
   background-color: white;
@@ -82,15 +84,10 @@ const DashboardHeaderStyles = styled.div`
 `
 
 const DashboardHeader = () => {
+  const { userInfo } = useAuth()
   const [open, setOpen] = useState(false)
-  const [avatar, setAvatar] = useState()
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setAvatar(user?.photoURL)
-    })
-  }, [])
-
+  if (!userInfo) return <NotFoundPage></NotFoundPage>
   return (
     <DashboardHeaderStyles className="dashboard-header">
       <button className="sidebarBtn" onClick={() => setOpen(true)}>
@@ -116,8 +113,8 @@ const DashboardHeader = () => {
         <Link to="/manage/add-post" className="inline">
           <Button type="button">Write new post</Button>
         </Link>
-        <Link to="/manage/user" className="header-avatar">
-          <img src={avatar ? avatar : '/avatar.jpg'} alt="avatar" />
+        <Link to={`/account-information/${userInfo?.username}`} className="header-avatar">
+          <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />
         </Link>
       </div>
     </DashboardHeaderStyles>
