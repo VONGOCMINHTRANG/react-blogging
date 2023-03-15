@@ -4,7 +4,6 @@ import IconMenu from './IconMenu'
 import IconSearch from './IconSearch'
 import IconHome from './IconHome'
 import IconBlog from './IconBlog'
-import IconContact from './IconContact'
 import IconDashboard from './IconDashboard'
 import IconArrowDown from './IconArrowDown'
 import IconArrowLeft from './IconArrowLeft'
@@ -26,7 +25,6 @@ export {
   IconSearch,
   IconHome,
   IconBlog,
-  IconContact,
   IconDashboard,
   IconArrowDown,
   IconArrowLeft,

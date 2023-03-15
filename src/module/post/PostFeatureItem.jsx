@@ -27,6 +27,16 @@ const PostFeatureItemStyles = styled.div`
       align-items: center;
       margin-bottom: 16px;
     }
+    &-title: hover {
+      color: ${(props) => props.theme.secondary};
+      transition: all 0.1s linear;
+    }
+    &-meta {
+      a: hover {
+        color: ${(props) => props.theme.secondary};
+        transition: all 0.1s linear;
+      }
+    }
   }
   a {
     font-weight: bold;
@@ -95,7 +105,7 @@ const PostFeatureItem = ({ data }) => {
       <Overlay></Overlay>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory to={category.slug}>{category.name}</PostCategory>
+          <PostCategory to={`/category/${category.slug}`}>{category.name}</PostCategory>
           <PostMeta
             time={formatDate}
             author={user.fullname}

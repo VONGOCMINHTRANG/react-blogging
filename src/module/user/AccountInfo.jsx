@@ -1,43 +1,60 @@
 import { Button } from 'components/button'
-import { Content } from 'components/content'
+import Content from 'components/content/Content'
 import { Field } from 'components/field'
 import { ImageUpload } from 'components/image'
-import { Input, InputPasswordToggle } from 'components/input'
+import { Input } from 'components/input'
 import { Label } from 'components/label'
-import Radio from 'components/radio'
+import { auth, db } from '../../firebase/firebase-config'
+import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import useFirebaseImage from 'hooks/useFirebaseImage'
 import DashboardLayout from 'module/dashboard/DashboardLayout'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import slugify from 'slugify'
 import styled from 'styled-components'
-import { userRole, userStatus } from 'utils/constants'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import { toast } from 'react-toastify'
-import { auth, db } from '../../firebase/firebase-config'
+import { useAuth } from 'contexts/auth-context'
+import NotFoundPage from 'pages/NotFoundPage'
+import { useNavigate } from 'react-router-dom'
 
-const AddUserStyles = styled.div`
+const AccountInfoStyles = styled.div`
   margin-bottom: 2.5rem;
+  .hidden-input {
+    clip: rect(0 0 0 0);
+    border: 0;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
   .button {
     width: 200px;
   }
-
+  .change-password {
+    margin-left: 0;
+  }
   @media (max-width: 540px) {
     .radio-list,
     .role-list {
       flex-direction: column;
     }
   }
-
   @media (max-width: 1024px) {
     .form-layout {
       display: flex;
       flex-direction: column;
+      margin-bottom: 0px;
     }
   }
 `
 
-const AddUser = () => {
+const AccountInfo = () => {
+  const { userInfo } = useAuth()
+  const navigate = useNavigate()
+  const [userId, setUserId] = useState('')
   const {
     handleSubmit,
     control,
@@ -51,13 +68,23 @@ const AddUser = () => {
       avatar: '',
       fullname: '',
       username: '',
+      dob: '',
+      phone: '',
       email: '',
       password: '',
-      status: Number(userStatus.PENDING),
-      role: Number(userRole.USER),
+      new_password: '',
       createAt: new Date(),
     },
   })
+  const imageUrl = getValues('avatar')
+  const imageRegex = /%2F(\S+)\?/gm.exec(imageUrl)
+  const imageName = imageRegex?.length > 0 ? imageRegex[1] : ''
+  const deleteAvatar = async () => {
+    const colRef = doc(db, 'users', userId)
+    await updateDoc(colRef, {
+      avatar: '',
+    })
+  }
   const {
     image,
     setImage,
@@ -66,47 +93,29 @@ const AddUser = () => {
     setProgress,
     handleSelectImage,
     handleDeleteImage,
-  } = useFirebaseImage(setValue, getValues)
-  const watchStatus = watch('status')
-  const watchRole = watch('role')
+  } = useFirebaseImage(setValue, getValues, imageName, deleteAvatar)
 
-  const handleAddUser = async (values) => {
+  const handleUpdateInformation = async (values) => {
     try {
       if (!isValid) return
-      // const cloneValues = { ...values }
-      // console.log(cloneValues)
-      await createUserWithEmailAndPassword(auth, values.email, values.password)
-      await addDoc(collection(db, 'users'), {
-        fullname: values.fullname,
-        email: values.email,
-        password: values.password,
-        username: slugify(values.username || values.fullname, {
-          lower: true,
-          replacement: '',
-          trim: true,
-        }),
+      const cloneValues = { ...values }
+      cloneValues.username = slugify(values.username || values.fullname, { lower: true })
+      cloneValues.status = Number(values.status)
+      cloneValues.role = Number(values.role)
+      cloneValues.avatar = image
+      const colRef = doc(db, 'users', userId)
+      console.log(cloneValues)
+      await updateDoc(colRef, {
+        ...values,
         avatar: image,
-        status: Number(values.status),
-        role: Number(values.role),
-        createdAt: serverTimestamp(),
       })
-      toast.success(`Create new user with email : ${values.email} successfully !!!`, {
+      toast.success(`Update information with email : ${values.email} successfully !!!`, {
         pauseOnHover: false,
         delay: 100,
       })
-
-      reset({
-        avatar: '',
-        fullname: '',
-        username: '',
-        email: '',
-        password: '',
-        status: Number(userStatus.PENDING),
-        role: Number(userRole.USER),
-        createAt: new Date(),
-      })
-      setImage('')
+      setImage(image)
       setProgress(0)
+      navigate('/')
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         toast.error('The email address is already in use', {
@@ -118,11 +127,40 @@ const AddUser = () => {
       }
     }
   }
+  useEffect(() => {
+    setImage(imageUrl)
+  }, [imageUrl])
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const q = query(collection(db, 'users'), where('email', '==', userInfo?.email))
+      onSnapshot(q, (snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          setUserId(doc.id)
+          reset(doc.data())
+        })
+      })
+    }
+    fetchUserData()
+  }, [userInfo?.email])
+
+  if (!userInfo) return <NotFoundPage></NotFoundPage>
   return (
     <DashboardLayout>
-      <AddUserStyles>
-        <Content title="New user" desc="Add new user to system"></Content>
+      <AccountInfoStyles>
+        <div className="flex gap-x-5">
+          <Content
+            title="Account Information"
+            desc={`Update your account information email : ${userInfo.email}`}
+          ></Content>
+          <Button
+            className="change-password"
+            onClick={() => navigate(`/account-information/change-password/${userInfo?.username}`)}
+          >
+            Change password
+          </Button>
+        </div>
+
         <form>
           <Field>
             <Label htmlFor="avatar">Avatar</Label>
@@ -134,20 +172,21 @@ const AddUser = () => {
                     onChange={handleSelectImage}
                     progress={progress}
                     name="avatar"
+                    value={undefined}
                     image={image}
                     handleDeleteImage={handleDeleteImage}
                     control={control}
                     rules={{
                       required: true,
-                      pattern: [`/.(jpg|jpeg|png|gif)$/`],
                     }}
                   ></ImageUpload>
                 ) : (
                   <ImageUpload
-                    className="!rounded-full"
+                    className="!rounded-full "
                     onChange={handleSelectImage}
                     progress={progress}
                     name="avatar"
+                    value={undefined}
                     image={image}
                     handleDeleteImage={handleDeleteImage}
                     control={control}
@@ -207,6 +246,25 @@ const AddUser = () => {
           </div>
           <div className="form-layout">
             <Field>
+              <Label htmlFor="dob">Date of birth</Label>
+              <div className="flex flex-col gap-y-2 w-full">
+                <Input control={control} name="dob" type="text" placeholder="dd/mm/yy"></Input>
+              </div>
+            </Field>
+            <Field>
+              <Label htmlFor="phone">Mobile number</Label>
+              <div className="flex flex-col gap-y-2 w-full">
+                <Input
+                  control={control}
+                  name="phone"
+                  type="text"
+                  placeholder="Enter your mobile number"
+                ></Input>
+              </div>
+            </Field>
+          </div>
+          <div className="form-layout">
+            <Field>
               <Label htmlFor="email">Email</Label>
               <div className="flex flex-col gap-y-2 w-full">
                 <Input
@@ -227,107 +285,20 @@ const AddUser = () => {
                 )}
               </div>
             </Field>
-            <Field>
-              <Label htmlFor="password">Password</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <InputPasswordToggle
-                  control={control}
-                  rules={{
-                    required: true,
-                    minLength: 8,
-                  }}
-                ></InputPasswordToggle>
-                {errors?.password?.type === 'required' && (
-                  <div className="text-red-500 text-sm italic">Please enter your password</div>
-                )}
-                {errors?.password?.type === 'minLength' && (
-                  <div className="text-red-500 text-sm italic">
-                    Your password must be at least 8 characters or greater
-                  </div>
-                )}
-              </div>
-            </Field>
           </div>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="status">Status</Label>
-              <div className="radio-list flex flex-wrap gap-5">
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === userStatus.ACTIVE}
-                  value={userStatus.ACTIVE}
-                >
-                  Active
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === userStatus.PENDING}
-                  value={userStatus.PENDING}
-                >
-                  Pending
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === userStatus.BANNED}
-                  value={userStatus.BANNED}
-                >
-                  Banned
-                </Radio>
-              </div>
-            </Field>
-            <Field>
-              <Label htmlFor="role">Role</Label>
-              <div className="role-list flex flex-wrap gap-5">
-                <Radio
-                  name="role"
-                  control={control}
-                  checked={Number(watchRole) === userRole.ADMIN}
-                  value={userRole.ADMIN}
-                >
-                  Admin
-                </Radio>
-                <Radio
-                  name="role"
-                  control={control}
-                  checked={Number(watchRole) === userRole.MODERATOR}
-                  value={userRole.MODERATOR}
-                >
-                  Moderator
-                </Radio>
-                <Radio
-                  name="role"
-                  control={control}
-                  checked={Number(watchRole) === userRole.EDITOR}
-                  value={userRole.EDITOR}
-                >
-                  Editor
-                </Radio>
-                <Radio
-                  name="role"
-                  control={control}
-                  checked={Number(watchRole) === userRole.USER}
-                  value={userRole.USER}
-                >
-                  User
-                </Radio>
-              </div>
-            </Field>
-          </div>
+
           <Button
             type="submit"
-            onClick={handleSubmit(handleAddUser)}
+            onClick={handleSubmit(handleUpdateInformation)}
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >
-            Add user
+            Update user
           </Button>
         </form>
-      </AddUserStyles>
+      </AccountInfoStyles>
     </DashboardLayout>
   )
 }
 
-export default AddUser
+export default AccountInfo

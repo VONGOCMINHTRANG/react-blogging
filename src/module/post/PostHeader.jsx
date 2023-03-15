@@ -2,6 +2,7 @@ import PostCategory from 'module/post/PostCategory'
 import PostImage from 'module/post/PostImage'
 import PostMeta from 'module/post/PostMeta'
 import PostTitle from 'module/post/PostTitle'
+import slugify from 'slugify'
 import styled from 'styled-components'
 
 const PostHeaderStyles = styled.div`
@@ -37,6 +38,10 @@ const PostHeaderStyles = styled.div`
       color: gray;
       gap: 12px;
       font-size: calc(0.5em + 0.5vw);
+      a: hover {
+        color: ${(props) => props.theme.secondary};
+        transition: all 0.1s linear;
+      }
     }
   }
   @media (max-width: 1024px) {
@@ -67,9 +72,17 @@ const PostHeader = ({ data }) => {
     <PostHeaderStyles className="post-header">
       <PostImage src={data?.image}></PostImage>
       <div className="post-info">
-        <PostCategory>{data?.category?.name}</PostCategory>
-        <PostTitle>{data?.title}</PostTitle>
-        <PostMeta time={formatDate} author={data?.user?.fullname}></PostMeta>
+        <PostCategory to={`/category/${slugify(data?.category?.name || '', { lower: true })}`}>
+          {data?.category?.name}
+        </PostCategory>
+        <PostTitle to={`/detail-post/${slugify(data?.title || '', { lower: true })}`}>
+          {data?.title}
+        </PostTitle>
+        <PostMeta
+          time={formatDate}
+          author={data?.user?.fullname}
+          to={`/${slugify(data?.user?.fullname || '', { lower: true })}`}
+        ></PostMeta>
       </div>
     </PostHeaderStyles>
   )

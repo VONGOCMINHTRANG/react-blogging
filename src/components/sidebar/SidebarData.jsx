@@ -20,11 +20,6 @@ export const SidebarData = [
     icon: <IconBlog></IconBlog>,
   },
   {
-    url: '/contact',
-    title: 'Contact',
-    icon: <IconContact></IconContact>,
-  },
-  {
     url: '/dashboard',
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,

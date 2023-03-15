@@ -17,10 +17,10 @@ const PostImageStyles = styled.div`
   }
 `
 
-const PostImage = ({ to, src = '/background.jpg', ...props }) => {
+const PostImage = ({ to = '', src = '/background.jpg', ...props }) => {
   if (to) {
     return (
-      <NavLink to={`/${to}`}>
+      <NavLink to={to}>
         <PostImageStyles className="post-image" {...props}>
           <img src={src} alt="post-item" loading="lazy" />
         </PostImageStyles>

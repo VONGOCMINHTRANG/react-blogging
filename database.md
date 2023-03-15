@@ -7,8 +7,10 @@
 - status: 1(approved) 2(pending) 3(reject)
 - hot (true || false)
 - content
+- userId
 - user: [id, username, fullname, avatar, description]
-- categoryId: [id, name, slug]
+- categoryId
+- category: [id, name, slug]
 - createdAt
 
 # Category
@@ -26,7 +28,7 @@
 - email
 - password
 - avatar : url, image_name
-- status: 1(active) 2(pending) 3(ban)
+- status: 1(active) 2(pending) 3(banned)
 - role: 1(Admin) 2(Moderator) 3(Editor) 4(User)
 - permissions: "ADD_POST"
 - createdAt

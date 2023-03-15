@@ -1,14 +1,14 @@
 import { IconHome } from 'components/icon'
 import Search from 'components/search/Search'
+import { db } from '../firebase/firebase-config'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import { debounce } from 'lodash'
 import PostItem from 'module/post/PostItem'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { db } from '../firebase/firebase-config'
+import { debounce } from 'lodash'
 
-const BlogPageStyles = styled.div`
+const AuthorPageStyles = styled.div`
   background-image: url('/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -74,18 +74,33 @@ const BlogPageStyles = styled.div`
   }
 `
 
-const BlogPage = () => {
+const AuthorPage = () => {
+  const { slug } = useParams()
+  const slugSplit = slug.split('-')
+  const username = slugSplit.join('')
+  const [userId, setUserId] = useState('')
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState('')
+
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value)
   }, 500)
 
   useEffect(() => {
+    const docRef = query(collection(db, 'users'), where('username', '==', username))
+    onSnapshot(docRef, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        console.log(doc.id)
+        setUserId(doc.id)
+      })
+    })
+  }, [])
+
+  useEffect(() => {
     const colRef = collection(db, 'posts')
     const q = filter
       ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-      : colRef
+      : query(colRef, where('userId', '==', userId))
     onSnapshot(q, (snapshot) => {
       let results = []
       snapshot.docs.forEach((doc) => {
@@ -94,27 +109,28 @@ const BlogPage = () => {
           ...doc.data(),
         })
       })
+      console.log(results)
       setPosts(results)
     })
-  }, [filter])
+  }, [userId, filter])
 
   return (
-    <BlogPageStyles className="blog-page">
+    <AuthorPageStyles className="category-page">
       <div className="wrapper">
         <Search onChange={handleInputFilter}></Search>
         <div className="container">
           <div className="blog-item">
             {posts?.length > 0 &&
-              posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
+              posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
           </div>
         </div>
-        <h1>BLOG</h1>
+        <h1>{slug}</h1>
         <Link to="/" className="icon-home">
           <IconHome></IconHome>
         </Link>
       </div>
-    </BlogPageStyles>
+    </AuthorPageStyles>
   )
 }
 
-export default BlogPage
+export default AuthorPage
