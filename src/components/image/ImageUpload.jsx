@@ -74,6 +74,7 @@ ImageUpload.propTypes = {
   className: PropTypes.string,
   progress: PropTypes.number,
   image: PropTypes.string,
+  rules: PropTypes.object,
 }
 
 export default ImageUpload

@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types'
 
+/**
+ * @param {*} onClick Handler onClick
+ * @requires
+ * @param {bool} on Value of on 'true | 'false'
+ *
+ */
+
 const Toggle = ({ on, onClick = () => {}, name = '', ...props }) => {
   return (
     <label>
@@ -27,8 +34,8 @@ const Toggle = ({ on, onClick = () => {}, name = '', ...props }) => {
 }
 
 Toggle.propTypes = {
-  on: PropTypes.bool,
-  onClick: PropTypes.func,
+  on: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
   name: PropTypes.string,
 }
 

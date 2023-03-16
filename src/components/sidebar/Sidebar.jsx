@@ -3,6 +3,7 @@ import Search from 'components/search/Search'
 import styled from 'styled-components'
 import { SidebarData } from './SidebarData'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const SidebarStyles = styled.ul`
   position: fixed;
@@ -57,13 +58,13 @@ const SidebarStyles = styled.ul`
   }
 `
 
-const Sidebar = ({
-  className = '',
-  setOpen = () => {},
-  number1 = '0',
-  number2 = '0',
-  onClick = () => {},
-}) => {
+/**
+ * @param {*} setOpen Handler onClick
+ * @requires
+ *
+ */
+
+const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = '0' }) => {
   return (
     <SidebarStyles className={className}>
       <div>
@@ -99,6 +100,13 @@ const Sidebar = ({
       </div>
     </SidebarStyles>
   )
+}
+
+Sidebar.propTypes = {
+  className: PropTypes.string,
+  setOpen: PropTypes.func.isRequired,
+  number1: PropTypes.number.isRequired,
+  number2: PropTypes.number.isRequired,
 }
 
 export default Sidebar

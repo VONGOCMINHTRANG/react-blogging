@@ -4,7 +4,7 @@ import { Field } from 'components/field'
 import { ImageUpload } from 'components/image'
 import { Input } from 'components/input'
 import { Label } from 'components/label'
-import { auth, db } from '../../firebase/firebase-config'
+import { db } from '../../firebase/firebase-config'
 import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import useFirebaseImage from 'hooks/useFirebaseImage'
 import DashboardLayout from 'module/dashboard/DashboardLayout'
@@ -151,7 +151,7 @@ const AccountInfo = () => {
         <div className="flex gap-x-5">
           <Content
             title="Account Information"
-            desc={`Update your account information email : ${userInfo.email}`}
+            desc={`Update account information with email : ${userInfo.email}`}
           ></Content>
           <Button
             className="change-password"

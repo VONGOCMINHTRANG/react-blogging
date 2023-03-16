@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const PostCategoryStyles = styled.div`
   margin-right: calc(0.5em + 0.5vw);
@@ -25,6 +26,11 @@ const PostCategory = ({ children, to = '/', ...props }) => {
       <NavLink to={to}>{children}</NavLink>
     </PostCategoryStyles>
   )
+}
+
+PostCategory.propTypes = {
+  children: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
 }
 
 export default PostCategory

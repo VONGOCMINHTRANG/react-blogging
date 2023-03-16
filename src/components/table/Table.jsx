@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const TableStyles = styled.table`
   width: 100%;
@@ -35,6 +36,10 @@ const TableStyles = styled.table`
 
 const Table = ({ children }) => {
   return <TableStyles>{children}</TableStyles>
+}
+
+Table.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export default Table

@@ -5,6 +5,7 @@ import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
 import { Overlay } from 'components/overlay'
 import slugify from 'slugify'
+import PropTypes from 'prop-types'
 
 const PostItemStyles = styled.div`
   height: 270px;
@@ -67,6 +68,10 @@ const PostItem = ({ data, ...props }) => {
       </div>
     </PostItemStyles>
   )
+}
+
+PostItem.propTypes = {
+  data: PropTypes.array.isRequired,
 }
 
 export default PostItem

@@ -1,10 +1,16 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const BlurStyles = styled.div`
   @media (min-width: 951px) {
     display: none;
   }
 `
+/**
+ * @param {*} onClick Handler onClick
+ * @requires
+ *
+ */
 
 const Blur = ({ onClick = () => {} }) => {
   return (
@@ -15,6 +21,10 @@ const Blur = ({ onClick = () => {} }) => {
       ></div>
     </BlurStyles>
   )
+}
+
+Blur.propTypes = {
+  onClick: PropTypes.func.isRequired,
 }
 
 export default Blur

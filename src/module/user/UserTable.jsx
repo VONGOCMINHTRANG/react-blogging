@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { userRole, userStatus } from 'utils/constants'
+import PropTypes from 'prop-types'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;
@@ -129,6 +130,10 @@ const UserTable = ({ data }) => {
       </Table>
     </UserTableStyles>
   )
+}
+
+UserTable.propTypes = {
+  data: PropTypes.array.isRequired,
 }
 
 export default UserTable

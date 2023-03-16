@@ -7,6 +7,7 @@ import { categoryStatus } from 'utils/constants'
 import Swal from 'sweetalert2'
 import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
+import PropTypes from 'prop-types'
 
 const CategoryTableStyles = styled.div`
   overflow-x: auto;
@@ -91,6 +92,10 @@ const CategoryTable = ({ data }) => {
       </Table>
     </CategoryTableStyles>
   )
+}
+
+CategoryTable.propTypes = {
+  data: PropTypes.array.isRequired,
 }
 
 export default CategoryTable

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import PropTyles from 'prop-types'
 
 const AuthorContentStyles = styled.div`
   .author {
@@ -30,6 +31,11 @@ const AuthorContent = ({ name = '', email = '', ...props }) => {
       <div className="author-email">{email}</div>
     </AuthorContentStyles>
   )
+}
+
+AuthorContent.propTypes = {
+  name: PropTyles.string.isRequired,
+  email: PropTyles.string.isRequired,
 }
 
 export default AuthorContent

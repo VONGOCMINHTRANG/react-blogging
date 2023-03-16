@@ -3,6 +3,7 @@ import AuthorImage from 'module/author/AuthorImage'
 import slugify from 'slugify'
 import styled from 'styled-components'
 import PostContentMain from './PostContentMain'
+import PropTypes from 'prop-types'
 
 const PostContentStyles = styled.div`
   margin: 40px 0px;
@@ -33,6 +34,10 @@ const PostContent = ({ data }) => {
       </div>
     </PostContentStyles>
   )
+}
+
+PostContent.propTypes = {
+  data: PropTypes.array.isRequired,
 }
 
 export default PostContent

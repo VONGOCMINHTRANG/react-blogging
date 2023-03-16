@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const SpinnerStyles = styled.div`
   width: ${(props) => props.width || '30px'};
@@ -17,6 +18,10 @@ const SpinnerStyles = styled.div`
 
 const LoadingSpinner = ({ className = '', ...props }) => {
   return <SpinnerStyles className={className} {...props}></SpinnerStyles>
+}
+
+LoadingSpinner.propTypes = {
+  className: PropTypes.string.isRequired,
 }
 
 export default LoadingSpinner

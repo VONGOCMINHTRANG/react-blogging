@@ -3,8 +3,16 @@ import ReactQuill, { Quill } from 'react-quill'
 import axios from 'axios'
 import { imgbbAPI } from 'config/apiConfig'
 import { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import ImageUploader from 'quill-image-uploader'
 Quill.register('modules/imageUploader', ImageUploader)
+
+/**
+ * @param {*} onChange Handler onChange
+ * @requires
+ * @param {string} type Type of button 'button | 'submit'
+ *
+ */
 
 const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) => {
   const { field } = useController({
@@ -55,6 +63,13 @@ const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) 
       />
     </div>
   )
+}
+
+Editor.propTypes = {
+  name: PropTypes.string.isRequired,
+  control: PropTypes.any.isRequired,
+  rules: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default Editor

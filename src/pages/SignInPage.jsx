@@ -24,6 +24,7 @@ const schema = yup.object({
     .min(8, 'Your password must be at least 8 characters or greater')
     .required('Please enter your password'),
 })
+
 const SignInPage = () => {
   const { setUserInfo } = useAuth()
   const navigate = useNavigate()

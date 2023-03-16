@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const AuthorImageStyles = styled.div`
   width: 40px;
@@ -32,6 +33,11 @@ const AuthorImage = ({ to = '', src = '/avatar.jpg' }) => {
       <img src={src} alt="author-image" loading="lazy" />
     </AuthorImageStyles>
   )
+}
+
+AuthorImage.propTypes = {
+  to: PropTypes.string,
+  src: PropTypes.string.isRequired,
 }
 
 export default AuthorImage
