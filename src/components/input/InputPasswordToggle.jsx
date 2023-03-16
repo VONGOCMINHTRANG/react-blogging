@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Input from './Input'
 import { IconEyeClose, IconEyeOpen } from 'components/icon'
+import PropTypes from 'prop-types'
 
 const InputPasswordToggle = ({
   control,
@@ -26,6 +27,13 @@ const InputPasswordToggle = ({
       </Input>
     </>
   )
+}
+
+InputPasswordToggle.propTypes = {
+  control: PropTypes.any.isRequired,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  rules: PropTypes.any,
 }
 
 export default InputPasswordToggle

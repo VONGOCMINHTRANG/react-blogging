@@ -1,5 +1,6 @@
 import { IconSearch } from 'components/icon'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const SearchStyles = styled.div`
   margin-left: auto;
@@ -50,6 +51,10 @@ const Search = ({ placeholder = 'Search post...', ...props }) => {
       </span>
     </SearchStyles>
   )
+}
+
+Search.propTypes = {
+  placeholder: PropTypes.string.isRequired,
 }
 
 export default Search

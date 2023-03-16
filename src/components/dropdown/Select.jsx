@@ -1,5 +1,6 @@
 import { useDropdown } from './dropdown-context'
 import { useController } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 const Select = ({ value, name, control, rules, placeholder = '' }) => {
   const { toggle, show } = useDropdown()
@@ -46,6 +47,14 @@ const Select = ({ value, name, control, rules, placeholder = '' }) => {
       </span>
     </div>
   )
+}
+
+Select.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.node,
+  control: PropTypes.any.isRequired,
+  rules: PropTypes.object,
+  placeholder: PropTypes.string.isRequired,
 }
 
 export default Select

@@ -1,5 +1,6 @@
 import { IconCheck } from 'components/icon'
 import { useController } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
 const Radio = ({ checked, children, control, name, ...rest }) => {
   const { field } = useController({
@@ -29,4 +30,12 @@ const Radio = ({ checked, children, control, name, ...rest }) => {
     </label>
   )
 }
+
+Radio.propTypes = {
+  checked: PropTypes.bool.isRequired,
+  control: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
+  name: PropTypes.string.isRequired,
+}
+
 export default Radio

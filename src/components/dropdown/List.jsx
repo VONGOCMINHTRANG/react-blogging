@@ -1,4 +1,5 @@
 import { useDropdown } from './dropdown-context'
+import PropTypes from 'prop-types'
 
 const List = ({ children }) => {
   const { show } = useDropdown()
@@ -12,4 +13,7 @@ const List = ({ children }) => {
   )
 }
 
+List.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 export default List

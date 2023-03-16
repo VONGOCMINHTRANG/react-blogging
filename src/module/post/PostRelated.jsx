@@ -5,6 +5,7 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import Slider from 'react-slick'
 import styled from 'styled-components'
 import PostRelatedItem from './PostRelatedItem'
+import PropTypes from 'prop-types'
 
 const PostRelatedStyles = styled.div`
   .slick-slide {
@@ -90,6 +91,10 @@ const PostRelated = ({ categoryId = '' }) => {
       </Slider>
     </PostRelatedStyles>
   )
+}
+
+PostRelated.propTypes = {
+  categoryId: PropTypes.string.isRequired,
 }
 
 export default PostRelated

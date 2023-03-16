@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const PostImageStyles = styled.div`
   display: block;
@@ -32,6 +33,11 @@ const PostImage = ({ to = '', src = '/background.jpg', ...props }) => {
       <img src={src} alt="post-item" loading="lazy" />
     </PostImageStyles>
   )
+}
+
+PostImage.propTypes = {
+  to: PropTypes.string,
+  src: PropTypes.string.isRequired,
 }
 
 export default PostImage

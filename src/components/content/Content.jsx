@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const ContentStyles = styled.div`
   margin-bottom: 2em;
@@ -14,13 +15,18 @@ const ContentStyles = styled.div`
   }
 `
 
-const Content = ({ title = 'Title', desc = 'desc' }) => {
+const Content = ({ title = '', desc = '' }) => {
   return (
     <ContentStyles className="content">
       <h1 className="dashboard-heading">{title}</h1>
       <p className="dashboard-short-desc">{desc}</p>
     </ContentStyles>
   )
+}
+
+Content.propTypes = {
+  title: PropTypes.string.isRequired,
+  desc: PropTypes.string.isRequired,
 }
 
 export default Content
