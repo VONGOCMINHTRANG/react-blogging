@@ -95,7 +95,7 @@ const CategoryTable = ({ data }) => {
 }
 
 CategoryTable.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
 }
 
 export default CategoryTable

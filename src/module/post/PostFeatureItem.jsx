@@ -5,7 +5,6 @@ import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
 import slugify from 'slugify'
 import { Overlay } from 'components/overlay'
-import PropTypes from 'prop-types'
 
 const PostFeatureItemStyles = styled.div`
   height: 270px;
@@ -117,10 +116,6 @@ const PostFeatureItem = ({ data }) => {
       </div>
     </PostFeatureItemStyles>
   )
-}
-
-PostFeatureItem.propTypes = {
-  data: PropTypes.array.isRequired,
 }
 
 export default PostFeatureItem

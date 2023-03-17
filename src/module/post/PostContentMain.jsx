@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import parse from 'html-react-parser'
-import PropTypes from 'prop-types'
 
 const PostContentMainStyles = styled.div`
   margin: 40px 0px;
@@ -21,11 +20,6 @@ const PostContentMain = ({ title = '', editor = '' }) => {
       <div className="container-content">{parse(editor)}</div>
     </PostContentMainStyles>
   )
-}
-
-PostContentMain.propTypes = {
-  title: PropTypes.string.isRequired,
-  editor: PropTypes.string.isRequired,
 }
 
 export default PostContentMain

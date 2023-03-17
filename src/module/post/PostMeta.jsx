@@ -1,7 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-
 const PostMetaStyles = styled.div`
   display: flex;
   align-items: center;
@@ -43,12 +41,6 @@ const PostMeta = ({ time = '', author = '', to = '/', ...props }) => {
       </NavLink>
     </PostMetaStyles>
   )
-}
-
-PostMeta.propTypes = {
-  time: PropTypes.string,
-  author: PropTypes.string,
-  to: PropTypes.string,
 }
 
 export default PostMeta

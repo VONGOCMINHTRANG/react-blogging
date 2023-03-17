@@ -104,7 +104,7 @@ const UpdatePost = () => {
       cloneValues.status = Number(values.status)
       cloneValues.image = image
       const colRef = doc(db, 'posts', postId)
-      console.log(cloneValues)
+      // console.log(cloneValues)
       await updateDoc(colRef, {
         title: cloneValues.title,
         slug: cloneValues.slug,

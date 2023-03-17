@@ -5,12 +5,11 @@ const PostNewestRightStyles = styled.div`
   height: auto;
 `
 
-const PostNewestRight = () => {
+const PostNewestRight = ({ data }) => {
   return (
     <PostNewestRightStyles>
-      <PostNewestItem></PostNewestItem>
-      <PostNewestItem></PostNewestItem>
-      <PostNewestItem></PostNewestItem>
+      {data?.length > 0 &&
+        data?.map((post) => <PostNewestItem key={post.id} data={post}></PostNewestItem>)}
     </PostNewestRightStyles>
   )
 }

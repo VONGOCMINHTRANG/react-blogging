@@ -54,7 +54,7 @@ const Search = ({ placeholder = 'Search post...', ...props }) => {
 }
 
 Search.propTypes = {
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
 }
 
 export default Search

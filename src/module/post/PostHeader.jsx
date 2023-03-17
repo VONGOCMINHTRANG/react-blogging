@@ -4,7 +4,6 @@ import PostMeta from 'module/post/PostMeta'
 import PostTitle from 'module/post/PostTitle'
 import slugify from 'slugify'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 const PostHeaderStyles = styled.div`
   display: flex;
@@ -87,10 +86,6 @@ const PostHeader = ({ data }) => {
       </div>
     </PostHeaderStyles>
   )
-}
-
-PostHeader.propTypes = {
-  data: PropTypes.array.isRequired,
 }
 
 export default PostHeader

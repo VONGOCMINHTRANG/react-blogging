@@ -104,7 +104,7 @@ const AccountInfo = () => {
       cloneValues.role = Number(values.role)
       cloneValues.avatar = image
       const colRef = doc(db, 'users', userId)
-      console.log(cloneValues)
+      // console.log(cloneValues)
       await updateDoc(colRef, {
         ...values,
         avatar: image,

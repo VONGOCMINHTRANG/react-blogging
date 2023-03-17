@@ -17,7 +17,7 @@ function AuthProvider(props) {
               ...user,
               ...doc.data(),
             })
-            console.log(userInfo)
+            // console.log(userInfo)
           })
         })
       }
