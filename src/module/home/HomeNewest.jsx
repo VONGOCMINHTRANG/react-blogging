@@ -1,7 +1,10 @@
 import { Button } from 'components/button'
 import { Title } from 'components/title'
+import { db } from '../../firebase/firebase-config'
+import { collection, limit, onSnapshot, query, where } from 'firebase/firestore'
 import PostNewestLeft from 'module/post/PostNewestLeft'
 import PostNewestRight from 'module/post/PostNewestRight'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -62,7 +65,29 @@ const HomeNewestStyles = styled.div`
 `
 
 const HomeNewest = () => {
+  const [posts, setPosts] = useState([])
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const postsRef = collection(db, 'posts')
+    const fetchPostNewestData = async () => {
+      const q = query(postsRef, where('hot', '==', false), where('status', '==', 1), limit(4))
+      onSnapshot(q, (snapshot) => {
+        let results = []
+        snapshot.docs.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
+          })
+        })
+        setPosts(results)
+      })
+    }
+
+    fetchPostNewestData()
+  }, [])
+
+  const [first, ...others] = posts
 
   return (
     <HomeNewestStyles>
@@ -75,9 +100,9 @@ const HomeNewest = () => {
         </div>
 
         <div className="layout">
-          <PostNewestLeft></PostNewestLeft>
+          <PostNewestLeft data={first}></PostNewestLeft>
           <div className="sidebar">
-            <PostNewestRight></PostNewestRight>
+            <PostNewestRight data={others}></PostNewestRight>
           </div>
         </div>
       </div>

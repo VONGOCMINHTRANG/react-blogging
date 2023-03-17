@@ -91,7 +91,7 @@ const CategoryPage = () => {
         setCategoryId(doc.id)
       })
     })
-  }, [])
+  }, [slug])
 
   useEffect(() => {
     const colRef = collection(db, 'posts')

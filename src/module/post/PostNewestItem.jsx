@@ -3,6 +3,7 @@ import PostImage from './PostImage'
 import PostCategory from './PostCategory'
 import PostTitle from './PostTitle'
 import PostMeta from './PostMeta'
+import slugify from 'slugify'
 
 const PostNewestItemStyles = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const PostNewestItemStyles = styled.div`
   .post {
     &-image {
       height: 130px;
-      width: 300px;
+      width: 200px;
     }
     &-category {
       color: #909090;
@@ -26,6 +27,16 @@ const PostNewestItemStyles = styled.div`
     }
     &-title {
       margin-bottom: 8px;
+    }
+    &-title: hover {
+      color: ${(props) => props.theme.secondary};
+      transition: all 0.1s linear;
+    }
+    &-meta {
+      a: hover {
+        color: ${(props) => props.theme.secondary};
+        transition: all 0.1s linear;
+      }
     }
     &-meta {
       color: #a0a0a0;
@@ -55,14 +66,28 @@ const PostNewestItemStyles = styled.div`
   }
 `
 
-const PostNewestItem = () => {
+const PostNewestItem = ({ data }) => {
+  const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
+  const formatDate = new Date(time).toLocaleDateString('vi-VI')
+
   return (
     <PostNewestItemStyles className="post-newest-item">
-      <PostImage></PostImage>
+      <PostImage to={`/detail-post/${data?.slug}`} src={data?.image}></PostImage>
       <div className="info-right">
-        <PostCategory backgroundColor="white">Kiến thức</PostCategory>
-        <PostTitle fontSize="17px">A Complete Olpererhütte Hiking Guide From Innsbruck</PostTitle>
-        <PostMeta></PostMeta>
+        <PostCategory
+          to={`/category/${slugify(data?.category?.name || '', { lower: true })}`}
+          backgroundColor="white"
+        >
+          {data?.category?.name}
+        </PostCategory>
+        <PostTitle fontSize="17px" to={`/detail-post/${data?.slug}`}>
+          {data?.title}
+        </PostTitle>
+        <PostMeta
+          time={formatDate}
+          author={data?.user?.fullname}
+          to={`/${slugify(data?.user?.fullname || '', { lower: true })}`}
+        ></PostMeta>
       </div>
     </PostNewestItemStyles>
   )

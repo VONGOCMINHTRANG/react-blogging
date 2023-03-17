@@ -38,7 +38,7 @@ const Button = ({ type = 'button', onClick = () => {}, className = '', children,
 }
 
 Button.propTypes = {
-  type: PropTypes.oneOf(['button', 'submit']).isRequired,
+  type: PropTypes.oneOf(['button', 'submit']),
   isLoading: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.node,

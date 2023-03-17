@@ -64,7 +64,7 @@ const BlogPageStyles = styled.div`
     border-radius: 100%;
     cursor: pointer;
     z-index: 100;
-    text-color: white;
+    color: white;
   }
   @media (max-width: 767px) {
     .blog-item {

@@ -4,7 +4,6 @@ import PostCategory from './PostCategory'
 import PostImage from './PostImage'
 import PostMeta from './PostMeta'
 import PostTitle from './PostTitle'
-import PropTypes from 'prop-types'
 
 const PostRelatedItemStyles = styled.div`
   background-color: rgb(243, 237, 255);
@@ -80,10 +79,6 @@ const PostRelatedItem = ({ post }) => {
       ></PostMeta>
     </PostRelatedItemStyles>
   )
-}
-
-PostRelatedItem.propTypes = {
-  post: PropTypes.array.isRequired,
 }
 
 export default PostRelatedItem

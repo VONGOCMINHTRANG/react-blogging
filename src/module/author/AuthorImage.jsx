@@ -37,7 +37,7 @@ const AuthorImage = ({ to = '', src = '/avatar.jpg' }) => {
 
 AuthorImage.propTypes = {
   to: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
 }
 
 export default AuthorImage

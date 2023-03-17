@@ -5,7 +5,6 @@ import { deleteDoc, doc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
-import PropTypes from 'prop-types'
 
 const PostTableStyles = styled.div`
   overflow-x: auto;
@@ -101,10 +100,6 @@ const PostTable = ({ data }) => {
       </Table>
     </PostTableStyles>
   )
-}
-
-PostTable.propTypes = {
-  data: PropTypes.array.isRequired,
 }
 
 export default PostTable

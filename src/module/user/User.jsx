@@ -19,6 +19,7 @@ import Search from 'components/search/Search'
 import { debounce } from 'lodash'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
+import NotFoundPage from 'pages/NotFoundPage'
 
 const UserStyles = styled.div`
   .button {
@@ -88,7 +89,7 @@ const User = () => {
     try {
       const nextRef = query(collection(db, 'users'), startAfter(lastDoc), limit(USER_PER_PAGE))
       onSnapshot(nextRef, (snapshot) => {
-        console.log(snapshot.size)
+        // console.log(snapshot.size)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -143,7 +144,7 @@ const User = () => {
     fetchCategoryData()
   }, [filter])
 
-  if (userInfo.role !== userRole.ADMIN) return null
+  if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
   return (
     <DashboardLayout>
       <UserStyles>

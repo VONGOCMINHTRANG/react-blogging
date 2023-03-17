@@ -102,8 +102,8 @@ const DashboardHeader = () => {
       <Sidebar
         className={open ? 'visible translate-x-0' : 'invisible -translate-x-full'}
         setOpen={setOpen}
-        number1="3"
-        number2="7"
+        number1="2"
+        number2="6"
       ></Sidebar>
       <Link to="/" className="logo">
         <img src="/logo.png" alt="react-blogging" className="block w-10" />

@@ -20,6 +20,11 @@ export const SidebarData = [
     icon: <IconBlog></IconBlog>,
   },
   {
+    url: '/manage/category',
+    title: 'Category',
+    icon: <IconCategory></IconCategory>,
+  },
+  {
     url: '/dashboard',
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
@@ -29,11 +34,7 @@ export const SidebarData = [
     title: 'Post',
     icon: <IconPost></IconPost>,
   },
-  {
-    url: '/manage/category',
-    title: 'Category',
-    icon: <IconCategory></IconCategory>,
-  },
+
   {
     url: '/manage/user',
     title: 'User',

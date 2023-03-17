@@ -7,7 +7,9 @@ import { Sidebar } from 'components/sidebar'
 import Search from 'components/search/Search'
 import { IconMenu } from 'components/icon'
 import { Blur } from 'components/blur'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { collection, onSnapshot } from 'firebase/firestore'
+import { db } from '../../firebase/firebase-config'
 
 const HeaderStyles = styled.header`
     padding: 20px 0px;
@@ -86,6 +88,21 @@ const HeaderStyles = styled.header`
 const Header = () => {
   const { userInfo } = useAuth()
   const [open, setOpen] = useState(false)
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    const colRef = collection(db, 'categories')
+    onSnapshot(colRef, (snapshot) => {
+      let results = []
+      snapshot.forEach((doc) => {
+        results.push({
+          id: doc.id,
+          ...doc.data(),
+        })
+        setCategories(results)
+      })
+    })
+  }, [])
 
   return (
     <HeaderStyles>
@@ -100,10 +117,21 @@ const Header = () => {
           <ul className="menu">
             {menuLinks.length > 0 &&
               menuLinks.slice(0, 3).map((item) => (
-                <li className="menu-item" key={item.title}>
+                <li className="menu-item group transition-all" key={item.title}>
                   <NavLink to={item.url} className="menu-link">
                     {item.title}
                   </NavLink>
+
+                  {item.title === 'Category' && (
+                    <div className="hidden group-hover:block bg-gray-100 border border-gray-200 rounded-sm absolute z-30 text-green-700 cursor-pointer delay-500 font-semibold">
+                      {categories?.length > 0 &&
+                        categories?.map((category) => (
+                          <div key={category?.id} className="hover:bg-green-200 p-2">
+                            <NavLink to={`/category/${category?.slug}`}>{category?.name}</NavLink>
+                          </div>
+                        ))}
+                    </div>
+                  )}
                 </li>
               ))}
           </ul>

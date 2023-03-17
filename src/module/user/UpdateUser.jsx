@@ -148,7 +148,7 @@ const UpdateUser = () => {
       const colRef = doc(db, 'users', userId)
       const singleDoc = await getDoc(colRef)
       reset(singleDoc.data())
-      console.log(singleDoc.data())
+      // console.log(singleDoc.data())
     }
     fetchUserData()
   }, [])

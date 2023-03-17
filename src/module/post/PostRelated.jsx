@@ -5,7 +5,6 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import Slider from 'react-slick'
 import styled from 'styled-components'
 import PostRelatedItem from './PostRelatedItem'
-import PropTypes from 'prop-types'
 
 const PostRelatedStyles = styled.div`
   .slick-slide {
@@ -74,7 +73,6 @@ const PostRelated = ({ categoryId = '' }) => {
             id: doc.id,
             ...doc.data(),
           })
-          console.log(results)
           setPosts(results)
         })
       })
@@ -86,15 +84,11 @@ const PostRelated = ({ categoryId = '' }) => {
   return (
     <PostRelatedStyles className="post-related">
       <Slider {...settings}>
-        {posts?.length > 0 &&
+        {posts?.length >= 3 &&
           posts?.map((post) => <PostRelatedItem post={post} key={post.id}></PostRelatedItem>)}
       </Slider>
     </PostRelatedStyles>
   )
-}
-
-PostRelated.propTypes = {
-  categoryId: PropTypes.string.isRequired,
 }
 
 export default PostRelated

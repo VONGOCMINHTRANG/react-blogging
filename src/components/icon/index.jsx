@@ -5,7 +5,7 @@ import IconSearch from './IconSearch'
 import IconHome from './IconHome'
 import IconBlog from './IconBlog'
 import IconDashboard from './IconDashboard'
-import IconArrowDown from './IconArrowDown'
+import IconAdd from './IconAdd'
 import IconArrowLeft from './IconArrowLeft'
 import IconArrowRight from './IconArrowRight'
 import IconPost from './IconPost'
@@ -17,6 +17,7 @@ import IconTrash from './IconTrash'
 import IconActionDelete from './IconActionDelete'
 import IconActionEdit from './IconActionEdit'
 import IconActionView from './IconActionView'
+import IconMinus from './IconMinus'
 
 export {
   IconEyeOpen,
@@ -26,7 +27,8 @@ export {
   IconHome,
   IconBlog,
   IconDashboard,
-  IconArrowDown,
+  IconAdd,
+  IconMinus,
   IconArrowLeft,
   IconArrowRight,
   IconPost,

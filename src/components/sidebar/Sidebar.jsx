@@ -1,9 +1,12 @@
-import { IconArrowDown, IconArrowLeft } from 'components/icon'
+import { IconAdd, IconArrowLeft, IconMinus } from 'components/icon'
 import Search from 'components/search/Search'
 import styled from 'styled-components'
 import { SidebarData } from './SidebarData'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
+import { collection, onSnapshot } from 'firebase/firestore'
+import { db } from '../../firebase/firebase-config'
 
 const SidebarStyles = styled.ul`
   position: fixed;
@@ -17,10 +20,10 @@ const SidebarStyles = styled.ul`
   background-color: white;
   justify-content: space-between;
   transition: all 0.3s ease-in;
+  overflow-y: auto;
 
   .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 1.25rem;
   }
@@ -28,6 +31,7 @@ const SidebarStyles = styled.ul`
     display: flex;
     align-items: center;
     column-gap: 1rem;
+    flex: 1;
   }
   .logo-sidebar {
     display: inline-block;
@@ -52,6 +56,20 @@ const SidebarStyles = styled.ul`
     color: rgb(29, 192, 113);
     background-color: rgb(241, 251, 247);
   }
+  .list-item {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s linear;
+    overflow: hidden;
+    transition-duration: 300ms;
+    a {
+      align-items: center;
+      padding: 20px 4.5em;
+    }
+    a:hover {
+      background-color: rgb(220 252 231);
+    }
+  }
 
   @media (min-width: 949px) {
     display: none;
@@ -65,6 +83,23 @@ const SidebarStyles = styled.ul`
  */
 
 const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = '0' }) => {
+  const [checked, setChecked] = useState(false)
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    const colRef = collection(db, 'categories')
+    onSnapshot(colRef, (snapshot) => {
+      let results = []
+      snapshot.docs.forEach((doc) => {
+        results.push({
+          id: doc.id,
+          ...doc.data(),
+        })
+        setCategories(results)
+      })
+    })
+  }, [])
+
   return (
     <SidebarStyles className={className}>
       <div>
@@ -75,26 +110,55 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
             </Link>
             <h2 className="font-semibold">React Blogging</h2>
           </div>
-          <div className="text-3xl font-semibold cursor-pointer">
+          <div className="absolute text-3xl font-semibold cursor-pointer right-1">
             <IconArrowLeft onClick={() => setOpen(false)}></IconArrowLeft>
           </div>
-        </div>
-        <div className="search-input">
-          <Search></Search>
         </div>
 
         <div className="mt-5">
           {SidebarData.length > 0 &&
-            SidebarData.slice(number1, number2).map((item) => (
-              <Link to={item.url} className="menu-item" key={item.title}>
-                <div className="flex items-center gap-x-4">
-                  <span>{item.icon}</span>
-                  <span>{item.title}</span>
+            SidebarData.slice(number1, number2).map((item, i) => (
+              <div className="flex flex-col" key={item.title}>
+                <div className="menu-item">
+                  <div className="flex items-center gap-x-4 relative">
+                    <Link to={item.url}>{item.icon}</Link>
+                    <Link to={item.url}>{item.title}</Link>
+                  </div>
+
+                  {item.title === 'Category' && (
+                    <div
+                      className={`transition-transform duration-500  ${
+                        checked ? 'rotate-180' : 'rotate-0'
+                      }`}
+                    >
+                      <input
+                        onClick={() => setChecked(!checked)}
+                        type="checkbox"
+                        className="absolute top-0 inset-x-0 w-full h-full z-10 cursor-pointer opacity-0"
+                      />
+                      {checked ? <IconMinus></IconMinus> : <IconAdd></IconAdd>}
+                    </div>
+                  )}
                 </div>
-                <span>
-                  <IconArrowDown></IconArrowDown>
-                </span>
-              </Link>
+                {item.title === 'Category' && (
+                  <div
+                    className={`list-item ${
+                      checked
+                        ? 'max-h-auto visible -translate-y-5'
+                        : 'max-h-0 invisible translate-y-0'
+                    }`}
+                  >
+                    {categories?.length > 0 &&
+                      categories?.map((item) => (
+                        <Link to={`/category/${item.slug}`} key={item.id}>
+                          {item.name}
+                        </Link>
+                      ))}
+                    <Link>success</Link>
+                    <Link>success</Link>
+                  </div>
+                )}
+              </div>
             ))}
         </div>
       </div>
@@ -105,8 +169,8 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
 Sidebar.propTypes = {
   className: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
-  number1: PropTypes.number.isRequired,
-  number2: PropTypes.number.isRequired,
+  number1: PropTypes.string.isRequired,
+  number2: PropTypes.string.isRequired,
 }
 
 export default Sidebar

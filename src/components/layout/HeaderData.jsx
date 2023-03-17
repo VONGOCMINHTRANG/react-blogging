@@ -12,6 +12,11 @@ export const menuLinks = [
     icon: <IconBlog></IconBlog>,
   },
   {
+    url: '',
+    title: 'Category',
+    icon: '',
+  },
+  {
     url: '/dashboard',
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,

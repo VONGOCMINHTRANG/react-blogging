@@ -90,7 +90,6 @@ const AuthorPage = () => {
     const docRef = query(collection(db, 'users'), where('username', '==', username))
     onSnapshot(docRef, (snapshot) => {
       snapshot.docs.forEach((doc) => {
-        console.log(doc.id)
         setUserId(doc.id)
       })
     })
@@ -109,7 +108,6 @@ const AuthorPage = () => {
           ...doc.data(),
         })
       })
-      console.log(results)
       setPosts(results)
     })
   }, [userId, filter])

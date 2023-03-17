@@ -34,8 +34,8 @@ const AuthorContent = ({ name = '', email = '', ...props }) => {
 }
 
 AuthorContent.propTypes = {
-  name: PropTyles.string.isRequired,
-  email: PropTyles.string.isRequired,
+  name: PropTyles.string,
+  email: PropTyles.string,
 }
 
 export default AuthorContent

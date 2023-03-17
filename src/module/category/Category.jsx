@@ -19,6 +19,7 @@ import { debounce } from 'lodash'
 import CategoryTable from './CategoryTable'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
+import NotFoundPage from 'pages/NotFoundPage'
 
 const CategoryStyles = styled.div`
   .button {
@@ -95,7 +96,7 @@ const Category = () => {
         limit(CATEGORY_PER_PAGE)
       )
       onSnapshot(nextRef, (snapshot) => {
-        console.log(snapshot.size)
+        // console.log(snapshot.size)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -150,7 +151,7 @@ const Category = () => {
     fetchCategoryData()
   }, [filter])
 
-  if (userInfo.role !== userRole.ADMIN) return
+  if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
 
   return (
     <DashboardLayout>

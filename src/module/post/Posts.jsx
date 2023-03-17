@@ -20,6 +20,7 @@ import { Button } from 'components/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
+import NotFoundPage from 'pages/NotFoundPage'
 
 const PostsStyles = styled.div`
   .button {
@@ -28,6 +29,7 @@ const PostsStyles = styled.div`
     font-weight: bold;
     margin: 0px;
     color: white;
+    white-space: nowrap;
   }
   .search {
     margin-left: 0px;
@@ -143,7 +145,7 @@ const Posts = () => {
     fetchPostData()
   }, [filter])
 
-  if (userInfo.role !== userRole.ADMIN) return null
+  if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
   return (
     <DashboardLayout>
       <PostsStyles>
