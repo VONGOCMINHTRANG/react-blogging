@@ -1,6 +1,5 @@
 import { Button } from 'components/button'
 import Content from 'components/content/Content'
-import DashboardLayout from 'module/dashboard/DashboardLayout'
 import Search from 'components/search/Search'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -154,26 +153,24 @@ const Category = () => {
   if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
 
   return (
-    <DashboardLayout>
-      <CategoryStyles>
-        <Content title="Categories" desc="Here is our categories"></Content>
-        <div className="utilities">
-          <div className="flex gap-10 w-full">
-            <Link to="/manage/add-category">
-              <Button type="button">Create category</Button>
-            </Link>
-            <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
-          </div>
+    <CategoryStyles>
+      <Content title="Categories" desc="Here is our categories"></Content>
+      <div className="utilities">
+        <div className="flex gap-10 w-full">
+          <Link to="/manage/add-category">
+            <Button type="button">Create category</Button>
+          </Link>
+          <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
         </div>
-        <div className="flex py-2">Total of categories : {total}</div>
-        <CategoryTable data={categoryList}></CategoryTable>
-        {total > categoryList.length && (
-          <Button type="button" className="load-more" onClick={handleLoadMore}>
-            Load more
-          </Button>
-        )}
-      </CategoryStyles>
-    </DashboardLayout>
+      </div>
+      <div className="flex py-2">Total of categories : {total}</div>
+      <CategoryTable data={categoryList}></CategoryTable>
+      {total > categoryList.length && (
+        <Button type="button" className="load-more" onClick={handleLoadMore}>
+          Load more
+        </Button>
+      )}
+    </CategoryStyles>
   )
 }
 

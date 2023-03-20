@@ -4,8 +4,9 @@ import { useAuth } from 'contexts/auth-context'
 import NotFoundPage from 'pages/NotFoundPage'
 import styled from 'styled-components'
 import DashboardHeader from './DashboardHeader'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { IconHome } from 'components/icon'
+import { Suspense } from 'react'
 
 const DashboardLayoutStyles = styled.div`
   .dashboard-main {
@@ -46,7 +47,11 @@ const DashboardLayout = ({ children }) => {
       <div className="dashboard-main">
         <Menu></Menu>
         <Logout></Logout>
-        <div className="dashboard-children">{children}</div>
+        <div className="dashboard-children">
+          <Suspense>
+            <Outlet />
+          </Suspense>
+        </div>
         <Link to="/" className="icon-home">
           <IconHome></IconHome>
         </Link>

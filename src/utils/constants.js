@@ -6,6 +6,7 @@ export const theme = {
   text: {
     title: 'rgb(58, 16, 151)',
   },
+  skeleton: '#A9A9A9',
 }
 
 export const postStatus = {

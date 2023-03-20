@@ -1,6 +1,5 @@
 import { Button } from 'components/button'
 import Content from 'components/content/Content'
-import DashboardLayout from 'module/dashboard/DashboardLayout'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
@@ -146,26 +145,24 @@ const User = () => {
 
   if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
   return (
-    <DashboardLayout>
-      <UserStyles>
-        <Content title="User" desc="Manage your information."></Content>
-        <div className="utilities">
-          <div className="flex gap-10 w-full">
-            <Link to="/manage/add-user">
-              <Button type="button">Create user</Button>
-            </Link>
-            <Search placeholder="Search user..." onChange={handleInputFilter}></Search>
-          </div>
+    <UserStyles>
+      <Content title="User" desc="Manage your information."></Content>
+      <div className="utilities">
+        <div className="flex gap-10 w-full">
+          <Link to="/manage/add-user">
+            <Button type="button">Create user</Button>
+          </Link>
+          <Search placeholder="Search user..." onChange={handleInputFilter}></Search>
         </div>
-        <div className="flex py-2">Total of users : {total}</div>
-        <UserTable data={userList}></UserTable>
-        {total > userList.length && (
-          <Button type="button" className="load-more" onClick={handleLoadMore}>
-            Load more
-          </Button>
-        )}
-      </UserStyles>
-    </DashboardLayout>
+      </div>
+      <div className="flex py-2">Total of users : {total}</div>
+      <UserTable data={userList}></UserTable>
+      {total > userList.length && (
+        <Button type="button" className="load-more" onClick={handleLoadMore}>
+          Load more
+        </Button>
+      )}
+    </UserStyles>
   )
 }
 

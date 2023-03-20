@@ -1,5 +1,4 @@
 import { IconAdd, IconArrowLeft, IconMinus } from 'components/icon'
-import Search from 'components/search/Search'
 import styled from 'styled-components'
 import { SidebarData } from './SidebarData'
 import { Link } from 'react-router-dom'
@@ -10,7 +9,7 @@ import { db } from '../../firebase/firebase-config'
 
 const SidebarStyles = styled.ul`
   position: fixed;
-  width: fit-content;
+  width: 250px;
   height: 100vh;
   top: 0px;
   left: 0px;
@@ -101,7 +100,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
   }, [])
 
   return (
-    <SidebarStyles className={className}>
+    <SidebarStyles className={`hide-scrollbar ${className}`}>
       <div>
         <div className="header">
           <div className="header-main">
@@ -110,7 +109,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
             </Link>
             <h2 className="font-semibold">React Blogging</h2>
           </div>
-          <div className="absolute text-3xl font-semibold cursor-pointer right-1">
+          <div className="absolute text-3xl font-semibold cursor-pointer right-3">
             <IconArrowLeft onClick={() => setOpen(false)}></IconArrowLeft>
           </div>
         </div>
@@ -120,21 +119,21 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
             SidebarData.slice(number1, number2).map((item, i) => (
               <div className="flex flex-col" key={item.title}>
                 <div className="menu-item">
-                  <div className="flex items-center gap-x-4 relative">
+                  <div className="flex items-center gap-x-4 relative w-full">
                     <Link to={item.url}>{item.icon}</Link>
                     <Link to={item.url}>{item.title}</Link>
                   </div>
 
                   {item.title === 'Category' && (
                     <div
-                      className={`transition-transform duration-500  ${
+                      className={`transition-transform duration-500 absolute right-3 z-10 ${
                         checked ? 'rotate-180' : 'rotate-0'
                       }`}
                     >
                       <input
                         onClick={() => setChecked(!checked)}
                         type="checkbox"
-                        className="absolute top-0 inset-x-0 w-full h-full z-10 cursor-pointer opacity-0"
+                        className="absolute top-0 inset-x-0 h-full z-10 cursor-pointer opacity-0"
                       />
                       {checked ? <IconMinus></IconMinus> : <IconAdd></IconAdd>}
                     </div>
@@ -144,7 +143,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                   <div
                     className={`list-item ${
                       checked
-                        ? 'max-h-auto visible -translate-y-5'
+                        ? 'max-h-auto visible -translate-y-5 '
                         : 'max-h-0 invisible translate-y-0'
                     }`}
                   >
@@ -154,8 +153,6 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                           {item.name}
                         </Link>
                       ))}
-                    <Link>success</Link>
-                    <Link>success</Link>
                   </div>
                 )}
               </div>

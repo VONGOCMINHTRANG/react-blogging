@@ -5,7 +5,6 @@ import { InputPasswordToggle } from 'components/input'
 import { Label } from 'components/label'
 import { useAuth } from 'contexts/auth-context'
 import { auth } from '../../firebase/firebase-config'
-import DashboardLayout from 'module/dashboard/DashboardLayout'
 import NotFoundPage from 'pages/NotFoundPage'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
@@ -91,93 +90,89 @@ const ChangePassword = () => {
 
   if (!userInfo) return <NotFoundPage></NotFoundPage>
   return (
-    <DashboardLayout>
-      <ChangePasswordStyles>
-        <Content
-          title="Change Password"
-          desc={`Update password of email : ${userInfo?.email}`}
-        ></Content>
-        <form>
-          <Field>
-            <Label htmlFor="password">Current password</Label>
-            <div className="flex flex-col gap-y-2 w-full">
-              <InputPasswordToggle
-                placeholder="Enter your current password"
-                control={control}
-                name="password"
-                rules={{
-                  required: true,
-                  minLength: 8,
-                }}
-              ></InputPasswordToggle>
-              {errors?.password?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">
-                  Please enter your current password
-                </div>
-              )}
-              {errors?.password?.type === 'minLength' && (
-                <div className="text-red-500 text-sm italic">
-                  Your current password must be at least 8 characters or greater
-                </div>
-              )}
-            </div>
-          </Field>
-          <Field>
-            <Label htmlFor="new_password">New password</Label>
-            <div className="flex flex-col gap-y-2 w-full">
-              <InputPasswordToggle
-                control={control}
-                name="new_password"
-                placeholder="Enter your new password"
-                rules={{
-                  required: true,
-                  minLength: 8,
-                }}
-              ></InputPasswordToggle>
-              {errors?.new_password?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your new password</div>
-              )}
-              {errors?.new_password?.type === 'minLength' && (
-                <div className="text-red-500 text-sm italic">
-                  Your new password must be at least 8 characters or greater
-                </div>
-              )}
-            </div>
-          </Field>
-          <Field>
-            <Label htmlFor="confirm">Confirm new password</Label>
-            <div className="flex flex-col gap-y-2 w-full">
-              <InputPasswordToggle
-                placeholder="Confirm your new password"
-                control={control}
-                name="confirm"
-                rules={{
-                  required: true,
-                  minLength: 8,
-                }}
-              ></InputPasswordToggle>
-              {errors?.confirm?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please confirm your new password</div>
-              )}
-              {errors?.confirm?.type === 'minLength' && (
-                <div className="text-red-500 text-sm italic">
-                  Confirm your new password must be at least 8 characters or greater
-                </div>
-              )}
-            </div>
-          </Field>
+    <ChangePasswordStyles>
+      <Content
+        title="Change Password"
+        desc={`Update password of email : ${userInfo?.email}`}
+      ></Content>
+      <form>
+        <Field>
+          <Label htmlFor="password">Current password</Label>
+          <div className="flex flex-col gap-y-2 w-full">
+            <InputPasswordToggle
+              placeholder="Enter your current password"
+              control={control}
+              name="password"
+              rules={{
+                required: true,
+                minLength: 8,
+              }}
+            ></InputPasswordToggle>
+            {errors?.password?.type === 'required' && (
+              <div className="text-red-500 text-sm italic">Please enter your current password</div>
+            )}
+            {errors?.password?.type === 'minLength' && (
+              <div className="text-red-500 text-sm italic">
+                Your current password must be at least 8 characters or greater
+              </div>
+            )}
+          </div>
+        </Field>
+        <Field>
+          <Label htmlFor="new_password">New password</Label>
+          <div className="flex flex-col gap-y-2 w-full">
+            <InputPasswordToggle
+              control={control}
+              name="new_password"
+              placeholder="Enter your new password"
+              rules={{
+                required: true,
+                minLength: 8,
+              }}
+            ></InputPasswordToggle>
+            {errors?.new_password?.type === 'required' && (
+              <div className="text-red-500 text-sm italic">Please enter your new password</div>
+            )}
+            {errors?.new_password?.type === 'minLength' && (
+              <div className="text-red-500 text-sm italic">
+                Your new password must be at least 8 characters or greater
+              </div>
+            )}
+          </div>
+        </Field>
+        <Field>
+          <Label htmlFor="confirm">Confirm new password</Label>
+          <div className="flex flex-col gap-y-2 w-full">
+            <InputPasswordToggle
+              placeholder="Confirm your new password"
+              control={control}
+              name="confirm"
+              rules={{
+                required: true,
+                minLength: 8,
+              }}
+            ></InputPasswordToggle>
+            {errors?.confirm?.type === 'required' && (
+              <div className="text-red-500 text-sm italic">Please confirm your new password</div>
+            )}
+            {errors?.confirm?.type === 'minLength' && (
+              <div className="text-red-500 text-sm italic">
+                Confirm your new password must be at least 8 characters or greater
+              </div>
+            )}
+          </div>
+        </Field>
 
-          <Button
-            type="submit"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-            onClick={handleSubmit(handleUpdatePassword)}
-          >
-            Update password
-          </Button>
-        </form>
-      </ChangePasswordStyles>
-    </DashboardLayout>
+        <Button
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+          onClick={handleSubmit(handleUpdatePassword)}
+        >
+          Update password
+        </Button>
+      </form>
+    </ChangePasswordStyles>
   )
 }
 

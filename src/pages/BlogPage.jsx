@@ -1,4 +1,5 @@
 import { IconHome } from 'components/icon'
+import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
 import Search from 'components/search/Search'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { debounce } from 'lodash'
@@ -75,6 +76,7 @@ const BlogPageStyles = styled.div`
 `
 
 const BlogPage = () => {
+  const [loading, isLoading] = useState(false)
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState('')
   const handleInputFilter = debounce((e) => {
@@ -87,33 +89,48 @@ const BlogPage = () => {
       ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
       : colRef
     onSnapshot(q, (snapshot) => {
-      let results = []
-      snapshot.docs.forEach((doc) => {
-        results.push({
-          id: doc.id,
-          ...doc.data(),
+      try {
+        isLoading(true)
+        let results = []
+        snapshot.docs.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
+          })
         })
-      })
-      setPosts(results)
+        setTimeout(() => {
+          isLoading(false)
+          setPosts(results)
+        }, 250)
+      } catch (error) {
+        isLoading(true)
+        console.log(error)
+      }
     })
   }, [filter])
 
   return (
-    <BlogPageStyles className="blog-page">
-      <div className="wrapper">
-        <Search onChange={handleInputFilter}></Search>
-        <div className="container">
-          <div className="blog-item">
-            {posts?.length > 0 &&
-              posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
+    <>
+      {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
+
+      {!loading && (
+        <BlogPageStyles className="blog-page">
+          <div className="wrapper">
+            <Search onChange={handleInputFilter}></Search>
+            <div className="container">
+              <div className="blog-item">
+                {posts?.length > 0 &&
+                  posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
+              </div>
+            </div>
+            <h1>BLOG</h1>
+            <Link to="/" className="icon-home">
+              <IconHome></IconHome>
+            </Link>
           </div>
-        </div>
-        <h1>BLOG</h1>
-        <Link to="/" className="icon-home">
-          <IconHome></IconHome>
-        </Link>
-      </div>
-    </BlogPageStyles>
+        </BlogPageStyles>
+      )}
+    </>
   )
 }
 

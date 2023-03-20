@@ -191,213 +191,207 @@ const UpdatePost = () => {
   useEffect(() => {
     setImage(imagePost)
   }, [imagePost])
+
   return (
-    <DashboardLayout>
-      <AddPostStyles>
-        <Content title="Update Post" desc={`Update your post information id : ${postId}`}></Content>
-        <form>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="title">Title</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input
-                  name="title"
-                  type="text"
-                  placeholder="Enter your title"
+    <AddPostStyles>
+      <Content title="Update Post" desc={`Update your post information id : ${postId}`}></Content>
+      <form>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="title">Title</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Input
+                name="title"
+                type="text"
+                placeholder="Enter your title"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+              ></Input>
+              {errors?.title?.type === 'required' && (
+                <div className="text-red-500 text-sm italic">Please enter your title</div>
+              )}
+            </div>
+          </Field>
+          <Field>
+            <Label htmlFor="slug">Slug</Label>
+            <Input name="slug" type="text" placeholder="Enter your slug" control={control}></Input>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="image">Image</Label>
+            <div className="w-full flex flex-col gap-y-2">
+              {progress === 0 ? (
+                <ImageUpload
+                  className="!h-[250px]"
+                  onChange={handleSelectImage}
+                  progress={progress}
+                  name="image"
+                  value={undefined}
+                  image={image}
+                  handleDeleteImage={handleDeleteImage}
                   control={control}
                   rules={{
                     required: true,
                   }}
-                ></Input>
-                {errors?.title?.type === 'required' && (
-                  <div className="text-red-500 text-sm italic">Please enter your title</div>
-                )}
-              </div>
-            </Field>
-            <Field>
-              <Label htmlFor="slug">Slug</Label>
-              <Input
-                name="slug"
-                type="text"
-                placeholder="Enter your slug"
-                control={control}
-              ></Input>
-            </Field>
-          </div>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="image">Image</Label>
-              <div className="w-full flex flex-col gap-y-2">
-                {progress === 0 ? (
-                  <ImageUpload
-                    className="!h-[250px]"
-                    onChange={handleSelectImage}
-                    progress={progress}
-                    name="image"
-                    value={undefined}
-                    image={image}
-                    handleDeleteImage={handleDeleteImage}
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                  ></ImageUpload>
-                ) : (
-                  <ImageUpload
-                    className="!h-[250px]"
-                    onChange={handleSelectImage}
-                    progress={progress}
-                    name="image"
-                    value={undefined}
-                    image={image}
-                    handleDeleteImage={handleDeleteImage}
-                    control={control}
-                    rules={{
-                      required: false,
-                    }}
-                  ></ImageUpload>
-                )}
-
-                {errors?.image?.type === 'required' && progress === 0 && !errorFileType && (
-                  <div className="text-red-500 text-sm italic">
-                    Please choose picture for your post
-                  </div>
-                )}
-                {errorFileType && (
-                  <div className="text-red-500 text-sm italic">
-                    Please choose picture has format *.png, *.jpg, *.jpeg, *.avif
-                  </div>
-                )}
-              </div>
-            </Field>
-            <Field>
-              <Label htmlFor="category">Category</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Dropdown>
-                  {!selectCategory.name && (
-                    <>
-                      <Dropdown.Select
-                        name="dropdown"
-                        control={control}
-                        rules={{ required: true }}
-                        placeholder="Select your category"
-                      ></Dropdown.Select>
-                      <Dropdown.List>
-                        {categories.length > 0 &&
-                          categories.map((item) => (
-                            <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
-                              {item.name}
-                            </Dropdown.Option>
-                          ))}
-                      </Dropdown.List>
-                    </>
-                  )}
-
-                  {selectCategory.name && (
-                    <>
-                      <Dropdown.Select
-                        name="dropdown"
-                        control={control}
-                        rules={{ required: false }}
-                        placeholder={`${selectCategory.name}`}
-                      ></Dropdown.Select>
-                      <Dropdown.List>
-                        {categories.length > 0 &&
-                          categories.map((item) => (
-                            <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
-                              {item.name}
-                            </Dropdown.Option>
-                          ))}
-                      </Dropdown.List>
-                    </>
-                  )}
-                </Dropdown>
-                {errors?.dropdown?.type === 'required' && !selectCategory.name && (
-                  <div className="text-red-500 text-sm italic">Please select your category</div>
-                )}
-              </div>
-
-              {selectCategory?.name && (
-                <span className="inline-block p-3 text-sm font-semibold text-green-600 rounded-lg bg-green-300">
-                  {selectCategory?.name}
-                </span>
+                ></ImageUpload>
+              ) : (
+                <ImageUpload
+                  className="!h-[250px]"
+                  onChange={handleSelectImage}
+                  progress={progress}
+                  name="image"
+                  value={undefined}
+                  image={image}
+                  handleDeleteImage={handleDeleteImage}
+                  control={control}
+                  rules={{
+                    required: false,
+                  }}
+                ></ImageUpload>
               )}
-            </Field>
-          </div>
-          <Field>
-            <Label htmlFor="content">Content</Label>
-            <div className="w-full flex flex-col gap-y-2">
-              <Editor
-                onChange={handleEditor}
-                control={control}
-                name="editor"
-                rules={{
-                  required: true,
-                  minLength: 10,
-                }}
-              ></Editor>
-              {errors?.editor?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your content</div>
-              )}
-              {errors?.editor?.type === 'minLength' && (
+
+              {errors?.image?.type === 'required' && progress === 0 && !errorFileType && (
                 <div className="text-red-500 text-sm italic">
-                  Your content must be at least 50 characters
+                  Please choose picture for your post
+                </div>
+              )}
+              {errorFileType && (
+                <div className="text-red-500 text-sm italic">
+                  Please choose picture has format *.png, *.jpg, *.jpeg, *.avif
                 </div>
               )}
             </div>
           </Field>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="feature-post">Feature post</Label>
-              <label>
-                <Toggle
-                  on={watchHot === true}
-                  onClick={() => setValue('hot', !watchHot)}
-                  name="hot"
-                ></Toggle>
-              </label>
-            </Field>
-            <Field>
-              <Label htmlFor="status">Status</Label>
-              <div className="flex flex-col lg:flex-row gap-5">
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === postStatus.APPROVED}
-                  value={postStatus.APPROVED}
-                >
-                  Approved
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === postStatus.PENDING}
-                  value={postStatus.PENDING}
-                >
-                  Pending
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === postStatus.REJECT}
-                  value={postStatus.REJECT}
-                >
-                  Reject
-                </Radio>
+          <Field>
+            <Label htmlFor="category">Category</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Dropdown>
+                {!selectCategory.name && (
+                  <>
+                    <Dropdown.Select
+                      name="dropdown"
+                      control={control}
+                      rules={{ required: true }}
+                      placeholder="Select your category"
+                    ></Dropdown.Select>
+                    <Dropdown.List>
+                      {categories.length > 0 &&
+                        categories.map((item) => (
+                          <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
+                            {item.name}
+                          </Dropdown.Option>
+                        ))}
+                    </Dropdown.List>
+                  </>
+                )}
+
+                {selectCategory.name && (
+                  <>
+                    <Dropdown.Select
+                      name="dropdown"
+                      control={control}
+                      rules={{ required: false }}
+                      placeholder={`${selectCategory.name}`}
+                    ></Dropdown.Select>
+                    <Dropdown.List>
+                      {categories.length > 0 &&
+                        categories.map((item) => (
+                          <Dropdown.Option key={item.id} onClick={() => handleClickOption(item)}>
+                            {item.name}
+                          </Dropdown.Option>
+                        ))}
+                    </Dropdown.List>
+                  </>
+                )}
+              </Dropdown>
+              {errors?.dropdown?.type === 'required' && !selectCategory.name && (
+                <div className="text-red-500 text-sm italic">Please select your category</div>
+              )}
+            </div>
+
+            {selectCategory?.name && (
+              <span className="inline-block p-3 text-sm font-semibold text-green-600 rounded-lg bg-green-300">
+                {selectCategory?.name}
+              </span>
+            )}
+          </Field>
+        </div>
+        <Field>
+          <Label htmlFor="content">Content</Label>
+          <div className="w-full flex flex-col gap-y-2">
+            <Editor
+              onChange={handleEditor}
+              control={control}
+              name="editor"
+              rules={{
+                required: true,
+                minLength: 10,
+              }}
+            ></Editor>
+            {errors?.editor?.type === 'required' && (
+              <div className="text-red-500 text-sm italic">Please enter your content</div>
+            )}
+            {errors?.editor?.type === 'minLength' && (
+              <div className="text-red-500 text-sm italic">
+                Your content must be at least 50 characters
               </div>
-            </Field>
+            )}
           </div>
-          <Button
-            type="submit"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-            onClick={handleSubmit(handleUpdatePost)}
-          >
-            Update post
-          </Button>
-        </form>
-      </AddPostStyles>
-    </DashboardLayout>
+        </Field>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="feature-post">Feature post</Label>
+            <label>
+              <Toggle
+                on={watchHot === true}
+                onClick={() => setValue('hot', !watchHot)}
+                name="hot"
+              ></Toggle>
+            </label>
+          </Field>
+          <Field>
+            <Label htmlFor="status">Status</Label>
+            <div className="flex flex-col lg:flex-row gap-5">
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === postStatus.APPROVED}
+                value={postStatus.APPROVED}
+              >
+                Approved
+              </Radio>
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === postStatus.PENDING}
+                value={postStatus.PENDING}
+              >
+                Pending
+              </Radio>
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === postStatus.REJECT}
+                value={postStatus.REJECT}
+              >
+                Reject
+              </Radio>
+            </div>
+          </Field>
+        </div>
+        <Button
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+          onClick={handleSubmit(handleUpdatePost)}
+        >
+          Update post
+        </Button>
+      </form>
+    </AddPostStyles>
   )
 }
 

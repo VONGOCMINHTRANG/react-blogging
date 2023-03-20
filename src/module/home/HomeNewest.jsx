@@ -7,6 +7,7 @@ import PostNewestRight from 'module/post/PostNewestRight'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import LoadingSkeletonHomeNewest from 'components/loading/LoadingSkeletonHomeNewest'
 
 const HomeNewestStyles = styled.div`
     align-items: center;
@@ -66,22 +67,32 @@ const HomeNewestStyles = styled.div`
 
 const HomeNewest = () => {
   const [posts, setPosts] = useState([])
+  const [loading, isLoading] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     const postsRef = collection(db, 'posts')
     const fetchPostNewestData = async () => {
-      const q = query(postsRef, where('hot', '==', false), where('status', '==', 1), limit(4))
-      onSnapshot(q, (snapshot) => {
-        let results = []
-        snapshot.docs.forEach((doc) => {
-          results.push({
-            id: doc.id,
-            ...doc.data(),
+      try {
+        isLoading(true)
+        const q = query(postsRef, where('hot', '==', false), where('status', '==', 1), limit(4))
+        onSnapshot(q, (snapshot) => {
+          let results = []
+          snapshot.docs.forEach((doc) => {
+            results.push({
+              id: doc.id,
+              ...doc.data(),
+            })
           })
+          setTimeout(() => {
+            isLoading(false)
+            setPosts(results)
+          }, 250)
         })
-        setPosts(results)
-      })
+      } catch (error) {
+        console.log(error)
+        isLoading(true)
+      }
     }
 
     fetchPostNewestData()
@@ -90,23 +101,28 @@ const HomeNewest = () => {
   const [first, ...others] = posts
 
   return (
-    <HomeNewestStyles>
-      <div className="container">
-        <div className="content">
-          <Title>Newest Update</Title>
-          <Button type="button" className="view-all" onClick={() => navigate('/blog')}>
-            View all
-          </Button>
-        </div>
+    <>
+      {loading && <LoadingSkeletonHomeNewest></LoadingSkeletonHomeNewest>}
+      {!loading && (
+        <HomeNewestStyles>
+          <div className="container">
+            <div className="content">
+              <Title>Newest Update</Title>
+              <Button type="button" className="view-all" onClick={() => navigate('/blog')}>
+                View all
+              </Button>
+            </div>
 
-        <div className="layout">
-          <PostNewestLeft data={first}></PostNewestLeft>
-          <div className="sidebar">
-            <PostNewestRight data={others}></PostNewestRight>
+            <div className="layout">
+              <PostNewestLeft data={first}></PostNewestLeft>
+              <div className="sidebar">
+                <PostNewestRight data={others}></PostNewestRight>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </HomeNewestStyles>
+        </HomeNewestStyles>
+      )}
+    </>
   )
 }
 

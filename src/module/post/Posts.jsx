@@ -1,7 +1,5 @@
-import DashboardLayout from 'module/dashboard/DashboardLayout'
 import Search from 'components/search/Search'
 import styled from 'styled-components'
-import { Dropdown } from 'components/dropdown'
 import { Content } from 'components/content'
 import { useEffect, useState } from 'react'
 import {
@@ -147,26 +145,24 @@ const Posts = () => {
 
   if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
   return (
-    <DashboardLayout>
-      <PostsStyles>
-        <Content title="Post" desc="Manage all posts."></Content>
-        <div className="utilities">
-          <div className="flex gap-10 w-full">
-            <Link to="/manage/add-post">
-              <Button type="button">Create post</Button>
-            </Link>
-            <Search placeholder="Search post..." onChange={handleInputFilter}></Search>
-          </div>
+    <PostsStyles>
+      <Content title="Post" desc="Manage all posts."></Content>
+      <div className="utilities">
+        <div className="flex gap-10 w-full">
+          <Link to="/manage/add-post">
+            <Button type="button">Create post</Button>
+          </Link>
+          <Search placeholder="Search post..." onChange={handleInputFilter}></Search>
         </div>
-        <div className="flex py-2">Total of users : {total}</div>
-        <PostTable data={postList}></PostTable>
-        {total > postList.length && (
-          <Button type="button" className="load-more" onClick={handleLoadMore}>
-            Load more
-          </Button>
-        )}
-      </PostsStyles>
-    </DashboardLayout>
+      </div>
+      <div className="flex py-2">Total of users : {total}</div>
+      <PostTable data={postList}></PostTable>
+      {total > postList.length && (
+        <Button type="button" className="load-more" onClick={handleLoadMore}>
+          Load more
+        </Button>
+      )}
+    </PostsStyles>
   )
 }
 

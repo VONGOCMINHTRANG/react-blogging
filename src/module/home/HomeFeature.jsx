@@ -8,6 +8,7 @@ import Slider from 'react-slick'
 import { useEffect, useState } from 'react'
 import { collection, limit, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
+import LoadingSkeletonHomeFeature from 'components/loading/LoadingSkeletonHomeFeature'
 
 const HomeFeatureStyles = styled.div`
     align-items: center;
@@ -16,7 +17,7 @@ const HomeFeatureStyles = styled.div`
     margin-bottom: 4em;
 
     .slick-slide {
-        padding: 0 10px;
+      padding: 0 10px;
     }
     .container{
         margin: 0 auto;
@@ -45,6 +46,7 @@ const HomeFeatureStyles = styled.div`
 const HomeFeature = () => {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
+  const [loading, isLoading] = useState(false)
 
   function NextArrow({ onClick }) {
     return (
@@ -97,39 +99,57 @@ const HomeFeature = () => {
   useEffect(() => {
     const postsRef = collection(db, 'posts')
     const fetchPostFeatureData = async () => {
-      const q = query(postsRef, where('hot', '==', true), where('status', '==', 1), limit(6))
-      onSnapshot(q, (snapshot) => {
-        let results = []
-        snapshot.docs.forEach((doc) => {
-          results.push({
-            id: doc.id,
-            ...doc.data(),
+      try {
+        isLoading(true)
+        const q = query(postsRef, where('hot', '==', true), where('status', '==', 1), limit(6))
+        onSnapshot(q, (snapshot) => {
+          let results = []
+          snapshot.docs.forEach((doc) => {
+            if (doc) {
+              results.push({
+                id: doc.id,
+                ...doc.data(),
+              })
+            }
           })
+          setTimeout(() => {
+            isLoading(false)
+            setPosts(results)
+          }, 250)
         })
-        setPosts(results)
-      })
+      } catch (error) {
+        console.log(error)
+        isLoading(true)
+      }
     }
 
     fetchPostFeatureData()
   }, [])
 
   return (
-    <HomeFeatureStyles>
-      <div className="container">
-        <div className="content">
-          <Title>Feature</Title>
-          <Button type="button" className="view-all" onClick={() => navigate('/blog')}>
-            View all
-          </Button>
-        </div>
-        <div className="grid-layout">
-          <Slider {...settings}>
-            {posts.length > 0 &&
-              posts.map((post) => <PostFeatureItem key={post.id} data={post}></PostFeatureItem>)}
-          </Slider>
-        </div>
-      </div>
-    </HomeFeatureStyles>
+    <>
+      {loading && <LoadingSkeletonHomeFeature></LoadingSkeletonHomeFeature>}
+      {!loading && (
+        <HomeFeatureStyles>
+          <div className="container">
+            <div className="content">
+              <Title>Feature</Title>
+              <Button type="button" className="view-all" onClick={() => navigate('/blog')}>
+                View all
+              </Button>
+            </div>
+            <div className="grid-layout">
+              <Slider {...settings}>
+                {posts.length > 0 &&
+                  posts.map((post) => (
+                    <PostFeatureItem key={post.id} data={post}></PostFeatureItem>
+                  ))}
+              </Slider>
+            </div>
+          </div>
+        </HomeFeatureStyles>
+      )}
+    </>
   )
 }
 

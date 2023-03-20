@@ -27,6 +27,29 @@ const NotFoundPageStyles = styled.div`
     border-radius: 4px;
     font-weight: 600;
   }
+  @media (max-width: 767px) {
+    .logo {
+      white-space: nowrap;
+      max-width: 70px;
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+    .heading {
+      font-size: 22px;
+      font-weight: bold;
+      opacity: 0.8;
+      margin-bottom: 30px;
+      color: #585858;
+    }
+    .back {
+      display: inline-block;
+      padding: 10px 15px;
+      color: white;
+      background-color: ${(props) => props.theme.secondary};
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  }
 `
 
 const NotFoundPage = () => {

@@ -1,7 +1,6 @@
 import {
   IconBlog,
   IconCategory,
-  IconContact,
   IconDashboard,
   IconHome,
   IconPost,
