@@ -6,9 +6,13 @@ const List = ({ children }) => {
 
   return (
     <>
-      {show && (
-        <div className="absolute top-full mt-1 left-0 w-full bg-gray-100 shadow-sm">{children}</div>
-      )}
+      <div
+        className={`absolute top-full left-0 w-full bg-gray-100 shadow-sm z-30 transition-all duration-150 ${
+          show ? 'visible translate-y-2' : 'invisible translate-y-0'
+        }`}
+      >
+        {children}
+      </div>
     </>
   )
 }

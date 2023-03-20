@@ -2,6 +2,8 @@ import { Button } from 'components/button'
 import { Overlay } from 'components/overlay'
 import styled from 'styled-components'
 import { AuthProvider } from 'contexts/auth-context'
+import LoadingSkeletonHomeBanner from 'components/loading/LoadingSkeletonHomeBanner'
+import { useEffect, useState } from 'react'
 
 const HomeBannerStyles = styled.div`
   position: relative;
@@ -65,27 +67,37 @@ const HomeBannerStyles = styled.div`
 `
 
 const HomeBanner = () => {
+  const [loading, isLoading] = useState(false)
+  useEffect(() => {
+    isLoading(true)
+    setTimeout(() => {
+      isLoading(false)
+    }, 250)
+  }, [])
   return (
     <AuthProvider>
-      <HomeBannerStyles>
-        <div className="container-fluid">
-          <Overlay className="overlay"></Overlay>
-          <div className="banner">
-            <div className="banner-content">
-              <h1>React blogging</h1>
-              <p>
-                Welcome to React Blogging. You can post your blogs, write your feeling and sharing
-                interesting things with other people. Click the button to explore something new.
-              </p>
-              <a href="/sign-up" className="inline-block">
-                <Button type="button" to="/sign-up" className="button mt-">
-                  Get Started
-                </Button>
-              </a>
+      {loading && <LoadingSkeletonHomeBanner></LoadingSkeletonHomeBanner>}
+      {!loading && (
+        <HomeBannerStyles>
+          <div className="container-fluid">
+            <Overlay className="overlay"></Overlay>
+            <div className="banner">
+              <div className="banner-content">
+                <h1>React blogging</h1>
+                <p>
+                  Welcome to React Blogging. You can post your blogs, write your feeling and sharing
+                  interesting things with other people. Click the button to explore something new.
+                </p>
+                <a href="/sign-up" className="inline-block">
+                  <Button type="button" to="/sign-up" className="button mt-">
+                    Get Started
+                  </Button>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </HomeBannerStyles>
+        </HomeBannerStyles>
+      )}
     </AuthProvider>
   )
 }

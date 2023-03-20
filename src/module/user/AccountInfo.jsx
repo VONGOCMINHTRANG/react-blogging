@@ -7,7 +7,6 @@ import { Label } from 'components/label'
 import { db } from '../../firebase/firebase-config'
 import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import useFirebaseImage from 'hooks/useFirebaseImage'
-import DashboardLayout from 'module/dashboard/DashboardLayout'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -146,158 +145,156 @@ const AccountInfo = () => {
 
   if (!userInfo) return <NotFoundPage></NotFoundPage>
   return (
-    <DashboardLayout>
-      <AccountInfoStyles>
-        <div className="flex gap-x-5">
-          <Content
-            title="Account Information"
-            desc={`Update account information with email : ${userInfo.email}`}
-          ></Content>
-          <Button
-            className="change-password"
-            onClick={() => navigate(`/account-information/change-password/${userInfo?.username}`)}
-          >
-            Change password
-          </Button>
-        </div>
+    <AccountInfoStyles>
+      <div className="flex gap-x-5">
+        <Content
+          title="Account Information"
+          desc={`Update account information with email : ${userInfo.email}`}
+        ></Content>
+        <Button
+          className="change-password"
+          onClick={() => navigate(`/account-information/change-password/${userInfo?.username}`)}
+        >
+          Change password
+        </Button>
+      </div>
 
-        <form>
-          <Field>
-            <Label htmlFor="avatar">Avatar</Label>
-            <div className="w-full flex flex-col gap-y-2 mb-10">
-              <div className="w-[200px] mx-auto">
-                {progress === 0 ? (
-                  <ImageUpload
-                    className="!rounded-full"
-                    onChange={handleSelectImage}
-                    progress={progress}
-                    name="avatar"
-                    value={undefined}
-                    image={image}
-                    handleDeleteImage={handleDeleteImage}
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                  ></ImageUpload>
-                ) : (
-                  <ImageUpload
-                    className="!rounded-full "
-                    onChange={handleSelectImage}
-                    progress={progress}
-                    name="avatar"
-                    value={undefined}
-                    image={image}
-                    handleDeleteImage={handleDeleteImage}
-                    control={control}
-                    rules={{
-                      required: false,
-                    }}
-                  ></ImageUpload>
-                )}
-              </div>
-
-              {errors?.avatar?.type === 'required' && progress === 0 && !errorFileType && (
-                <div className="text-red-500 text-sm italic flex justify-center">
-                  Please choose avatar for your user
-                </div>
+      <form>
+        <Field>
+          <Label htmlFor="avatar">Avatar</Label>
+          <div className="w-full flex flex-col gap-y-2 mb-10">
+            <div className="w-[200px] mx-auto">
+              {progress === 0 ? (
+                <ImageUpload
+                  className="!rounded-full"
+                  onChange={handleSelectImage}
+                  progress={progress}
+                  name="avatar"
+                  value={undefined}
+                  image={image}
+                  handleDeleteImage={handleDeleteImage}
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                ></ImageUpload>
+              ) : (
+                <ImageUpload
+                  className="!rounded-full "
+                  onChange={handleSelectImage}
+                  progress={progress}
+                  name="avatar"
+                  value={undefined}
+                  image={image}
+                  handleDeleteImage={handleDeleteImage}
+                  control={control}
+                  rules={{
+                    required: false,
+                  }}
+                ></ImageUpload>
               )}
-              {errorFileType && (
-                <div className="text-red-500 text-sm italic flex justify-center">
-                  Please choose avatar has format *.png, *.jpg, *.jpeg, *.avif
-                </div>
+            </div>
+
+            {errors?.avatar?.type === 'required' && progress === 0 && !errorFileType && (
+              <div className="text-red-500 text-sm italic flex justify-center">
+                Please choose avatar for your user
+              </div>
+            )}
+            {errorFileType && (
+              <div className="text-red-500 text-sm italic flex justify-center">
+                Please choose avatar has format *.png, *.jpg, *.jpeg, *.avif
+              </div>
+            )}
+          </div>
+        </Field>
+
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="fullname">Fullname</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Input
+                control={control}
+                name="fullname"
+                type="text"
+                placeholder="Enter your fullname"
+                rules={{
+                  required: true,
+                  pattern: /[A-Za-z]/,
+                }}
+              ></Input>
+              {errors?.fullname?.type === 'required' && (
+                <div className="text-red-500 text-sm italic">Please enter your fullname</div>
+              )}
+              {errors?.fullname?.type === 'pattern' && (
+                <div className="text-red-500 text-sm italic">Please enter valid fullname</div>
               )}
             </div>
           </Field>
+          <Field>
+            <Label htmlFor="username">Username</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Input
+                control={control}
+                name="username"
+                type="text"
+                placeholder="Enter your username"
+              ></Input>
+            </div>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="dob">Date of birth</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Input control={control} name="dob" type="text" placeholder="dd/mm/yy"></Input>
+            </div>
+          </Field>
+          <Field>
+            <Label htmlFor="phone">Mobile number</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Input
+                control={control}
+                name="phone"
+                type="text"
+                placeholder="Enter your mobile number"
+              ></Input>
+            </div>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="email">Email</Label>
+            <div className="flex flex-col gap-y-2 w-full">
+              <Input
+                control={control}
+                name="email"
+                type="text"
+                placeholder="Enter your email"
+                rules={{
+                  required: true,
+                  pattern: /^\S+@\S+$/,
+                }}
+              ></Input>
+              {errors?.email?.type === 'required' && (
+                <div className="text-red-500 text-sm italic">Please enter your email</div>
+              )}
+              {errors?.email?.type === 'pattern' && (
+                <div className="text-red-500 text-sm italic">Please enter valid email</div>
+              )}
+            </div>
+          </Field>
+        </div>
 
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="fullname">Fullname</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input
-                  control={control}
-                  name="fullname"
-                  type="text"
-                  placeholder="Enter your fullname"
-                  rules={{
-                    required: true,
-                    pattern: /[A-Za-z]/,
-                  }}
-                ></Input>
-                {errors?.fullname?.type === 'required' && (
-                  <div className="text-red-500 text-sm italic">Please enter your fullname</div>
-                )}
-                {errors?.fullname?.type === 'pattern' && (
-                  <div className="text-red-500 text-sm italic">Please enter valid fullname</div>
-                )}
-              </div>
-            </Field>
-            <Field>
-              <Label htmlFor="username">Username</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input
-                  control={control}
-                  name="username"
-                  type="text"
-                  placeholder="Enter your username"
-                ></Input>
-              </div>
-            </Field>
-          </div>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="dob">Date of birth</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input control={control} name="dob" type="text" placeholder="dd/mm/yy"></Input>
-              </div>
-            </Field>
-            <Field>
-              <Label htmlFor="phone">Mobile number</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input
-                  control={control}
-                  name="phone"
-                  type="text"
-                  placeholder="Enter your mobile number"
-                ></Input>
-              </div>
-            </Field>
-          </div>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="email">Email</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input
-                  control={control}
-                  name="email"
-                  type="text"
-                  placeholder="Enter your email"
-                  rules={{
-                    required: true,
-                    pattern: /^\S+@\S+$/,
-                  }}
-                ></Input>
-                {errors?.email?.type === 'required' && (
-                  <div className="text-red-500 text-sm italic">Please enter your email</div>
-                )}
-                {errors?.email?.type === 'pattern' && (
-                  <div className="text-red-500 text-sm italic">Please enter valid email</div>
-                )}
-              </div>
-            </Field>
-          </div>
-
-          <Button
-            type="submit"
-            onClick={handleSubmit(handleUpdateInformation)}
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          >
-            Update user
-          </Button>
-        </form>
-      </AccountInfoStyles>
-    </DashboardLayout>
+        <Button
+          type="submit"
+          onClick={handleSubmit(handleUpdateInformation)}
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          Update user
+        </Button>
+      </form>
+    </AccountInfoStyles>
   )
 }
 

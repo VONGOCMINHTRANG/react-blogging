@@ -42,49 +42,47 @@ const DashboardStyles = styled.div`
 
 const Dashboard = () => {
   return (
-    <DashboardLayout>
-      <DashboardStyles>
-        <Content title="Dashboard" desc="Overview dashboard monitor"></Content>
-        <div className="dashboard-image">
-          <div className="layout-item">
-            <img
-              src="https://images.unsplash.com/photo-1584890132374-d69d5d01483e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTd8fHBhcnR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-              alt="dashboard-image"
-            />
-          </div>
-          <div className="layout-item">
-            <img
-              src="https://images.unsplash.com/photo-1584843267830-32aa11fc1ce4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8JUM0JTkxJUMzJUEwJTIwbiVFMSVCQSVCNW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-              alt="dashboard-image"
-            />
-          </div>
-          <div className="layout-item">
-            <img
-              src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=352&q=80"
-              alt="dashboard-image"
-            />
-          </div>
-          <div className="layout-item">
-            <img
-              src="https://images.unsplash.com/photo-1457089328109-e5d9bd499191?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGZsb3dlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              alt="dashboard-image"
-            />
-          </div>
-          <div className="layout-item">
-            <img
-              src="https://images.unsplash.com/photo-1485201543483-f06c8d2a8fb4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
-              alt="dashboard-image"
-            />
-          </div>
-          <div className="layout-item">
-            <img
-              src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80"
-              alt="dashboard-image"
-            />
-          </div>
+    <DashboardStyles>
+      <Content title="Dashboard" desc="Overview dashboard monitor"></Content>
+      <div className="dashboard-image">
+        <div className="layout-item">
+          <img
+            src="https://images.unsplash.com/photo-1584890132374-d69d5d01483e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTd8fHBhcnR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            alt="dashboard-image"
+          />
         </div>
-      </DashboardStyles>
-    </DashboardLayout>
+        <div className="layout-item">
+          <img
+            src="https://images.unsplash.com/photo-1584843267830-32aa11fc1ce4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8JUM0JTkxJUMzJUEwJTIwbiVFMSVCQSVCNW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            alt="dashboard-image"
+          />
+        </div>
+        <div className="layout-item">
+          <img
+            src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=352&q=80"
+            alt="dashboard-image"
+          />
+        </div>
+        <div className="layout-item">
+          <img
+            src="https://images.unsplash.com/photo-1457089328109-e5d9bd499191?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGZsb3dlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+            alt="dashboard-image"
+          />
+        </div>
+        <div className="layout-item">
+          <img
+            src="https://images.unsplash.com/photo-1485201543483-f06c8d2a8fb4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+            alt="dashboard-image"
+          />
+        </div>
+        <div className="layout-item">
+          <img
+            src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80"
+            alt="dashboard-image"
+          />
+        </div>
+      </div>
+    </DashboardStyles>
   )
 }
 

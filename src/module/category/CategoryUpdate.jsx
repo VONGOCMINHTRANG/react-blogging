@@ -5,7 +5,6 @@ import { Field } from 'components/field'
 import { Input } from 'components/input'
 import { Label } from 'components/label'
 import Radio from 'components/radio'
-import DashboardLayout from 'module/dashboard/DashboardLayout'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
@@ -74,72 +73,65 @@ const CategoryUpdate = () => {
 
   if (!categoryId) return null
   return (
-    <DashboardLayout>
-      <AddCategoryStyles>
-        <Content title="Update category" desc={`Update your category id : ${categoryId}`}></Content>
-        <form>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="name">Name</Label>
-              <div className="flex flex-col gap-y-2 w-full">
-                <Input
-                  control={control}
-                  name="name"
-                  type="text"
-                  placeholder="Enter your category name"
-                  rules={{
-                    required: true,
-                  }}
-                ></Input>
-                {errors?.name?.type === 'required' && (
-                  <div className="text-red-500 text-sm italic">Please enter your category name</div>
-                )}
-              </div>
-            </Field>
-            <Field>
-              <Label htmlFor="slug">Slug</Label>
+    <AddCategoryStyles>
+      <Content title="Update category" desc={`Update your category id : ${categoryId}`}></Content>
+      <form>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="name">Name</Label>
+            <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
-                name="slug"
+                name="name"
                 type="text"
-                placeholder="Enter your slug"
+                placeholder="Enter your category name"
+                rules={{
+                  required: true,
+                }}
               ></Input>
-            </Field>
-          </div>
-          <div className="form-layout">
-            <Field>
-              <Label htmlFor="status">Status</Label>
-              <div className="flex flex-wrap gap-5">
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === categoryStatus.APPROVED}
-                  value={categoryStatus.APPROVED}
-                >
-                  Approved
-                </Radio>
-                <Radio
-                  name="status"
-                  control={control}
-                  checked={Number(watchStatus) === categoryStatus.UNAPPROVED}
-                  value={categoryStatus.UNAPPROVED}
-                >
-                  Unapproved
-                </Radio>
-              </div>
-            </Field>
-          </div>
-          <Button
-            type="submit"
-            onClick={handleSubmit(handleUpdateCategory)}
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          >
-            Update category
-          </Button>
-        </form>
-      </AddCategoryStyles>
-    </DashboardLayout>
+              {errors?.name?.type === 'required' && (
+                <div className="text-red-500 text-sm italic">Please enter your category name</div>
+              )}
+            </div>
+          </Field>
+          <Field>
+            <Label htmlFor="slug">Slug</Label>
+            <Input control={control} name="slug" type="text" placeholder="Enter your slug"></Input>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="status">Status</Label>
+            <div className="flex flex-wrap gap-5">
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === categoryStatus.APPROVED}
+                value={categoryStatus.APPROVED}
+              >
+                Approved
+              </Radio>
+              <Radio
+                name="status"
+                control={control}
+                checked={Number(watchStatus) === categoryStatus.UNAPPROVED}
+                value={categoryStatus.UNAPPROVED}
+              >
+                Unapproved
+              </Radio>
+            </div>
+          </Field>
+        </div>
+        <Button
+          type="submit"
+          onClick={handleSubmit(handleUpdateCategory)}
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          Update category
+        </Button>
+      </form>
+    </AddCategoryStyles>
   )
 }
 

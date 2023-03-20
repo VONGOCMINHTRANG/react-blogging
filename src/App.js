@@ -3,6 +3,7 @@ import 'slick-carousel/slick/slick-theme.css'
 import { Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './contexts/auth-context'
 import React, { lazy, Suspense } from 'react'
+import DashboardLayout from 'module/dashboard/DashboardLayout'
 
 const HomePage = React.lazy(() => import('pages/HomePage'))
 const SignInPage = lazy(() => import('pages/SignInPage'))
@@ -42,35 +43,44 @@ function App() {
             <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
             <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
             <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
-            <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+
+            <Route
+              element={
+                <Suspense>
+                  <DashboardLayout></DashboardLayout>
+                </Suspense>
+              }
+            >
+              <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+              <Route path="/manage/add-post" element={<AddPost></AddPost>}></Route>
+              <Route path="/manage/posts" element={<Posts></Posts>}></Route>
+              <Route path="/manage/update-post" element={<UpdatePost></UpdatePost>}></Route>
+              <Route path="/manage/user" element={<User></User>}></Route>
+              <Route path="/manage/update-user" element={<UpdateUser></UpdateUser>}></Route>
+              <Route path="/manage/add-user" element={<AddUser></AddUser>}></Route>
+              <Route
+                path="/account-information/:userId"
+                element={<AccountInfo></AccountInfo>}
+              ></Route>
+              <Route
+                path="/account-information/change-password/:userId"
+                element={<ChangePassword></ChangePassword>}
+              ></Route>
+              <Route path="/manage/category" element={<Category></Category>}></Route>
+              <Route path="/manage/add-category" element={<AddCategory></AddCategory>}></Route>
+              <Route
+                path="/manage/update-category"
+                element={<CategoryUpdate></CategoryUpdate>}
+              ></Route>
+            </Route>
 
             {/* Manage Post */}
             <Route path="/detail-post/:slug" element={<DetailPostPage></DetailPostPage>}></Route>
-            <Route path="/manage/add-post" element={<AddPost></AddPost>}></Route>
-            <Route path="/manage/posts" element={<Posts></Posts>}></Route>
-            <Route path="/manage/update-post" element={<UpdatePost></UpdatePost>}></Route>
 
             {/* Manage User */}
-            <Route path="/manage/user" element={<User></User>}></Route>
-            <Route path="/manage/update-user" element={<UpdateUser></UpdateUser>}></Route>
-            <Route path="/manage/add-user" element={<AddUser></AddUser>}></Route>
             <Route path="/:slug" element={<AuthorPage></AuthorPage>}></Route>
-            <Route
-              path="/account-information/:userId"
-              element={<AccountInfo></AccountInfo>}
-            ></Route>
-            <Route
-              path="/account-information/change-password/:userId"
-              element={<ChangePassword></ChangePassword>}
-            ></Route>
 
             {/* Manage Category */}
-            <Route path="/manage/category" element={<Category></Category>}></Route>
-            <Route path="/manage/add-category" element={<AddCategory></AddCategory>}></Route>
-            <Route
-              path="/manage/update-category"
-              element={<CategoryUpdate></CategoryUpdate>}
-            ></Route>
             <Route path="/category/:slug" element={<CategoryPage></CategoryPage>}></Route>
           </Routes>
         </Suspense>

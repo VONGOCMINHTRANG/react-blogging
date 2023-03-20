@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
+import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
 
 const CategoryPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -64,7 +65,7 @@ const CategoryPageStyles = styled.div`
     border-radius: 100%;
     cursor: pointer;
     z-index: 100;
-    text-color: white;
+    color: white;
   }
   @media (max-width: 767px) {
     .blog-item {
@@ -79,6 +80,7 @@ const CategoryPage = () => {
   const [categoryId, setCategoryId] = useState('')
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState('')
+  const [loading, isLoading] = useState(false)
 
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value)
@@ -99,33 +101,47 @@ const CategoryPage = () => {
       ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
       : query(colRef, where('categoryId', '==', categoryId))
     onSnapshot(q, (snapshot) => {
-      let results = []
-      snapshot.docs.forEach((doc) => {
-        results.push({
-          id: doc.id,
-          ...doc.data(),
+      try {
+        isLoading(true)
+        let results = []
+        snapshot.docs.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
+          })
         })
-      })
-      setPosts(results)
+        setTimeout(() => {
+          isLoading(false)
+          setPosts(results)
+        }, 250)
+      } catch (error) {
+        console.log(error)
+        isLoading(true)
+      }
     })
   }, [categoryId, filter])
 
   return (
-    <CategoryPageStyles className="category-page">
-      <div className="wrapper">
-        <Search onChange={handleInputFilter}></Search>
-        <div className="container">
-          <div className="blog-item">
-            {posts?.length > 0 &&
-              posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
+    <>
+      {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
+      {!loading && (
+        <CategoryPageStyles className="category-page">
+          <div className="wrapper">
+            <Search onChange={handleInputFilter}></Search>
+            <div className="container">
+              <div className="blog-item">
+                {posts?.length > 0 &&
+                  posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
+              </div>
+            </div>
+            <h1>{slug}</h1>
+            <Link to="/" className="icon-home">
+              <IconHome></IconHome>
+            </Link>
           </div>
-        </div>
-        <h1>{slug}</h1>
-        <Link to="/" className="icon-home">
-          <IconHome></IconHome>
-        </Link>
-      </div>
-    </CategoryPageStyles>
+        </CategoryPageStyles>
+      )}
+    </>
   )
 }
 
