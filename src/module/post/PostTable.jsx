@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import Swal from 'sweetalert2'
 
 const PostTableStyles = styled.div`
+  width: 100%;
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;

@@ -10,6 +10,7 @@ import { userRole, userStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
 
 const UserTableStyles = styled.div`
+  width: 100%;
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;
