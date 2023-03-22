@@ -53,7 +53,6 @@ const DetailPostPage = () => {
     document.body.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [slug])
 
-  if (!slug) return <NotFoundPage></NotFoundPage>
   return (
     <>
       {loading && (

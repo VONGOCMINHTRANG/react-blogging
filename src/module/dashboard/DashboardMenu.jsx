@@ -1,7 +1,5 @@
 import { Sidebar } from 'components/sidebar'
 import styled from 'styled-components'
-import { useAuth } from 'contexts/auth-context'
-import NotFoundPage from 'pages/NotFoundPage'
 
 const DashboardMenuStyles = styled.div`
   background-color: white;
@@ -9,10 +7,6 @@ const DashboardMenuStyles = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  .sidebar {
-    height: auto;
-    min-height: 100vh;
-  }
   .header-right {
     display: flex;
     align-items: center;
@@ -41,9 +35,6 @@ const DashboardMenuStyles = styled.div`
 `
 
 const DashboardMenu = ({ open, setOpen = () => {} }) => {
-  const { userInfo } = useAuth()
-
-  if (!userInfo) return <NotFoundPage></NotFoundPage>
   return (
     <DashboardMenuStyles className="dashboard-menu">
       <Sidebar

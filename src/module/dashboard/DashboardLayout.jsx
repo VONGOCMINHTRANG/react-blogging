@@ -111,7 +111,8 @@ const DashboardLayout = () => {
       }
     })
   }
-  if (!userInfo) return <NotFoundPage></NotFoundPage>
+
+  if (userInfo == '') return <NotFoundPage></NotFoundPage>
 
   return (
     <DashboardLayoutStyles>
@@ -150,7 +151,7 @@ const DashboardLayout = () => {
               </svg>
               <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
                 <li
-                  onClick={() => navigate(`/account-information/${userInfo?.username}`)}
+                  onClick={() => navigate(`/manage/account-information/${userInfo?.username}`)}
                   className="p-2 hover:bg-slate-300 hover:text-green-600"
                 >
                   Account Information

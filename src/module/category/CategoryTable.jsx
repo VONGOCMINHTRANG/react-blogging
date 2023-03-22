@@ -8,6 +8,8 @@ import Swal from 'sweetalert2'
 import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import PropTypes from 'prop-types'
+import { useRef, useState } from 'react'
+import CategoryInfo from './CategoryInfo'
 
 const CategoryTableStyles = styled.div`
   overflow-x: auto;
@@ -30,6 +32,9 @@ const CategoryTableStyles = styled.div`
 
 const CategoryTable = ({ data }) => {
   const navigate = useNavigate()
+  const [info, setInfo] = useState(false)
+  const dataCategory = useRef([])
+
   const handleDeleteCategory = async (docId) => {
     const colRef = doc(db, 'categories', docId)
     Swal.fire({
@@ -46,6 +51,11 @@ const CategoryTable = ({ data }) => {
         await deleteDoc(colRef)
       }
     })
+  }
+
+  const handleViewInfo = (category) => {
+    dataCategory.current = category
+    setInfo(true)
   }
 
   return (
@@ -78,7 +88,7 @@ const CategoryTable = ({ data }) => {
                 </td>
                 <td>
                   <div className="flex justify-center categorys-center gap-x-3">
-                    <IconActionView></IconActionView>
+                    <IconActionView onClick={() => handleViewInfo(category)}></IconActionView>
                     <IconActionEdit
                       onClick={() => navigate(`/manage/update-category?id=${category?.id}`)}
                     ></IconActionEdit>
@@ -89,6 +99,8 @@ const CategoryTable = ({ data }) => {
                 </td>
               </tr>
             ))}
+
+          {info && <CategoryInfo info={info} setInfo={setInfo} data={dataCategory}></CategoryInfo>}
         </tbody>
       </Table>
     </CategoryTableStyles>
