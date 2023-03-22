@@ -52,20 +52,26 @@ function App() {
               }
             >
               <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+
+              {/* Manage Post */}
               <Route path="/manage/add-post" element={<AddPost></AddPost>}></Route>
               <Route path="/manage/posts" element={<Posts></Posts>}></Route>
               <Route path="/manage/update-post" element={<UpdatePost></UpdatePost>}></Route>
+
+              {/* Manage User */}
               <Route path="/manage/user" element={<User></User>}></Route>
               <Route path="/manage/update-user" element={<UpdateUser></UpdateUser>}></Route>
               <Route path="/manage/add-user" element={<AddUser></AddUser>}></Route>
               <Route
-                path="/account-information/:userId"
+                path="/manage/account-information/:userId"
                 element={<AccountInfo></AccountInfo>}
               ></Route>
               <Route
                 path="/account-information/change-password/:userId"
                 element={<ChangePassword></ChangePassword>}
               ></Route>
+
+              {/* Manage Category */}
               <Route path="/manage/category" element={<Category></Category>}></Route>
               <Route path="/manage/add-category" element={<AddCategory></AddCategory>}></Route>
               <Route
@@ -74,13 +80,8 @@ function App() {
               ></Route>
             </Route>
 
-            {/* Manage Post */}
             <Route path="/detail-post/:slug" element={<DetailPostPage></DetailPostPage>}></Route>
-
-            {/* Manage User */}
             <Route path="/:slug" element={<AuthorPage></AuthorPage>}></Route>
-
-            {/* Manage Category */}
             <Route path="/category/:slug" element={<CategoryPage></CategoryPage>}></Route>
           </Routes>
         </Suspense>

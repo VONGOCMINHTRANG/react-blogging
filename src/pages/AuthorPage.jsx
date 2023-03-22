@@ -95,7 +95,7 @@ const AuthorPage = () => {
         setUserId(doc.id)
       })
     })
-  }, [])
+  }, [username])
 
   useEffect(() => {
     const colRef = collection(db, 'posts')

@@ -88,7 +88,6 @@ const ChangePassword = () => {
     }
   }
 
-  if (!userInfo) return <NotFoundPage></NotFoundPage>
   return (
     <ChangePasswordStyles>
       <Content

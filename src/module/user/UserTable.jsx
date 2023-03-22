@@ -8,6 +8,8 @@ import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { userRole, userStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
+import { useRef, useState } from 'react'
+import UserInfo from './UserInfo'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;
@@ -33,9 +35,10 @@ const UserTableStyles = styled.div`
 `
 
 const UserTable = ({ data }) => {
-  //   console.log(data)
-
   const navigate = useNavigate()
+  const [info, setInfo] = useState(false)
+  const dataUser = useRef([])
+
   const handleDeleteUser = async (user) => {
     const colRef = doc(db, 'users', user)
     Swal.fire({
@@ -54,12 +57,16 @@ const UserTable = ({ data }) => {
     })
   }
 
+  const handleViewInfo = (user) => {
+    dataUser.current = user
+    setInfo(true)
+  }
+
   return (
     <UserTableStyles className="table-menu">
       <Table>
         <thead>
           <tr>
-            <th>Id</th>
             <th>Info</th>
             <th>Email</th>
             <th>Status</th>
@@ -71,7 +78,6 @@ const UserTable = ({ data }) => {
           {data.length > 0 &&
             data.map((user) => (
               <tr key={user?.id}>
-                <td title={user?.id}>{user?.id.slice(0, 5) + '...'}</td>
                 <td className="whitespace-nowrap">
                   <div className="flex items-center gap-x-3">
                     <img
@@ -115,7 +121,8 @@ const UserTable = ({ data }) => {
                 </td>
                 <td>
                   <div className="flex justify-center items-center gap-x-3">
-                    <IconActionView></IconActionView>
+                    <IconActionView onClick={() => handleViewInfo(user)}></IconActionView>
+
                     <IconActionEdit
                       onClick={() => navigate(`/manage/update-user?id=${user?.id}`)}
                     ></IconActionEdit>
@@ -124,6 +131,8 @@ const UserTable = ({ data }) => {
                 </td>
               </tr>
             ))}
+
+          {info && <UserInfo info={info} setInfo={setInfo} data={dataUser}></UserInfo>}
         </tbody>
       </Table>
     </UserTableStyles>

@@ -27,6 +27,7 @@ const UserStyles = styled.div`
     font-weight: bold;
     margin: 0px;
     color: white;
+    white-space: nowrap;
   }
   .search {
     margin-left: 0px;

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const ContentStyles = styled.div`
+  padding-bottom: 2.5rem;
   .dashboard-heading {
     font-weight: bold;
     font-size: 25px;

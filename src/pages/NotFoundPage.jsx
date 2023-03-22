@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import ReactDOM from 'react-dom'
 
 const NotFoundPageStyles = styled.div`
   height: 100vh;
@@ -7,6 +8,7 @@ const NotFoundPageStyles = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
   .logo {
     max-width: 100px;
     display: inline-block;
