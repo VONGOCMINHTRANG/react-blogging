@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 const TableStyles = styled.table`
   width: 100%;
   thead {
-    background-color: rgb(241, 241, 243);
+    background-color: #bebebe;
   }
   th {
-    padding: 20px 30px;
+    padding: 10px;
     font-weight: bold;
     text-align: center;
   }

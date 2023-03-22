@@ -25,7 +25,7 @@ const Logout = () => {
   }
 
   return (
-    <div className="flex justify-end px-5 items-center mt-5">
+    <div className="flex justify-end px-5 items-center">
       <div
         onClick={handleLogout}
         className="bg-red-500 gap-x-2 flex p-2 rounded-md cursor-pointer text-white"

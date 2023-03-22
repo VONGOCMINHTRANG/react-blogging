@@ -1,4 +1,4 @@
-import Layout from 'components/layout/Layout'
+import Layout from 'layout/Layout'
 import { Title } from 'components/title'
 import { db } from '../firebase/firebase-config'
 import { collection, getDocs, limit, onSnapshot, query, where } from 'firebase/firestore'

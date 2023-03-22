@@ -124,13 +124,6 @@ const LoadingSkeletonHeader = () => {
             <div className="search"></div>
             <div className="header-button"></div>
           </div>
-
-          {/* <Search></Search>
-          <a href={userInfo == '' ? '/sign-in' : '/dashboard'}>
-            <Button type="button" className="header-button" height="100%">
-              {userInfo == '' ? 'Login' : 'Dashboard'}
-            </Button>
-          </a> */}
         </div>
       </div>
     </LoadingSkeletonHeaderStyles>

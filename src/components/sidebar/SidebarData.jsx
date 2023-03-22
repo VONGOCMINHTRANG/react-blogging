@@ -3,6 +3,7 @@ import {
   IconCategory,
   IconDashboard,
   IconHome,
+  IconPencil,
   IconPost,
   IconUser,
 } from 'components/icon'
@@ -38,5 +39,10 @@ export const SidebarData = [
     url: '/manage/user',
     title: 'User',
     icon: <IconUser></IconUser>,
+  },
+  {
+    url: '/manage/add-post',
+    title: 'Write new post',
+    icon: <IconPencil></IconPencil>,
   },
 ]

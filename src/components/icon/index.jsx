@@ -18,6 +18,7 @@ import IconActionDelete from './IconActionDelete'
 import IconActionEdit from './IconActionEdit'
 import IconActionView from './IconActionView'
 import IconMinus from './IconMinus'
+import IconPencil from './IconPencil'
 
 export {
   IconEyeOpen,
@@ -40,4 +41,5 @@ export {
   IconActionDelete,
   IconActionView,
   IconActionEdit,
+  IconPencil,
 }

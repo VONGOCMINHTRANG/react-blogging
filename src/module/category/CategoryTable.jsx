@@ -13,6 +13,7 @@ const CategoryTableStyles = styled.div`
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;
+  width: 100%;
   @media (max-width: 540px) {
     .th,
     td {

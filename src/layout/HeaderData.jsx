@@ -1,4 +1,4 @@
-import { IconBlog, IconContact, IconDashboard, IconHome } from 'components/icon'
+import { IconBlog, IconDashboard, IconHome } from 'components/icon'
 
 export const menuLinks = [
   {

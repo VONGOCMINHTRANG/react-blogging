@@ -10,11 +10,10 @@ import { userRole, userStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
 
 const UserTableStyles = styled.div`
-  width: 100%;
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;
-  margin-bottom: 2.5rem;
+  width: 100%;
   @media (max-width: 540px) {
     .th,
     td {
@@ -62,7 +61,6 @@ const UserTable = ({ data }) => {
           <tr>
             <th>Id</th>
             <th>Info</th>
-            <th>Username</th>
             <th>Email</th>
             <th>Status</th>
             <th>Role</th>
@@ -89,7 +87,6 @@ const UserTable = ({ data }) => {
                     </div>
                   </div>
                 </td>
-                <td>{user?.username}</td>
                 <td title={user?.email}>{user?.email.slice(0, 5) + '...'}</td>
                 <td>
                   {Number(user?.status) === userStatus.ACTIVE && (

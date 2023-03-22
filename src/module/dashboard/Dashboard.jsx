@@ -1,5 +1,4 @@
 import Content from 'components/content/Content'
-import DashboardLayout from './DashboardLayout'
 import styled from 'styled-components'
 import { useAuth } from 'contexts/auth-context'
 import NotFoundPage from 'pages/NotFoundPage'

@@ -9,7 +9,7 @@ import { IconMenu } from 'components/icon'
 import { Blur } from 'components/blur'
 import { useEffect, useState } from 'react'
 import { collection, onSnapshot } from 'firebase/firestore'
-import { db } from '../../firebase/firebase-config'
+import { db } from '../firebase/firebase-config'
 import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
 
 const HeaderStyles = styled.header`
@@ -65,6 +65,12 @@ const HeaderStyles = styled.header`
             margin-right: 1em;
             font-size: 2em;
         }
+    }
+
+    @media (min-width: 950px){
+      .sidebar, .blur{
+        display: none;
+      }
     }
 
     /* Tablet */
@@ -155,7 +161,9 @@ const Header = () => {
               )}
 
               <Sidebar
-                className={open ? 'visible translate-x-0' : 'invisible -translate-x-full'}
+                className={
+                  open ? 'sidebar visible translate-x-0' : 'sidebar invisible -translate-x-full'
+                }
                 setOpen={setOpen}
                 number1="0"
                 number2="4"

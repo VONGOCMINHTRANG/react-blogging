@@ -16,7 +16,7 @@ const SidebarStyles = styled.ul`
   z-index: 100;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: #203040;
   justify-content: space-between;
   transition: all 0.3s ease-in;
   overflow-y: auto;
@@ -44,16 +44,15 @@ const SidebarStyles = styled.ul`
     line-height: 1.5em;
     padding: 1em 2em;
     font-weight: 600;
-    color: rgb(128, 129, 145);
     margin-bottom: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: white;
   }
   .menu-item:hover {
-    color: rgb(29, 192, 113);
-    background-color: rgb(241, 251, 247);
+    background-color: #526272;
   }
   .list-item {
     display: flex;
@@ -62,17 +61,18 @@ const SidebarStyles = styled.ul`
     overflow: hidden;
     transition-duration: 300ms;
     a {
+      color: white;
       align-items: center;
       padding: 20px 4.5em;
     }
     a:hover {
-      background-color: rgb(220 252 231);
+      background-color: #526272;
     }
   }
 
-  @media (min-width: 949px) {
+  /* @media (min-width: 949px) {
     display: none;
-  }
+  } */
 `
 
 /**
@@ -107,7 +107,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
             <Link to="/">
               <img src="/logo.png" alt="react-blogging" className="logo-sidebar" />
             </Link>
-            <h2 className="font-semibold">React Blogging</h2>
+            <h2 className="font-semibold text-white">React Blogging</h2>
           </div>
           <div className="absolute text-3xl font-semibold cursor-pointer right-3">
             <IconArrowLeft onClick={() => setOpen(false)}></IconArrowLeft>
@@ -149,7 +149,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                   >
                     {categories?.length > 0 &&
                       categories?.map((item) => (
-                        <Link to={`/category/${item.slug}`} key={item.id}>
+                        <Link className="category-item" to={`/category/${item.slug}`} key={item.id}>
                           {item.name}
                         </Link>
                       ))}
@@ -165,7 +165,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
 
 Sidebar.propTypes = {
   className: PropTypes.string,
-  setOpen: PropTypes.func.isRequired,
+  setOpen: PropTypes.func,
   number1: PropTypes.string.isRequired,
   number2: PropTypes.string.isRequired,
 }

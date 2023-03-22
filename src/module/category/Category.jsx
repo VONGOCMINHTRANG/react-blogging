@@ -33,9 +33,9 @@ const CategoryStyles = styled.div`
   }
   .load-more {
     color: white;
-    margin: 2.5rem auto;
+    margin: 1rem auto;
     font-size: 15px;
-    padding: 12px 40px;
+    padding: 10px 40px;
   }
 
   @media (max-width: 540px) {
