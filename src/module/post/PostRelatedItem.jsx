@@ -47,6 +47,12 @@ const PostRelatedItemStyles = styled.div`
       transition: all 0.1s linear;
     }
     &-meta {
+      a: hover {
+        color: ${(props) => props.theme.secondary};
+        transition: all 0.1s linear;
+      }
+    }
+    &-meta {
       color: #a0a0a0;
       font-size: 12px;
       margin-bottom: 10px;
@@ -68,7 +74,7 @@ const PostRelatedItem = ({ post }) => {
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 
   return (
-    <PostRelatedItemStyles className="post-related-item">
+    <PostRelatedItemStyles className="post-related-item transition-all ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 duration-300">
       <PostImage to={`/detail-post/${post?.slug}`} src={post.image}></PostImage>
       <PostCategory to={`/category/${post?.category?.slug}`}>{post?.category?.name}</PostCategory>
       <PostTitle to={`/detail-post/${post?.slug}`}>{post?.title}</PostTitle>

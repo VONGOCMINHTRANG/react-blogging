@@ -79,6 +79,9 @@ const BlogPage = () => {
   const [loading, isLoading] = useState(false)
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState('')
+  const [page, setPage] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value)
   }, 500)
@@ -92,6 +95,7 @@ const BlogPage = () => {
       try {
         isLoading(true)
         let results = []
+        console.log(snapshot.size)
         snapshot.docs.forEach((doc) => {
           results.push({
             id: doc.id,

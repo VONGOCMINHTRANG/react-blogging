@@ -151,12 +151,6 @@ const AccountInfo = () => {
           title="Account Information"
           desc={`Update account information with email : ${userInfo.email}`}
         ></Content>
-        <Button
-          className="change-password"
-          onClick={() => navigate(`/account-information/change-password/${userInfo?.username}`)}
-        >
-          Change password
-        </Button>
       </div>
 
       <form>

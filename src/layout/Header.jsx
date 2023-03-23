@@ -8,9 +8,10 @@ import Search from 'components/search/Search'
 import { IconMenu } from 'components/icon'
 import { Blur } from 'components/blur'
 import { useEffect, useState } from 'react'
-import { collection, onSnapshot } from 'firebase/firestore'
+import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../firebase/firebase-config'
 import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
+import { categoryStatus } from 'utils/constants'
 
 const HeaderStyles = styled.header`
     padding: 20px 0px;
@@ -99,21 +100,30 @@ const Header = () => {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    const colRef = collection(db, 'categories')
-    onSnapshot(colRef, (snapshot) => {
-      let results = []
-      snapshot.forEach((doc) => {
-        results.push({
-          id: doc.id,
-          ...doc.data(),
+    const categoryRef = collection(db, 'categories')
+    const fetchCategoryName = async () => {
+      try {
+        const q = query(categoryRef, where('status', '==', categoryStatus.APPROVED))
+        onSnapshot(q, (snapshot) => {
+          let results = []
+          snapshot.docs.forEach((doc) => {
+            results.push({
+              id: doc.id,
+              ...doc.data(),
+            })
+            isLoading(true)
+            setTimeout(() => {
+              isLoading(false)
+              setCategories(results)
+            }, 250)
+          })
         })
+      } catch (error) {
+        console.log(error)
         isLoading(true)
-        setTimeout(() => {
-          isLoading(false)
-          setCategories(results)
-        }, 250)
-      })
-    })
+      }
+    }
+    fetchCategoryName()
   }, [])
 
   return (

@@ -15,7 +15,7 @@ import {
 import { db } from '../../firebase/firebase-config'
 import UserTable from './UserTable'
 import Search from 'components/search/Search'
-import { debounce } from 'lodash'
+import { debounce, orderBy } from 'lodash'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
 import NotFoundPage from 'pages/NotFoundPage'

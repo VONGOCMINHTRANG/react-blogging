@@ -156,6 +156,14 @@ const DashboardLayout = () => {
                 >
                   Account Information
                 </li>
+                <li
+                  onClick={() =>
+                    navigate(`/account-information/change-password/${userInfo?.username}`)
+                  }
+                  className="p-2 hover:bg-slate-300 hover:text-green-600"
+                >
+                  Change password
+                </li>
                 <li onClick={handleLogout} className="p-2 hover:bg-slate-300 hover:text-green-600">
                   Logout
                 </li>

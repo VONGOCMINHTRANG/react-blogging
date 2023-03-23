@@ -23,6 +23,8 @@ import IconPencil from './IconPencil'
 export {
   IconEyeOpen,
   IconEyeClose,
+  IconArrowLeft,
+  IconArrowRight,
   IconMenu,
   IconSearch,
   IconHome,
@@ -30,8 +32,6 @@ export {
   IconDashboard,
   IconAdd,
   IconMinus,
-  IconArrowLeft,
-  IconArrowRight,
   IconPost,
   IconCategory,
   IconUser,

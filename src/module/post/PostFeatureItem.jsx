@@ -66,37 +66,6 @@ const PostFeatureItem = ({ data }) => {
   const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 
-  // useEffect(() => {
-  //   const fetchCategory = async () => {
-  //     if (data.categoryId) {
-  //       const docRef = doc(db, 'categories', data.categoryId)
-  //       const docSnap = await getDoc(docRef)
-  //       if (docSnap.exists()) {
-  //         setCategory(docSnap.data())
-  //       } else {
-  //         console.log(`Can't find category document!`)
-  //       }
-  //     }
-  //   }
-  //   fetchCategory()
-  // }, [data.categoryId])
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     if (data.userId) {
-  //       const docRef = doc(db, 'users', data.userId)
-  //       const docSnap = await getDoc(docRef)
-  //       if (docSnap.exists()) {
-  //         setUser(docSnap.data())
-  //       } else {
-  //         console.log(`Can't find user document!`)
-  //       }
-  //     }
-  //   }
-
-  //   fetchUser()
-  // }, [data.userId])
-
   if (!data || !data.id) return null
 
   return (

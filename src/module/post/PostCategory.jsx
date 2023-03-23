@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const PostCategoryStyles = styled.div`
+  white-space: nowrap;
   margin-right: calc(0.5em + 0.5vw);
   display: inline-block;
   border-radius: calc(0.2vw + 0.3em);
