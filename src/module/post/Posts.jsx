@@ -18,6 +18,7 @@ import { Button } from 'components/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
+import { PATH } from 'utils/path'
 
 const PostsStyles = styled.div`
   .button {
@@ -171,7 +172,7 @@ const Posts = () => {
       <Content title="Post" desc="Manage all posts."></Content>
       <div className="utilities">
         <div className="flex gap-10 w-full">
-          <Link to="/manage/add-post">
+          <Link to={PATH.dashboard.add_post}>
             <Button type="button">Create post</Button>
           </Link>
           {admin && <Search placeholder="Search post..." onChange={handleInputFilter}></Search>}

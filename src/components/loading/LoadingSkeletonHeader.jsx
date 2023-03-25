@@ -50,7 +50,7 @@ const LoadingSkeletonHeaderStyles = styled.div`
     }
     .header-button{
         width: 100%;
-        max-width: 125px;
+        max-width: 80px;
         height: 48px;
         border-radius: 10px;
         background-color: ${(props) => props.theme.skeleton};

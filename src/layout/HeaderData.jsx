@@ -1,13 +1,14 @@
 import { IconBlog, IconDashboard, IconHome } from 'components/icon'
+import { PATH } from 'utils/path'
 
 export const menuLinks = [
   {
-    url: '/',
+    url: PATH.main,
     title: 'Home',
     icon: <IconHome></IconHome>,
   },
   {
-    url: '/blog',
+    url: PATH.blog,
     title: 'Blog',
     icon: <IconBlog></IconBlog>,
   },
@@ -17,7 +18,7 @@ export const menuLinks = [
     icon: '',
   },
   {
-    url: '/manage/dashboard',
+    url: PATH.dashboard.dashboard,
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
   },

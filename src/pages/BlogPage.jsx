@@ -101,11 +101,11 @@ const BlogPage = () => {
             id: doc.id,
             ...doc.data(),
           })
+          setTimeout(() => {
+            isLoading(false)
+            setPosts(results)
+          }, 150)
         })
-        setTimeout(() => {
-          isLoading(false)
-          setPosts(results)
-        }, 250)
       } catch (error) {
         isLoading(true)
         console.log(error)

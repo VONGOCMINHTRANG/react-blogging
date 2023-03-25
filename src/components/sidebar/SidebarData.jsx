@@ -7,41 +7,42 @@ import {
   IconPost,
   IconUser,
 } from 'components/icon'
+import { PATH } from 'utils/path'
 
 export const SidebarData = [
   {
-    url: '/',
+    url: PATH.main,
     title: 'Home',
     icon: <IconHome></IconHome>,
   },
   {
-    url: '/blog',
+    url: PATH.blog,
     title: 'Blog',
     icon: <IconBlog></IconBlog>,
   },
   {
-    url: '/manage/category',
+    url: PATH.dashboard.categories,
     title: 'Category',
     icon: <IconCategory></IconCategory>,
   },
   {
-    url: '/manage/dashboard',
+    url: PATH.dashboard.dashboard,
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
   },
   {
-    url: '/manage/posts',
+    url: PATH.dashboard.posts,
     title: 'Post',
     icon: <IconPost></IconPost>,
   },
 
   {
-    url: '/manage/user',
+    url: PATH.dashboard.users,
     title: 'User',
     icon: <IconUser></IconUser>,
   },
   {
-    url: '/manage/add-post',
+    url: PATH.dashboard.add_post,
     title: 'Write new post',
     icon: <IconPencil></IconPencil>,
   },

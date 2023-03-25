@@ -141,7 +141,7 @@ const PostUserInfo = ({ info, setInfo = () => {}, data }) => {
 
                 <div className="flex mb-4 p-1 items-center">
                   <div className="w-4/12 text-slate-700 font-semibold px-5">Content</div>
-                  <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
+                  <div className="w-8/12 bg-gray-200 text-gray-600 outline-none p-1 overflow-x-auto">
                     <div className="px-2 flex flex-col gap-4">{parse(editor)}</div>
                   </div>
                 </div>

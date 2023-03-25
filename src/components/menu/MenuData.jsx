@@ -1,24 +1,25 @@
-import { IconCategory, IconDashboard, IconLogout, IconPost, IconUser } from 'components/icon'
+import { IconCategory, IconDashboard, IconPost, IconUser } from 'components/icon'
+import { PATH } from 'utils/path'
 
 export const MenuData = [
   {
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
-    url: '/manage/dashboard',
+    url: PATH.dashboard.dashboard,
   },
   {
     title: 'Post',
     icon: <IconPost></IconPost>,
-    url: '/manage/posts',
+    url: PATH.dashboard.posts,
   },
   {
     title: 'Category',
     icon: <IconCategory></IconCategory>,
-    url: '/manage/category',
+    url: PATH.dashboard.categories,
   },
   {
     title: 'User',
     icon: <IconUser></IconUser>,
-    url: '/manage/user',
+    url: PATH.dashboard.users,
   },
 ]

@@ -13,6 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { toast } from 'react-toastify'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase/firebase-config'
+import { PATH } from 'utils/path'
 
 const schema = yup.object({
   email: yup
@@ -92,7 +93,7 @@ const SignInPage = () => {
         <Button type="submit" className="w-[200px]" onClick={handleSubmit(handleSignIn)}>
           Sign In
         </Button>
-        <Link link="/sign-up" name="Sign up here">
+        <Link link={PATH.sign_up} name="Sign up here">
           Not a memeber?
         </Link>
       </form>

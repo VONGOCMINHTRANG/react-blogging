@@ -12,6 +12,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../firebase/firebase-config'
 import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
 import { categoryStatus } from 'utils/constants'
+import { PATH } from 'utils/path'
 
 const HeaderStyles = styled.header`
     padding: 20px 0px;
@@ -180,7 +181,7 @@ const Header = () => {
               ></Sidebar>
 
               <Search></Search>
-              <Link to={userInfo.length === 0 ? '/sign-in' : '/manage/dashboard'}>
+              <Link to={userInfo.length === 0 ? PATH.sign_in : '/manage/dashboard'}>
                 <Button type="button" className="header-button" height="100%">
                   {userInfo.length === 0 ? 'Login' : 'Dashboard'}
                 </Button>
