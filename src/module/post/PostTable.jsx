@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { useAuth } from 'contexts/auth-context'
-import { useEffect, useState } from 'react'
-import { userRole } from 'utils/constants'
+import { useEffect, useRef, useState } from 'react'
+import { postStatus, userRole } from 'utils/constants'
+import PostUserInfo from './PostUserInfo'
+import PropTypes from 'prop-types'
 
 const PostTableStyles = styled.div`
   width: 100%;
@@ -37,6 +39,9 @@ const PostTable = ({ data }) => {
   const { userInfo } = useAuth()
   const [admin, isAdmin] = useState(false)
   const navigate = useNavigate()
+  const [info, setInfo] = useState(false)
+  const dataPost = useRef([])
+
   const handleDeletePost = async (post) => {
     const colRef = doc(db, 'posts', post)
     Swal.fire({
@@ -53,6 +58,11 @@ const PostTable = ({ data }) => {
         await deleteDoc(colRef)
       }
     })
+  }
+
+  const handleViewInfo = (post) => {
+    dataPost.current = post
+    setInfo(true)
   }
 
   useEffect(() => {
@@ -101,9 +111,7 @@ const PostTable = ({ data }) => {
                 <td>{post?.user?.fullname}</td>
                 <td>
                   <div className="flex justify-center items-center gap-x-3">
-                    <IconActionView
-                      onClick={() => navigate(`/detail-post/${post?.slug}`)}
-                    ></IconActionView>
+                    <IconActionView onClick={() => handleViewInfo(post)}></IconActionView>
 
                     {admin && (
                       <>
@@ -119,10 +127,16 @@ const PostTable = ({ data }) => {
                 </td>
               </tr>
             ))}
+
+          {info && <PostUserInfo info={info} setInfo={setInfo} data={dataPost}></PostUserInfo>}
         </tbody>
       </Table>
     </PostTableStyles>
   )
+}
+
+PostTable.propTypes = {
+  data: PropTypes.array.isRequired,
 }
 
 export default PostTable

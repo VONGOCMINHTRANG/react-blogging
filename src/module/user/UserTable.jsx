@@ -2,7 +2,7 @@ import { IconActionDelete, IconActionEdit, IconActionView } from 'components/ico
 import { LabelStatus } from 'components/label'
 import { Table } from 'components/table'
 import { db } from '../../firebase/firebase-config'
-import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
