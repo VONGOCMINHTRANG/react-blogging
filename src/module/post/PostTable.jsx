@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react'
 import { postStatus, userRole } from 'utils/constants'
 import PostUserInfo from './PostUserInfo'
 import PropTypes from 'prop-types'
+import { PATH } from 'utils/path'
 
 const PostTableStyles = styled.div`
   width: 100%;
@@ -116,7 +117,7 @@ const PostTable = ({ data }) => {
                     {admin && (
                       <>
                         <IconActionEdit
-                          onClick={() => navigate(`/manage/update-post?id=${post?.id}`)}
+                          onClick={() => navigate(`${PATH.dashboard.update_post}?id=${post?.id}`)}
                         ></IconActionEdit>
                         <IconActionDelete
                           onClick={() => handleDeletePost(post?.id)}

@@ -13,6 +13,7 @@ import { getDoc, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import slugify from 'slugify'
 import { toast } from 'react-toastify'
+import { PATH } from 'utils/path'
 
 const AddCategoryStyles = styled.div`
   .button {
@@ -52,7 +53,7 @@ const CategoryUpdate = () => {
         status: Number(values.status),
       })
       toast.success('Update category successfully')
-      navigate('/manage/category')
+      navigate(PATH.dashboard.categories)
     } catch (error) {
       toast.error('Something wrong!', {
         pauseOnHover: false,

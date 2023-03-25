@@ -109,11 +109,11 @@ const CategoryPage = () => {
             id: doc.id,
             ...doc.data(),
           })
+          setTimeout(() => {
+            isLoading(false)
+            setPosts(results)
+          }, 150)
         })
-        setTimeout(() => {
-          isLoading(false)
-          setPosts(results)
-        }, 250)
       } catch (error) {
         console.log(error)
         isLoading(true)

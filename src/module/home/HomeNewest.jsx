@@ -84,10 +84,8 @@ const HomeNewest = () => {
               ...doc.data(),
             })
           })
-          setTimeout(() => {
-            isLoading(false)
-            setPosts(results)
-          }, 250)
+          isLoading(false)
+          setPosts(results)
         })
       } catch (error) {
         console.log(error)

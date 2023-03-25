@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { AuthProvider } from 'contexts/auth-context'
 import LoadingSkeletonHomeBanner from 'components/loading/LoadingSkeletonHomeBanner'
 import { useEffect, useState } from 'react'
+import { PATH } from 'utils/path'
 
 const HomeBannerStyles = styled.div`
   position: relative;
@@ -88,8 +89,8 @@ const HomeBanner = () => {
                   Welcome to React Blogging. You can post your blogs, write your feeling and sharing
                   interesting things with other people. Click the button to explore something new.
                 </p>
-                <a href="/sign-up" className="inline-block">
-                  <Button type="button" to="/sign-up" className="button mt-">
+                <a href={PATH.sign_up} className="inline-block">
+                  <Button type="button" to={PATH.sign_up} className="button mt-">
                     Get Started
                   </Button>
                 </a>

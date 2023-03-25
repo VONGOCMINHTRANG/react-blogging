@@ -19,6 +19,7 @@ import CategoryTable from './CategoryTable'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
 import NotFoundPage from 'pages/NotFoundPage'
+import { PATH } from 'utils/path'
 
 const CategoryStyles = styled.div`
   .button {
@@ -157,7 +158,7 @@ const Category = () => {
       <Content title="Categories" desc="Here is our categories"></Content>
       <div className="utilities">
         <div className="flex gap-10 w-full">
-          <Link to="/manage/add-category">
+          <Link to={PATH.dashboard.add_category}>
             <Button type="button">Create category</Button>
           </Link>
           <Search placeholder="Search category..." onChange={handleInputFilter}></Search>

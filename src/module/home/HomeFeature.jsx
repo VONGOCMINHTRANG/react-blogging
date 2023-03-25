@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { collection, limit, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import LoadingSkeletonHomeFeature from 'components/loading/LoadingSkeletonHomeFeature'
+import { PATH } from 'utils/path'
 
 const HomeFeatureStyles = styled.div`
     align-items: center;
@@ -112,10 +113,8 @@ const HomeFeature = () => {
               })
             }
           })
-          setTimeout(() => {
-            isLoading(false)
-            setPosts(results)
-          }, 250)
+          isLoading(false)
+          setPosts(results)
         })
       } catch (error) {
         console.log(error)
@@ -134,7 +133,7 @@ const HomeFeature = () => {
           <div className="container">
             <div className="content">
               <Title>Feature</Title>
-              <Button type="button" className="view-all" onClick={() => navigate('/blog')}>
+              <Button type="button" className="view-all" onClick={() => navigate(PATH.blog)}>
                 View all
               </Button>
             </div>

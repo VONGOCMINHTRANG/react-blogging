@@ -10,6 +10,7 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase/firebase-config'
 import { Blur } from 'components/blur'
 import { IconMenu } from 'components/icon'
+import { PATH } from 'utils/path'
 
 const DashboardLayoutStyles = styled.div`
   display: flex;
@@ -168,14 +169,16 @@ const DashboardLayout = () => {
                   </svg>
                   <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
                     <li
-                      onClick={() => navigate(`/manage/account-information/${userInfo.username}`)}
+                      onClick={() =>
+                        navigate(`${PATH.dashboard.account_infomation}${userInfo.username}`)
+                      }
                       className="p-2 hover:bg-slate-300 hover:text-green-600"
                     >
                       Account Information
                     </li>
                     <li
                       onClick={() =>
-                        navigate(`/account-information/change-password/${userInfo.username}`)
+                        navigate(`${PATH.dashboard.change_password}${userInfo.username}`)
                       }
                       className="p-2 hover:bg-slate-300 hover:text-green-600"
                     >

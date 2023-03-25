@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 import UserInfo from './UserInfo'
 import { useAuth } from 'contexts/auth-context'
+import { PATH } from 'utils/path'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;
@@ -140,7 +141,7 @@ const UserTable = ({ data }) => {
                       onClick={() =>
                         navigate(
                           admin
-                            ? `/manage/update-user?id=${user?.id}`
+                            ? `${PATH.dashboard.update_user}?id=${user?.id}`
                             : `/manage/account-information/${user?.id}`
                         )
                       }

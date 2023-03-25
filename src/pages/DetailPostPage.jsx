@@ -33,10 +33,8 @@ const DetailPostPage = () => {
         onSnapshot(colRef, (snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.data()) {
-              setTimeout(() => {
-                isLoading(false)
-                setPostInfo(doc.data())
-              }, 250)
+              isLoading(false)
+              setPostInfo(doc.data())
             }
           })
         })
@@ -54,12 +52,7 @@ const DetailPostPage = () => {
 
   return (
     <>
-      {loading && (
-        <>
-          <LoadingSkeletonHeader></LoadingSkeletonHeader>
-          <LoadingSkeletonDetailPost></LoadingSkeletonDetailPost>
-        </>
-      )}
+      {loading && <LoadingSkeletonDetailPost></LoadingSkeletonDetailPost>}
 
       {!loading && (
         <DetailPostPageStyles>

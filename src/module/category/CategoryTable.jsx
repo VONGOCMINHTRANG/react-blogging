@@ -10,6 +10,7 @@ import { db } from '../../firebase/firebase-config'
 import PropTypes from 'prop-types'
 import { useRef, useState } from 'react'
 import CategoryInfo from './CategoryInfo'
+import { PATH } from 'utils/path'
 
 const CategoryTableStyles = styled.div`
   overflow-x: auto;
@@ -90,7 +91,9 @@ const CategoryTable = ({ data }) => {
                   <div className="flex justify-center categorys-center gap-x-3">
                     <IconActionView onClick={() => handleViewInfo(category)}></IconActionView>
                     <IconActionEdit
-                      onClick={() => navigate(`/manage/update-category?id=${category?.id}`)}
+                      onClick={() =>
+                        navigate(`${PATH.dashboard.update_category}?id=${category?.id}`)
+                      }
                     ></IconActionEdit>
                     <IconActionDelete
                       onClick={() => handleDeleteCategory(category?.id)}
