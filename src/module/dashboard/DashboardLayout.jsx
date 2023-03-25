@@ -108,7 +108,8 @@ const DashboardLayout = () => {
       if (result.isConfirmed) {
         Swal.fire('Login successfully', '', 'success')
         signOut(auth)
-        navigate('/')
+        window.location.reload()
+        navigate(0)
       }
     })
   }
@@ -146,7 +147,7 @@ const DashboardLayout = () => {
               </button>
 
               <Link to={`/account-information/${userInfo.username}`} className="header-avatar">
-                <img src={userInfo.avatar ? userInfo.avatar : '/avatar.jpg'} alt="avatar" />
+                <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />
               </Link>
               <div className="header-email group">
                 <span>{userInfo?.email}</span>

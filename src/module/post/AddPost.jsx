@@ -9,7 +9,7 @@ import { Toggle } from 'components/toggle'
 import Radio from 'components/radio'
 import { Button } from 'components/button'
 import slugify from 'slugify'
-import { postStatus } from 'utils/constants'
+import { postStatus, userRole } from 'utils/constants'
 import { ImageUpload } from 'components/image'
 import useFirebaseImage from 'hooks/useFirebaseImage'
 import {
@@ -56,6 +56,8 @@ const AddPost = () => {
   const [selectCategory, setSelectCategory] = useState('')
   const [content, setContent] = useState('')
   const { userInfo } = useAuth()
+  const [admin, isAdmin] = useState(false)
+
   const {
     handleSubmit,
     control,
@@ -114,8 +116,8 @@ const AddPost = () => {
         slug: cloneValues.slug,
         image,
         image_name: cloneValues.image_name,
-        hot: cloneValues.hot,
-        status: cloneValues.status,
+        hot: false,
+        status: postStatus.PENDING,
         categoryId: cloneValues.category.id,
         category: cloneValues.category,
         userId: cloneValues.user.id,
@@ -123,10 +125,18 @@ const AddPost = () => {
         createdAt: serverTimestamp(),
         editor: cloneValues.editor,
       })
-      toast.success('Create new post successfully', {
-        pauseOnHover: false,
-        delay: 100,
-      })
+      if (admin) {
+        toast.success('Create new post successfully', {
+          pauseOnHover: false,
+          delay: 100,
+        })
+      } else {
+        toast.success('Congrats! Your post will wait to be approved', {
+          pauseOnHover: false,
+          delay: 100,
+        })
+      }
+
       reset({
         title: '',
         slug: '',
@@ -150,6 +160,16 @@ const AddPost = () => {
       })
     }
   }
+
+  useEffect(() => {
+    try {
+      if (userInfo.role === userRole.ADMIN) {
+        isAdmin(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [userInfo])
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -334,47 +354,50 @@ const AddPost = () => {
             </div>
           )}
         </Field>
-        <div className="form-layout">
-          <Field>
-            <Label htmlFor="feature-post">Feature post</Label>
-            <label>
-              <Toggle
-                on={watchHot === true}
-                onClick={() => setValue('hot', !watchHot)}
-                name="hot"
-              ></Toggle>
-            </label>
-          </Field>
-          <Field>
-            <Label htmlFor="status">Status</Label>
-            <div className="flex flex-col lg:flex-row gap-5">
-              <Radio
-                name="status"
-                control={control}
-                checked={Number(watchStatus) === postStatus.APPROVED}
-                value={postStatus.APPROVED}
-              >
-                Approved
-              </Radio>
-              <Radio
-                name="status"
-                control={control}
-                checked={Number(watchStatus) === postStatus.PENDING}
-                value={postStatus.PENDING}
-              >
-                Pending
-              </Radio>
-              <Radio
-                name="status"
-                control={control}
-                checked={Number(watchStatus) === postStatus.REJECT}
-                value={postStatus.REJECT}
-              >
-                Reject
-              </Radio>
-            </div>
-          </Field>
-        </div>
+        {admin && (
+          <div className="form-layout">
+            <Field>
+              <Label htmlFor="feature-post">Feature post</Label>
+              <label>
+                <Toggle
+                  on={watchHot === true}
+                  onClick={() => setValue('hot', !watchHot)}
+                  name="hot"
+                ></Toggle>
+              </label>
+            </Field>
+            <Field>
+              <Label htmlFor="status">Status</Label>
+              <div className="flex flex-col lg:flex-row gap-5">
+                <Radio
+                  name="status"
+                  control={control}
+                  checked={Number(watchStatus) === postStatus.APPROVED}
+                  value={postStatus.APPROVED}
+                >
+                  Approved
+                </Radio>
+                <Radio
+                  name="status"
+                  control={control}
+                  checked={Number(watchStatus) === postStatus.PENDING}
+                  value={postStatus.PENDING}
+                >
+                  Pending
+                </Radio>
+                <Radio
+                  name="status"
+                  control={control}
+                  checked={Number(watchStatus) === postStatus.REJECT}
+                  value={postStatus.REJECT}
+                >
+                  Reject
+                </Radio>
+              </div>
+            </Field>
+          </div>
+        )}
+
         <Button
           type="submit"
           isLoading={isSubmitting}

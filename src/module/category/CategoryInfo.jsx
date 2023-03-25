@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import slugify from 'slugify'
 import styled from 'styled-components'
 import { categoryStatus } from 'utils/constants'
+import PropTypes from 'prop-types'
 
 const CategoryInfoStyles = styled.div`
   width: calc(100vw - 50%);
@@ -95,6 +96,12 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
     </>,
     document.querySelector('body')
   )
+}
+
+CategoryInfo.propTypes = {
+  info: PropTypes.bool.isRequired,
+  setInfo: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
 }
 
 export default CategoryInfo
