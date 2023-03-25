@@ -8,7 +8,7 @@ import Search from 'components/search/Search'
 import { IconMenu } from 'components/icon'
 import { Blur } from 'components/blur'
 import { useEffect, useState } from 'react'
-import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../firebase/firebase-config'
 import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
 import { categoryStatus } from 'utils/constants'
@@ -180,9 +180,9 @@ const Header = () => {
               ></Sidebar>
 
               <Search></Search>
-              <Link to={userInfo == '' ? '/sign-in' : '/dashboard'}>
+              <Link to={userInfo.length === 0 ? '/sign-in' : '/manage/dashboard'}>
                 <Button type="button" className="header-button" height="100%">
-                  {userInfo == '' ? 'Login' : 'Dashboard'}
+                  {userInfo.length === 0 ? 'Login' : 'Dashboard'}
                 </Button>
               </Link>
             </div>

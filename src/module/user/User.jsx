@@ -15,10 +15,9 @@ import {
 import { db } from '../../firebase/firebase-config'
 import UserTable from './UserTable'
 import Search from 'components/search/Search'
-import { debounce, orderBy } from 'lodash'
+import { debounce } from 'lodash'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
-import NotFoundPage from 'pages/NotFoundPage'
 
 const UserStyles = styled.div`
   .button {
@@ -72,7 +71,7 @@ const UserStyles = styled.div`
   }
 `
 
-const USER_PER_PAGE = 1
+const USER_PER_PAGE = 5
 
 const User = () => {
   const { userInfo } = useAuth()
@@ -80,6 +79,7 @@ const User = () => {
   const [filter, setFilter] = useState('')
   const [lastDoc, setLastDoc] = useState()
   const [total, setTotal] = useState(0)
+  const [admin, isAdmin] = useState(false)
 
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value)
@@ -108,12 +108,25 @@ const User = () => {
   }
 
   useEffect(() => {
-    const fetchCategoryData = async () => {
+    const docRef = query(collection(db, 'users'), where('email', '==', userInfo.email))
+    onSnapshot(docRef, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if (doc.data().role === userRole.ADMIN) {
+          isAdmin(true)
+        }
+      })
+    })
+  }, [userInfo.email])
+
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
         const colRef = collection(db, 'users')
         const newRef = filter
           ? query(colRef, where('fullname', '>=', filter), where('fullname', '<=', filter + 'utf8'))
-          : query(colRef, limit(4))
+          : admin
+          ? query(colRef, limit(4))
+          : query(colRef, where('email', '==', userInfo.email))
 
         const documentSnapshots = await getDocs(newRef)
         const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
@@ -141,24 +154,28 @@ const User = () => {
       }
     }
 
-    fetchCategoryData()
-  }, [filter])
+    fetchUserData()
+  }, [filter, admin])
 
-  if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
   return (
     <UserStyles>
       <Content title="User" desc="Manage your information."></Content>
-      <div className="utilities">
-        <div className="flex gap-10 w-full">
-          <Link to="/manage/add-user">
-            <Button type="button">Create user</Button>
-          </Link>
-          <Search placeholder="Search user..." onChange={handleInputFilter}></Search>
-        </div>
-      </div>
-      <div className="flex py-2">Total of users : {total}</div>
+      {admin && (
+        <>
+          <div className="utilities">
+            <div className="flex gap-10 w-full">
+              <Link to="/manage/add-user">
+                <Button type="button">Create user</Button>
+              </Link>
+              <Search placeholder="Search user..." onChange={handleInputFilter}></Search>
+            </div>
+          </div>
+          <div className="flex py-2">Total of users : {total}</div>
+        </>
+      )}
+
       <UserTable data={userList}></UserTable>
-      {total > userList.length && (
+      {total > userList.length && admin && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>
           Load more
         </Button>

@@ -17,7 +17,7 @@ export const menuLinks = [
     icon: '',
   },
   {
-    url: '/dashboard',
+    url: '/manage/dashboard',
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
   },

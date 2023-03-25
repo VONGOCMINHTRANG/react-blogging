@@ -4,7 +4,7 @@ export const MenuData = [
   {
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
-    url: '/dashboard',
+    url: '/manage/dashboard',
   },
   {
     title: 'Post',

@@ -18,9 +18,10 @@ const ImageUpload = ({
     rules,
     name,
   })
+
   return (
     <label
-      className={`${className} cursor-pointer flex items-center justify-center border border-dashed w-full h-[200px] rounded-lg shadow-lg relative overflow-hidden group bg-[#E7ECF3]`}
+      className={`${className} cursor-pointer flex items-center justify-center border border-dashed w-full h-[200px] rounded-lg shadow-lg relative overflow-hidden group bg-[#DCDCDC]`}
     >
       <input
         name={name}

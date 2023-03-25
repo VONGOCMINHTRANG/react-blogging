@@ -72,7 +72,7 @@ const PostNewestLeft = ({ data }) => {
         color="#A0A0A0"
         time={formatDate}
         author={data?.user?.fullname}
-        to={`/${slugify(data?.user?.fullname || '', { lower: true })}`}
+        to={`/author/${slugify(data?.user?.fullname || '', { lower: true })}`}
       ></PostMeta>
     </PostNewestLeftStyles>
   )

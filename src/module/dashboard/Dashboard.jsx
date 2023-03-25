@@ -1,7 +1,5 @@
 import Content from 'components/content/Content'
 import styled from 'styled-components'
-import { useAuth } from 'contexts/auth-context'
-import NotFoundPage from 'pages/NotFoundPage'
 
 const DashboardStyles = styled.div`
   display: flex;
@@ -42,9 +40,6 @@ const DashboardStyles = styled.div`
 `
 
 const Dashboard = () => {
-  const { userInfo } = useAuth()
-  if (!userInfo) return <NotFoundPage></NotFoundPage>
-
   return (
     <DashboardStyles>
       <Content title="Dashboard" desc="Overview dashboard monitor"></Content>

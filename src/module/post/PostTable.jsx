@@ -5,6 +5,9 @@ import { deleteDoc, doc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
+import { useAuth } from 'contexts/auth-context'
+import { useEffect, useState } from 'react'
+import { userRole } from 'utils/constants'
 
 const PostTableStyles = styled.div`
   width: 100%;
@@ -31,6 +34,8 @@ const PostTableStyles = styled.div`
 `
 
 const PostTable = ({ data }) => {
+  const { userInfo } = useAuth()
+  const [admin, isAdmin] = useState(false)
   const navigate = useNavigate()
   const handleDeletePost = async (post) => {
     const colRef = doc(db, 'posts', post)
@@ -49,6 +54,16 @@ const PostTable = ({ data }) => {
       }
     })
   }
+
+  useEffect(() => {
+    try {
+      if (userInfo.role === userRole.ADMIN) {
+        isAdmin(true)
+      }
+    } catch (error) {
+      console.log()
+    }
+  }, [userInfo])
 
   return (
     <PostTableStyles className="table-menu">
@@ -89,10 +104,17 @@ const PostTable = ({ data }) => {
                     <IconActionView
                       onClick={() => navigate(`/detail-post/${post?.slug}`)}
                     ></IconActionView>
-                    <IconActionEdit
-                      onClick={() => navigate(`/manage/update-post?id=${post?.id}`)}
-                    ></IconActionEdit>
-                    <IconActionDelete onClick={() => handleDeletePost(post?.id)}></IconActionDelete>
+
+                    {admin && (
+                      <>
+                        <IconActionEdit
+                          onClick={() => navigate(`/manage/update-post?id=${post?.id}`)}
+                        ></IconActionEdit>
+                        <IconActionDelete
+                          onClick={() => handleDeletePost(post?.id)}
+                        ></IconActionDelete>
+                      </>
+                    )}
                   </div>
                 </td>
               </tr>

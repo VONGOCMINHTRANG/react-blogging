@@ -5,6 +5,7 @@ import { imgbbAPI } from 'config/apiConfig'
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import ImageUploader from 'quill-image-uploader'
+import styled from 'styled-components'
 Quill.register('modules/imageUploader', ImageUploader)
 
 /**
@@ -13,6 +14,12 @@ Quill.register('modules/imageUploader', ImageUploader)
  * @param {string} type Type of button 'button | 'submit'
  *
  */
+
+const EditorStyles = styled.div`
+  .ql-container {
+    background-color: #e0e0e0;
+  }
+`
 
 const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) => {
   const { field } = useController({
@@ -51,7 +58,7 @@ const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) 
     []
   )
   return (
-    <div className="entry-content">
+    <EditorStyles className="entry-content">
       <ReactQuill
         name={name}
         theme={'snow'}
@@ -61,7 +68,7 @@ const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) 
         {...field}
         {...props}
       />
-    </div>
+    </EditorStyles>
   )
 }
 

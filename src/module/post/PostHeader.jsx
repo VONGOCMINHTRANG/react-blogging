@@ -81,7 +81,7 @@ const PostHeader = ({ data }) => {
         <PostMeta
           time={formatDate}
           author={data?.user?.fullname}
-          to={`/${slugify(data?.user?.fullname || '', { lower: true })}`}
+          to={`/author/${slugify(data?.user?.fullname || '', { lower: true })}`}
         ></PostMeta>
       </div>
     </PostHeaderStyles>

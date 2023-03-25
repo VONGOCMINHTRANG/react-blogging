@@ -13,7 +13,7 @@ const Select = ({ value, name, control, rules, placeholder = '' }) => {
 
   return (
     <div
-      className="flex items-center justify-between p-5 bg-[#E7ECF3] rounded cursor-pointer font-medium"
+      className="flex items-center justify-between p-5 bg-[#DCDCDC] rounded cursor-pointer font-medium"
       control={control}
       value={value}
       {...field}

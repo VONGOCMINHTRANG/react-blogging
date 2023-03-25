@@ -25,7 +25,7 @@ const PostContent = ({ data }) => {
         <PostContentMain title={data?.title} editor={data?.editor}></PostContentMain>
         <div className="author">
           <AuthorImage
-            to={slugify(data?.user?.fullname || '', { lower: true })}
+            to={`author/${slugify(data?.user?.fullname || '', { lower: true })}`}
             src={data?.user?.avatar}
           ></AuthorImage>
           <AuthorContent name={data?.user?.fullname} email={data?.user?.email}></AuthorContent>

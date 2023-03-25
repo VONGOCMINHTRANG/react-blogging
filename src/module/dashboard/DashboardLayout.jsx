@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import DashboardMenu from './DashboardMenu'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { IconHome } from 'components/icon'
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase/firebase-config'
@@ -94,6 +94,7 @@ const DashboardLayout = () => {
   const { userInfo } = useAuth()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const [checkUser, setCheckUser] = useState(true)
 
   const handleLogout = () => {
     Swal.fire({
@@ -112,75 +113,95 @@ const DashboardLayout = () => {
     })
   }
 
-  if (userInfo == '') return <NotFoundPage></NotFoundPage>
+  useEffect(() => {
+    try {
+      if (userInfo.length === 0) {
+        setCheckUser(false)
+      }
+      if (userInfo.email) {
+        setCheckUser(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [userInfo])
 
   return (
-    <DashboardLayoutStyles>
-      {open && (
-        <>
-          <Blur onClick={() => setOpen(false)}></Blur>
-        </>
-      )}
+    <>
+      {!checkUser && <NotFoundPage></NotFoundPage>}
 
-      <DashboardMenu open={open} setOpen={setOpen}></DashboardMenu>
-      <div className="dashboard-main">
-        <div className="header-right drop-shadow-lg">
-          <button className="sidebarBtn" onClick={() => setOpen(true)}>
-            <IconMenu></IconMenu>
-          </button>
+      {checkUser && (
+        <DashboardLayoutStyles>
+          {open && (
+            <>
+              <Blur onClick={() => setOpen(false)}></Blur>
+            </>
+          )}
 
-          <Link to={`/account-information/${userInfo?.username}`} className="header-avatar">
-            <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />
-          </Link>
-          <div className="header-email group">
-            <span>{userInfo?.email}</span>
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                />
-              </svg>
-              <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
-                <li
-                  onClick={() => navigate(`/manage/account-information/${userInfo?.username}`)}
-                  className="p-2 hover:bg-slate-300 hover:text-green-600"
-                >
-                  Account Information
-                </li>
-                <li
-                  onClick={() =>
-                    navigate(`/account-information/change-password/${userInfo?.username}`)
-                  }
-                  className="p-2 hover:bg-slate-300 hover:text-green-600"
-                >
-                  Change password
-                </li>
-                <li onClick={handleLogout} className="p-2 hover:bg-slate-300 hover:text-green-600">
-                  Logout
-                </li>
-              </ul>
+          <DashboardMenu open={open} setOpen={setOpen}></DashboardMenu>
+          <div className="dashboard-main">
+            <div className="header-right drop-shadow-lg">
+              <button className="sidebarBtn" onClick={() => setOpen(true)}>
+                <IconMenu></IconMenu>
+              </button>
+
+              <Link to={`/account-information/${userInfo.username}`} className="header-avatar">
+                <img src={userInfo.avatar ? userInfo.avatar : '/avatar.jpg'} alt="avatar" />
+              </Link>
+              <div className="header-email group">
+                <span>{userInfo?.email}</span>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                  <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
+                    <li
+                      onClick={() => navigate(`/manage/account-information/${userInfo.username}`)}
+                      className="p-2 hover:bg-slate-300 hover:text-green-600"
+                    >
+                      Account Information
+                    </li>
+                    <li
+                      onClick={() =>
+                        navigate(`/account-information/change-password/${userInfo.username}`)
+                      }
+                      className="p-2 hover:bg-slate-300 hover:text-green-600"
+                    >
+                      Change password
+                    </li>
+                    <li
+                      onClick={handleLogout}
+                      className="p-2 hover:bg-slate-300 hover:text-green-600"
+                    >
+                      Logout
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
+            <div className="dashboard-children">
+              <Suspense>
+                <Outlet />
+              </Suspense>
+            </div>
+            <Link to="/" className="icon-home">
+              <IconHome></IconHome>
+            </Link>
           </div>
-        </div>
-        <div className="dashboard-children">
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </div>
-        <Link to="/" className="icon-home">
-          <IconHome></IconHome>
-        </Link>
-      </div>
-    </DashboardLayoutStyles>
+        </DashboardLayoutStyles>
+      )}
+    </>
   )
 }
 

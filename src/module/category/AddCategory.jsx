@@ -4,9 +4,7 @@ import { Field } from 'components/field'
 import { Input } from 'components/input'
 import { Label } from 'components/label'
 import Radio from 'components/radio'
-import { useAuth } from 'contexts/auth-context'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import NotFoundPage from 'pages/NotFoundPage'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import slugify from 'slugify'
@@ -28,8 +26,6 @@ const AddCategoryStyles = styled.div`
 `
 
 const AddCategory = () => {
-  const { userInfo } = useAuth()
-
   const {
     handleSubmit,
     control,
@@ -80,8 +76,6 @@ const AddCategory = () => {
       })
     }
   }
-
-  if (!userInfo) return <NotFoundPage></NotFoundPage>
 
   return (
     <AddCategoryStyles>

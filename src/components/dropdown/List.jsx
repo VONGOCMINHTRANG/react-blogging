@@ -7,7 +7,7 @@ const List = ({ children }) => {
   return (
     <>
       <div
-        className={`absolute top-full left-0 w-full bg-gray-100 shadow-sm z-30 transition-all duration-150 ${
+        className={`absolute top-full left-0 w-full bg-white drop-shadow-lg z-30 transition-all duration-150 ${
           show ? 'visible translate-y-2' : 'invisible translate-y-0'
         }`}
       >

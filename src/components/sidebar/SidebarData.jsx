@@ -25,7 +25,7 @@ export const SidebarData = [
     icon: <IconCategory></IconCategory>,
   },
   {
-    url: '/dashboard',
+    url: '/manage/dashboard',
     title: 'Dashboard',
     icon: <IconDashboard></IconDashboard>,
   },

@@ -18,7 +18,6 @@ import { Button } from 'components/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
-import NotFoundPage from 'pages/NotFoundPage'
 
 const PostsStyles = styled.div`
   .button {
@@ -72,7 +71,7 @@ const PostsStyles = styled.div`
   }
 `
 
-const POST_PER_PAGE = 1
+const POST_PER_PAGE = 5
 
 const Posts = () => {
   const { userInfo } = useAuth()
@@ -80,6 +79,9 @@ const Posts = () => {
   const [filter, setFilter] = useState('')
   const [total, setTotal] = useState(0)
   const [lastDoc, setLastDoc] = useState()
+  const [userId, setUserId] = useState('')
+  const [admin, isAdmin] = useState(false)
+
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value)
   }, 500)
@@ -87,8 +89,8 @@ const Posts = () => {
   const handleLoadMore = async () => {
     try {
       const nextRef = query(collection(db, 'posts'), startAfter(lastDoc), limit(POST_PER_PAGE))
+
       onSnapshot(nextRef, (snapshot) => {
-        // console.log(snapshot.size)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -98,6 +100,7 @@ const Posts = () => {
         })
         setPostList([...postList, ...results])
       })
+
       const documentSnapshots = await getDocs(nextRef)
       const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
       setLastDoc(lastVisible)
@@ -107,12 +110,26 @@ const Posts = () => {
   }
 
   useEffect(() => {
+    const docRef = query(collection(db, 'users'), where('email', '==', userInfo.email))
+    onSnapshot(docRef, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if (doc.data().role === userRole.ADMIN) {
+          isAdmin(true)
+        }
+        setUserId(doc.id)
+      })
+    })
+  }, [userInfo.email])
+
+  useEffect(() => {
     const fetchPostData = async () => {
       try {
         const colRef = collection(db, 'posts')
         const newRef = filter
           ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-          : query(colRef, limit(4))
+          : admin
+          ? query(colRef, limit(4))
+          : query(colRef, where('userId', '==', userId), limit(4))
 
         const documentSnapshots = await getDocs(newRef)
         const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
@@ -120,9 +137,15 @@ const Posts = () => {
         // console.log('last', lastVisible)
         setLastDoc(lastVisible)
 
-        onSnapshot(colRef, (snapshot) => {
-          setTotal(snapshot.size)
-        })
+        if (admin) {
+          onSnapshot(colRef, (snapshot) => {
+            setTotal(snapshot.size)
+          })
+        } else {
+          onSnapshot(newRef, (snapshot) => {
+            setTotal(snapshot.size)
+          })
+        }
 
         onSnapshot(newRef, (snapshot) => {
           let results = []
@@ -141,9 +164,8 @@ const Posts = () => {
     }
 
     fetchPostData()
-  }, [filter])
+  }, [filter, userId])
 
-  if (userInfo.role !== userRole.ADMIN) return <NotFoundPage></NotFoundPage>
   return (
     <PostsStyles>
       <Content title="Post" desc="Manage all posts."></Content>
@@ -152,12 +174,12 @@ const Posts = () => {
           <Link to="/manage/add-post">
             <Button type="button">Create post</Button>
           </Link>
-          <Search placeholder="Search post..." onChange={handleInputFilter}></Search>
+          {admin && <Search placeholder="Search post..." onChange={handleInputFilter}></Search>}
         </div>
       </div>
-      <div className="flex py-2">Total of users : {total}</div>
+      <div className="flex py-2">Total of posts : {total}</div>
       <PostTable data={postList}></PostTable>
-      {total > postList.length && (
+      {total > postList.length && admin && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>
           Load more
         </Button>

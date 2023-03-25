@@ -81,7 +81,7 @@ const PostRelatedItem = ({ post }) => {
       <PostMeta
         time={formatDate}
         author={post?.user?.fullname}
-        to={`/${slugify(post?.user?.fullname || '', { lower: true })}`}
+        to={`/author/${slugify(post?.user?.fullname || '', { lower: true })}`}
       ></PostMeta>
     </PostRelatedItemStyles>
   )

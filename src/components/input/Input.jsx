@@ -10,7 +10,7 @@ const InputStyles = styled.div`
   input {
     width: 100%;
     padding: ${(props) => (props.hasIcon ? '16px 60px 16px 20px' : '16px 20px')};
-    background-color: ${(props) => props.theme.grayLight};
+    background-color: #dcdcdc;
     border-radius: 8px;
     font-weight: normal;
     transition: all 0.2s linear;

@@ -51,7 +51,7 @@ function App() {
                 </Suspense>
               }
             >
-              <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+              <Route path="/manage/dashboard" element={<Dashboard></Dashboard>}></Route>
 
               {/* Manage Post */}
               <Route path="/manage/add-post" element={<AddPost></AddPost>}></Route>
@@ -81,7 +81,7 @@ function App() {
             </Route>
 
             <Route path="/detail-post/:slug" element={<DetailPostPage></DetailPostPage>}></Route>
-            <Route path="/:slug" element={<AuthorPage></AuthorPage>}></Route>
+            <Route path="/author/:slug" element={<AuthorPage></AuthorPage>}></Route>
             <Route path="/category/:slug" element={<CategoryPage></CategoryPage>}></Route>
           </Routes>
         </Suspense>

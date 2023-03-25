@@ -2,14 +2,15 @@ import { IconActionDelete, IconActionEdit, IconActionView } from 'components/ico
 import { LabelStatus } from 'components/label'
 import { Table } from 'components/table'
 import { db } from '../../firebase/firebase-config'
-import { deleteDoc, doc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { userRole, userStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import UserInfo from './UserInfo'
+import { useAuth } from 'contexts/auth-context'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;
@@ -35,6 +36,8 @@ const UserTableStyles = styled.div`
 `
 
 const UserTable = ({ data }) => {
+  const { userInfo } = useAuth()
+  const [admin, isAdmin] = useState(false)
   const navigate = useNavigate()
   const [info, setInfo] = useState(false)
   const dataUser = useRef([])
@@ -61,6 +64,16 @@ const UserTable = ({ data }) => {
     dataUser.current = user
     setInfo(true)
   }
+
+  useEffect(() => {
+    try {
+      if (userInfo.role === userRole.ADMIN) {
+        isAdmin(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [userInfo])
 
   return (
     <UserTableStyles className="table-menu">
@@ -124,9 +137,20 @@ const UserTable = ({ data }) => {
                     <IconActionView onClick={() => handleViewInfo(user)}></IconActionView>
 
                     <IconActionEdit
-                      onClick={() => navigate(`/manage/update-user?id=${user?.id}`)}
+                      onClick={() =>
+                        navigate(
+                          admin
+                            ? `/manage/update-user?id=${user?.id}`
+                            : `/manage/account-information/${user?.id}`
+                        )
+                      }
                     ></IconActionEdit>
-                    <IconActionDelete onClick={() => handleDeleteUser(user?.id)}></IconActionDelete>
+
+                    {admin && (
+                      <IconActionDelete
+                        onClick={() => handleDeleteUser(user?.id)}
+                      ></IconActionDelete>
+                    )}
                   </div>
                 </td>
               </tr>

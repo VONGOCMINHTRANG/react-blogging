@@ -78,7 +78,7 @@ const PostFeatureItem = ({ data }) => {
           <PostMeta
             time={formatDate}
             author={user.fullname}
-            to={slugify(user.fullname || '', { lower: true })}
+            to={`/author/${slugify(user.fullname || '', { lower: true })}`}
           ></PostMeta>
         </div>
         <PostTitle to={`/detail-post/${data?.slug}`}>{data.title}</PostTitle>
