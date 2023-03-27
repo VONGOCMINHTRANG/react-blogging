@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { Button } from 'components/button'
 import { useNavigate } from 'react-router-dom'
 import PostFeatureItem from 'module/post/PostFeatureItem'
@@ -10,12 +10,13 @@ import { collection, limit, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import LoadingSkeletonHomeFeature from 'components/loading/LoadingSkeletonHomeFeature'
 import { PATH } from 'utils/path'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const HomeFeatureStyles = styled.div`
     align-items: center;
     display: flex;
     justify-content: center;
-    margin-bottom: 4em;
+    padding-bottom: 4em;
 
     .slick-slide {
       padding: 0 10px;
@@ -48,6 +49,7 @@ const HomeFeature = () => {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
   const [loading, isLoading] = useState(false)
+  const { darkTheme } = useDarkTheme()
 
   function NextArrow({ onClick }) {
     return (
@@ -129,7 +131,7 @@ const HomeFeature = () => {
     <>
       {loading && <LoadingSkeletonHomeFeature></LoadingSkeletonHomeFeature>}
       {!loading && (
-        <HomeFeatureStyles>
+        <HomeFeatureStyles className={darkTheme ? 'bg-black/80' : ''}>
           <div className="container">
             <div className="content">
               <Title>Feature</Title>

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const LabelStyles = styled.label`
   color: ${(props) => props.theme.grayDark};
@@ -10,7 +11,12 @@ const LabelStyles = styled.label`
 `
 
 const Label = ({ children, ...props }) => {
-  return <LabelStyles {...props}>{children}</LabelStyles>
+  const { darkTheme } = useDarkTheme()
+  return (
+    <LabelStyles {...props} className={darkTheme ? '!text-white' : ''}>
+      {children}
+    </LabelStyles>
+  )
 }
 
 Label.propTypes = {

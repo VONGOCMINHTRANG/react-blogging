@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const TitleStyles = styled.h2`
   color: ${(props) => props.theme.text.title};
@@ -12,7 +13,9 @@ const TitleStyles = styled.h2`
 `
 
 const Title = ({ children }) => {
-  return <TitleStyles className="title">{children}</TitleStyles>
+  const { darkTheme } = useDarkTheme()
+
+  return <TitleStyles className={`title ${darkTheme ? '!text-white' : ''}`}>{children}</TitleStyles>
 }
 
 Title.propTypes = {

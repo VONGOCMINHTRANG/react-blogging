@@ -1,3 +1,4 @@
+import { useDarkTheme } from 'contexts/theme-context'
 import PostCategory from 'module/post/PostCategory'
 import PostImage from 'module/post/PostImage'
 import PostMeta from 'module/post/PostMeta'
@@ -66,8 +67,10 @@ const PostHeaderStyles = styled.div`
 `
 
 const PostHeader = ({ data }) => {
+  const { darkTheme } = useDarkTheme()
   const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
+
   return (
     <PostHeaderStyles className="post-header">
       <PostImage src={data?.image}></PostImage>

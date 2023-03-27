@@ -21,12 +21,14 @@ import IconMinus from './IconMinus'
 import IconPencil from './IconPencil'
 import IconDark from './IconDark'
 import IconLight from './iconLight'
+import IconArrowDown from './IconArrowDown'
 
 export {
   IconEyeOpen,
   IconEyeClose,
   IconArrowLeft,
   IconArrowRight,
+  IconArrowDown,
   IconMenu,
   IconSearch,
   IconHome,

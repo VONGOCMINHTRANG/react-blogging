@@ -35,8 +35,8 @@ const CategoryPage = lazy(() => import('pages/CategoryPage'))
 const MainRoutes = () => {
   return (
     <>
-      <AuthProvider>
-        <ThemeProvider>
+      <ThemeProvider>
+        <AuthProvider>
           <Suspense>
             <Routes>
               <Route path={PATH.main} element={<HomePage></HomePage>}></Route>
@@ -95,8 +95,8 @@ const MainRoutes = () => {
               <Route path={PATH.category} element={<CategoryPage></CategoryPage>}></Route>
             </Routes>
           </Suspense>
-        </ThemeProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </>
   )
 }

@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { userRole, userStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const UserInfoStyles = styled.div`
   width: calc(100vw - 50%);
@@ -47,6 +48,7 @@ const UserInfoStyles = styled.div`
 `
 
 const UserInfo = ({ info, setInfo = () => {}, data }) => {
+  const { darkTheme } = useDarkTheme()
   const [more, setMore] = useState(false)
   const { avatar, dob, email, fullname, id, phone, role, status, username, createdAt } =
     data.current
@@ -55,7 +57,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
   return ReactDOM.createPortal(
     <>
       {info && <Blur onClick={() => setInfo(false)}></Blur>}
-      <UserInfoStyles className="hide-scrollbar" id="info">
+      <UserInfoStyles className={`hide-scrollbar ${darkTheme ? '!bg-gray-700' : ''}`} id="info">
         <div className="user-info">
           <div className="title">User Information</div>
 
@@ -68,31 +70,61 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
           </div>
           <div className="layout">
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Id</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Id
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{id}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Email</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Email
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{email}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Username</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Username
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{username}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Fullname</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Fullname
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{fullname}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Date of birth</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Date of birth
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{dob}</span>
               </div>
@@ -103,13 +135,25 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
             {more && (
               <>
                 <div className="flex mb-4 p-1 items-center">
-                  <div className="w-4/12 text-slate-700 font-semibold px-5">Mobile number</div>
+                  <div
+                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                      darkTheme ? 'text-white' : ''
+                    }`}
+                  >
+                    Mobile number
+                  </div>
                   <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                     <span className="px-2">{phone}</span>
                   </div>
                 </div>
                 <div className="flex mb-4 p-1 items-center">
-                  <div className="w-4/12 text-slate-700 font-semibold px-5">Status</div>
+                  <div
+                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                      darkTheme ? 'text-white' : ''
+                    }`}
+                  >
+                    Status
+                  </div>
                   {Number(status) === userStatus.ACTIVE && (
                     <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                       <span className="px-2">Active</span>
@@ -127,7 +171,13 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   )}
                 </div>
                 <div className="flex mb-4 p-1 items-center">
-                  <div className="w-4/12 text-slate-700 font-semibold px-5">Role</div>
+                  <div
+                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                      darkTheme ? 'text-white' : ''
+                    }`}
+                  >
+                    Role
+                  </div>
                   {Number(role) === userRole.ADMIN && (
                     <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
                       <span className="px-2">Admin</span>
@@ -150,7 +200,13 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   )}
                 </div>
                 <div className="flex mb-4 p-1 items-center">
-                  <div className="w-4/12 text-slate-700 font-semibold px-5">CreatedAt</div>
+                  <div
+                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                      darkTheme ? 'text-white' : ''
+                    }`}
+                  >
+                    CreatedAt
+                  </div>
                   <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                     <span className="px-2">{time}</span>
                   </div>

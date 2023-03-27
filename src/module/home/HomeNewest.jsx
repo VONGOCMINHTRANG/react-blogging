@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import LoadingSkeletonHomeNewest from 'components/loading/LoadingSkeletonHomeNewest'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const HomeNewestStyles = styled.div`
     align-items: center;
@@ -69,6 +70,7 @@ const HomeNewest = () => {
   const [posts, setPosts] = useState([])
   const [loading, isLoading] = useState(false)
   const navigate = useNavigate()
+  const { darkTheme } = useDarkTheme()
 
   useEffect(() => {
     const postsRef = collection(db, 'posts')
@@ -102,7 +104,7 @@ const HomeNewest = () => {
     <>
       {loading && <LoadingSkeletonHomeNewest></LoadingSkeletonHomeNewest>}
       {!loading && (
-        <HomeNewestStyles>
+        <HomeNewestStyles className={darkTheme ? 'bg-black/80' : ''}>
           <div className="container">
             <div className="content">
               <Title>Newest Update</Title>

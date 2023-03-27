@@ -4,6 +4,7 @@ import slugify from 'slugify'
 import styled from 'styled-components'
 import { categoryStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const CategoryInfoStyles = styled.div`
   width: calc(100vw - 50%);
@@ -41,6 +42,7 @@ const CategoryInfoStyles = styled.div`
 `
 
 const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
+  const { darkTheme } = useDarkTheme()
   const { createdAt, id, name, slug, status } = data.current
   const time = new Date(createdAt?.seconds * 1000).toLocaleDateString('vi-VI')
 
@@ -48,30 +50,54 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
     <>
       {info && <Blur onClick={() => setInfo(false)}></Blur>}
 
-      <CategoryInfoStyles className="hide-scrollbar" id="info">
+      <CategoryInfoStyles className={`hide-scrollbar ${darkTheme ? '!bg-gray-700' : ''}`} id="info">
         <div className="category-info">
           <div className="title">Category Information</div>
           <div className="layout">
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Id</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Id
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{id}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Name</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Name
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{name}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Slug</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Slug
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{slugify(slug)}</span>
               </div>
             </div>
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">Status</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                Status
+              </div>
               {Number(status) === categoryStatus.APPROVED && (
                 <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                   <span className="px-2">Approved</span>
@@ -85,7 +111,13 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
             </div>
 
             <div className="flex mb-4 p-1 items-center">
-              <div className="w-4/12 text-slate-700 font-semibold px-5">CreatedAt</div>
+              <div
+                className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                  darkTheme ? 'text-white' : ''
+                }`}
+              >
+                CreatedAt
+              </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{time}</span>
               </div>
