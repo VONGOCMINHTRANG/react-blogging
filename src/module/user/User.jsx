@@ -18,6 +18,7 @@ import Search from 'components/search/Search'
 import { debounce } from 'lodash'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const UserStyles = styled.div`
   .button {
@@ -75,6 +76,7 @@ const USER_PER_PAGE = 5
 
 const User = () => {
   const { userInfo } = useAuth()
+  const { darkTheme } = useDarkTheme()
   const [userList, setUserList] = useState([])
   const [filter, setFilter] = useState('')
   const [lastDoc, setLastDoc] = useState()
@@ -89,7 +91,6 @@ const User = () => {
     try {
       const nextRef = query(collection(db, 'users'), startAfter(lastDoc), limit(USER_PER_PAGE))
       onSnapshot(nextRef, (snapshot) => {
-        // console.log(snapshot.size)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -170,7 +171,9 @@ const User = () => {
               <Search placeholder="Search user..." onChange={handleInputFilter}></Search>
             </div>
           </div>
-          <div className="flex py-2">Total of users : {total}</div>
+          <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>
+            Total of users : {total}
+          </div>
         </>
       )}
 

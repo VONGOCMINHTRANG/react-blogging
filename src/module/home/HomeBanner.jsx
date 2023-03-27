@@ -5,16 +5,20 @@ import { AuthProvider } from 'contexts/auth-context'
 import LoadingSkeletonHomeBanner from 'components/loading/LoadingSkeletonHomeBanner'
 import { useEffect, useState } from 'react'
 import { PATH } from 'utils/path'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const HomeBannerStyles = styled.div`
   position: relative;
-  margin-bottom: 4em;
+  padding-bottom: 4em;
   padding: 0px 3em;
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
+  .wrapper {
+    margin-bottom: 4em;
+  }
 
   .container-fluid {
     background-image: url('/background.jpg');
@@ -69,6 +73,8 @@ const HomeBannerStyles = styled.div`
 
 const HomeBanner = () => {
   const [loading, isLoading] = useState(false)
+  const { darkTheme } = useDarkTheme()
+
   useEffect(() => {
     isLoading(true)
     setTimeout(() => {
@@ -80,21 +86,24 @@ const HomeBanner = () => {
     <AuthProvider>
       {loading && <LoadingSkeletonHomeBanner></LoadingSkeletonHomeBanner>}
       {!loading && (
-        <HomeBannerStyles>
-          <div className="container-fluid">
-            <Overlay className="overlay"></Overlay>
-            <div className="banner">
-              <div className="banner-content">
-                <h1>React blogging</h1>
-                <p>
-                  Welcome to React Blogging. You can post your blogs, write your feeling and sharing
-                  interesting things with other people. Click the button to explore something new.
-                </p>
-                <a href={PATH.sign_up} className="inline-block">
-                  <Button type="button" to={PATH.sign_up} className="button mt-">
-                    Get Started
-                  </Button>
-                </a>
+        <HomeBannerStyles className={darkTheme ? 'bg-black/80' : ''}>
+          <div className="wrapper">
+            <div className="container-fluid">
+              <Overlay className="overlay"></Overlay>
+              <div className="banner">
+                <div className="banner-content">
+                  <h1>React blogging</h1>
+                  <p>
+                    Welcome to React Blogging. You can post your blogs, write your feeling and
+                    sharing interesting things with other people. Click the button to explore
+                    something new.
+                  </p>
+                  <a href={PATH.sign_up} className="inline-block">
+                    <Button type="button" to={PATH.sign_up} className="button mt-">
+                      Get Started
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

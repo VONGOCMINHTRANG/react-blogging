@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import LoadingSkeletonDetailPost from 'components/loading/LoadingSkeletonDetailPost'
-import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const DetailPostPageStyles = styled.div`
   .container {
@@ -18,12 +18,20 @@ const DetailPostPageStyles = styled.div`
     transition: width 0.1s;
     padding: 0px;
   }
+  .post-header {
+    margin: 0;
+  }
+  .post-info {
+    width: 100%;
+  }
 `
 
 const DetailPostPage = () => {
+  const { darkTheme } = useDarkTheme()
   const [loading, isLoading] = useState(false)
   const { slug } = useParams()
   const [postInfo, setPostInfo] = useState({})
+
   useEffect(() => {
     const fetchDetailPostData = async () => {
       try {
@@ -57,12 +65,14 @@ const DetailPostPage = () => {
       {!loading && (
         <DetailPostPageStyles>
           <Layout>
-            <div className="container">
-              <PostHeader data={postInfo}></PostHeader>
-              <PostContent data={postInfo}></PostContent>
-              <div className="post-related">
-                <Title>Related Posts</Title>
-                <PostRelated categoryId={postInfo?.categoryId}></PostRelated>
+            <div className={`wrapper ${darkTheme ? 'bg-black/80' : ''}`}>
+              <div className="container">
+                <PostHeader data={postInfo}></PostHeader>
+                <PostContent data={postInfo}></PostContent>
+                <div className="post-related">
+                  <Title>Related Posts</Title>
+                  <PostRelated categoryId={postInfo?.categoryId}></PostRelated>
+                </div>
               </div>
             </div>
           </Layout>

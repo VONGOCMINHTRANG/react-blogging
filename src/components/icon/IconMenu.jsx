@@ -1,9 +1,9 @@
-import { BiMenu } from "react-icons/bi";
+import { useDarkTheme } from 'contexts/theme-context'
+import { BiMenu } from 'react-icons/bi'
 
 const IconMenu = () => {
-    return (
-        <BiMenu></BiMenu>
-    )
+  const { darkTheme } = useDarkTheme()
+  return <BiMenu className={darkTheme ? 'text-white' : ''}></BiMenu>
 }
 
-export default IconMenu;
+export default IconMenu

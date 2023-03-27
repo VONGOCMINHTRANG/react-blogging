@@ -13,7 +13,7 @@ import { auth, db } from '../firebase/firebase-config'
 import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
 import { categoryStatus } from 'utils/constants'
 import { PATH } from 'utils/path'
-import { useTheme } from 'contexts/theme-context'
+import { useDarkTheme } from 'contexts/theme-context'
 import Swal from 'sweetalert2'
 import { signOut } from 'firebase/auth'
 
@@ -94,9 +94,11 @@ const HeaderStyles = styled.header`
         .search{
           margin-left: 0;
           width: auto;
+          flex: 1;
         }
         input{
           padding: 5px 10px;
+          border-radius: 5px;
         }
         .search-icon{
           right: 10px;
@@ -112,15 +114,28 @@ const HeaderStyles = styled.header`
     /* Tablet */
     @media (min-width:541px) and (max-width:949px)
     {   
-        padding: 20px 0px;
+        padding: 10px 0px;
         display: flex;
         align-items: center:
         justify-content: center;
         .container{
           width: 90vw;
         }
-        .logo, .menu, .theme, .avatar{
+        .logo, .menu, .theme, .header-button{
             display: none;
+        }
+        .avatar{
+          cursor: pointer;
+          margin-top: auto;
+          margin-bottom: auto;
+        }
+        .search{
+          width: auto;
+          flex: 1;
+        }
+        input{
+          padding: 5px 10px;
+          border-radius: 5px;
         }
         .sidebarBtn{
             display: inline-block;
@@ -138,7 +153,7 @@ const HeaderStyles = styled.header`
 const Header = () => {
   const { userInfo } = useAuth()
   const navigate = useNavigate()
-  const { darkTheme, toggleDarkTheme } = useTheme()
+  const { darkTheme, toggleDarkTheme } = useDarkTheme()
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState(false)
   const [loading, isLoading] = useState(false)
@@ -266,7 +281,7 @@ const Header = () => {
                     className="w-10 h-10 rounded-full object-cover"
                   />
 
-                  {menu && userInfo.length > 0 && (
+                  {menu && userInfo.email && (
                     <ul className="z-10 absolute whitespace-nowrap mt-1 right-3 text-sm transition-all rounded bg-slate-600 text-white font-semibold">
                       <li
                         onClick={() =>
@@ -283,6 +298,22 @@ const Header = () => {
                         className="p-2 hover:bg-slate-300 hover:text-green-600"
                       >
                         Change password
+                      </li>
+                      <li
+                        onClick={toggleDarkTheme}
+                        className="p-2 hover:bg-slate-300 hover:text-green-600 flex gap-2"
+                      >
+                        {darkTheme ? (
+                          <>
+                            Light theme
+                            <IconLight></IconLight>
+                          </>
+                        ) : (
+                          <>
+                            Dark theme
+                            <IconDark></IconDark>
+                          </>
+                        )}
                       </li>
                       <li
                         onClick={handleLogout}

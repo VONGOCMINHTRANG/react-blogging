@@ -1,17 +1,21 @@
 import { Title } from 'components/title'
+import { useDarkTheme } from 'contexts/theme-context'
 import FooterLeft from 'module/footer/FooterLeft'
 import FooterRight from 'module/footer/FooterRight'
 import styled from 'styled-components'
 
 const FooterStyles = styled.div`
-  background-color: rgb(243, 237, 255);
-  width: 80vw;
-  margin-left: auto;
-  margin-right: auto;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  padding: 28px 20px;
-  color: ${(props) => props.theme.secondary};
+  .wrapper {
+    background-color: rgb(243, 237, 255);
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    padding: 28px 20px;
+    color: ${(props) => props.theme.secondary};
+  }
+
   .title {
     color: ${(props) => props.theme.secondary} !important;
   }
@@ -37,19 +41,23 @@ const FooterStyles = styled.div`
 `
 
 const Footer = () => {
-  return (
-    <FooterStyles>
-      <div className="container">
-        <div className="flex flex-col justify-center gap-y-2">
-          <img src="/logo.png" className="logo" alt="react-blogging" />
-          <Title>React Blogging</Title>
-        </div>
+  const { darkTheme } = useDarkTheme()
 
-        <div className="footer-left">
-          <FooterLeft></FooterLeft>
-        </div>
-        <div className="footer-right">
-          <FooterRight></FooterRight>
+  return (
+    <FooterStyles className={darkTheme ? '!bg-black/80' : ''}>
+      <div className="wrapper">
+        <div className="container">
+          <div className="flex flex-col justify-center gap-y-2">
+            <img src="/logo.png" className="logo" alt="react-blogging" />
+            <Title>React Blogging</Title>
+          </div>
+
+          <div className="footer-left">
+            <FooterLeft></FooterLeft>
+          </div>
+          <div className="footer-right">
+            <FooterRight></FooterRight>
+          </div>
         </div>
       </div>
     </FooterStyles>

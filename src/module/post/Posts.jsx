@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
 import { PATH } from 'utils/path'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const PostsStyles = styled.div`
   .button {
@@ -76,6 +77,7 @@ const POST_PER_PAGE = 5
 
 const Posts = () => {
   const { userInfo } = useAuth()
+  const { darkTheme } = useDarkTheme()
   const [postList, setPostList] = useState([])
   const [filter, setFilter] = useState('')
   const [total, setTotal] = useState(0)
@@ -178,7 +180,7 @@ const Posts = () => {
           {admin && <Search placeholder="Search post..." onChange={handleInputFilter}></Search>}
         </div>
       </div>
-      <div className="flex py-2">Total of posts : {total}</div>
+      <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>Total of posts : {total}</div>
       <PostTable data={postList}></PostTable>
       {total > postList.length && admin && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>

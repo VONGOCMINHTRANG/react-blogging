@@ -4,6 +4,7 @@ import PostMeta from 'module/post/PostMeta'
 import PostTitle from 'module/post/PostTitle'
 import styled from 'styled-components'
 import slugify from 'slugify'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const PostNewestLeftStyles = styled.div`
   .post {
@@ -58,6 +59,7 @@ const PostNewestLeftStyles = styled.div`
   }
 `
 const PostNewestLeft = ({ data }) => {
+  const { darkTheme } = useDarkTheme()
   const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 
@@ -67,7 +69,9 @@ const PostNewestLeft = ({ data }) => {
       <PostCategory to={`/category/${slugify(data?.category?.name || '', { lower: true })}`}>
         {data?.category?.name}
       </PostCategory>
-      <PostTitle to={`/detail-post/${data?.slug}`}>{data?.title}</PostTitle>
+      <PostTitle to={`/detail-post/${data?.slug}`} className={darkTheme ? 'text-white' : ''}>
+        {data?.title}
+      </PostTitle>
       <PostMeta
         color="#A0A0A0"
         time={formatDate}

@@ -20,6 +20,7 @@ import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
 import NotFoundPage from 'pages/NotFoundPage'
 import { PATH } from 'utils/path'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const CategoryStyles = styled.div`
   .button {
@@ -79,6 +80,7 @@ const CATEGORY_PER_PAGE = 1
 
 const Category = () => {
   const { userInfo } = useAuth()
+  const { darkTheme } = useDarkTheme()
   const [categoryList, setCategoryList] = useState([])
   const [filter, setFilter] = useState('')
   const [lastDoc, setLastDoc] = useState()
@@ -164,7 +166,9 @@ const Category = () => {
           <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
         </div>
       </div>
-      <div className="flex py-2">Total of categories : {total}</div>
+      <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>
+        Total of categories : {total}
+      </div>
       <CategoryTable data={categoryList}></CategoryTable>
       {total > categoryList.length && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>

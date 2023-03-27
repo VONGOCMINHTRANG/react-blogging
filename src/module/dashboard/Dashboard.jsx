@@ -1,4 +1,5 @@
 import Content from 'components/content/Content'
+import { useDarkTheme } from 'contexts/theme-context'
 import styled from 'styled-components'
 
 const DashboardStyles = styled.div`

@@ -3,7 +3,7 @@ import NotFoundPage from 'pages/NotFoundPage'
 import styled from 'styled-components'
 import DashboardMenu from './DashboardMenu'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { IconHome } from 'components/icon'
+import { IconArrowDown, IconDark, IconHome, IconLight } from 'components/icon'
 import { Suspense, useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { signOut } from 'firebase/auth'
@@ -11,6 +11,7 @@ import { auth } from '../../firebase/firebase-config'
 import { Blur } from 'components/blur'
 import { IconMenu } from 'components/icon'
 import { PATH } from 'utils/path'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const DashboardLayoutStyles = styled.div`
   display: flex;
@@ -93,6 +94,7 @@ const DashboardLayoutStyles = styled.div`
 
 const DashboardLayout = () => {
   const { userInfo } = useAuth()
+  const { darkTheme, toggleDarkTheme } = useDarkTheme()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [checkUser, setCheckUser] = useState(true)
@@ -142,31 +144,18 @@ const DashboardLayout = () => {
 
           <DashboardMenu open={open} setOpen={setOpen}></DashboardMenu>
           <div className="dashboard-main">
-            <div className="header-right drop-shadow-lg">
+            <div className={`header-right drop-shadow-lg ${darkTheme ? '!bg-black/80' : ''}`}>
               <button className="sidebarBtn" onClick={() => setOpen(true)}>
                 <IconMenu></IconMenu>
               </button>
 
-              <Link to={`/account-information/${userInfo.username}`} className="header-avatar">
+              <div className="header-avatar">
                 <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />
-              </Link>
+              </div>
               <div className="header-email group">
-                <span>{userInfo?.email}</span>
+                <span className={darkTheme ? 'text-white' : ''}>{userInfo?.email}</span>
                 <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
+                  <IconArrowDown></IconArrowDown>
                   <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
                     <li
                       onClick={() =>
@@ -185,6 +174,22 @@ const DashboardLayout = () => {
                       Change password
                     </li>
                     <li
+                      onClick={toggleDarkTheme}
+                      className="p-2 hover:bg-slate-300 hover:text-green-600 flex gap-2"
+                    >
+                      {darkTheme ? (
+                        <>
+                          Light theme
+                          <IconLight></IconLight>
+                        </>
+                      ) : (
+                        <>
+                          Dark theme
+                          <IconDark></IconDark>
+                        </>
+                      )}
+                    </li>
+                    <li
                       onClick={handleLogout}
                       className="p-2 hover:bg-slate-300 hover:text-green-600"
                     >
@@ -194,7 +199,7 @@ const DashboardLayout = () => {
                 </div>
               </div>
             </div>
-            <div className="dashboard-children">
+            <div className={`dashboard-children ${darkTheme ? '!bg-black/80' : ''}`}>
               <Suspense>
                 <Outlet />
               </Suspense>

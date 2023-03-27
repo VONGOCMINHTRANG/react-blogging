@@ -1,13 +1,16 @@
 import { IconCheck } from 'components/icon'
 import { useController } from 'react-hook-form'
 import PropTypes from 'prop-types'
+import { useDarkTheme } from 'contexts/theme-context'
 
 const Radio = ({ checked, children, control, name, ...rest }) => {
+  const { darkTheme } = useDarkTheme()
   const { field } = useController({
     control,
     name,
     defaultValue: '',
   })
+
   return (
     <label>
       <input
@@ -25,7 +28,7 @@ const Radio = ({ checked, children, control, name, ...rest }) => {
         >
           <IconCheck></IconCheck>
         </div>
-        <span>{children}</span>
+        <span className={darkTheme ? ' text-white' : ''}>{children}</span>
       </div>
     </label>
   )
