@@ -20,10 +20,12 @@ const PostNewestItemStyles = styled.div`
       width: 200px;
     }
     &-category {
-      color: #909090;
+      background-color: rgb(29, 192, 113);
       margin-bottom: 8px;
-      padding: 6px 10px;
       font-size: 14px;
+      a {
+        color: white;
+      }
     }
     &-title {
       margin-bottom: 8px;

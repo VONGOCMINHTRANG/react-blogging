@@ -14,6 +14,10 @@ const PostNewestLeftStyles = styled.div`
     }
     &-category {
       margin-bottom: 12px;
+      background-color: rgb(29, 192, 113);
+      a {
+        color: white;
+      }
     }
     &-title {
       margin-bottom: 12px;
@@ -39,6 +43,9 @@ const PostNewestLeftStyles = styled.div`
         font-size: 15px;
       }
       &-meta {
+        font-size: 13px;
+      }
+      &-author {
         font-size: 13px;
       }
     }

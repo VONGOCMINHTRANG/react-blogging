@@ -75,10 +75,6 @@ const HeaderStyles = styled.header`
 
     /* Mobile */
     @media (max-width:540px){
-        padding: 10px;
-        .avatar{
-          cursor: pointer;
-        }
         .container{
           width: 100%;
           flex: 1
@@ -94,7 +90,10 @@ const HeaderStyles = styled.header`
         .search{
           margin-left: 0;
           width: auto;
-          flex: 1;
+        }
+        .avatar{
+          cursor: pointer;
+          margin: 0 10px;
         }
         input{
           padding: 5px 10px;
@@ -114,7 +113,6 @@ const HeaderStyles = styled.header`
     /* Tablet */
     @media (min-width:541px) and (max-width:949px)
     {   
-        padding: 10px 0px;
         display: flex;
         align-items: center:
         justify-content: center;
@@ -128,6 +126,7 @@ const HeaderStyles = styled.header`
           cursor: pointer;
           margin-top: auto;
           margin-bottom: auto;
+          margin: 0 20px;
         }
         .search{
           width: auto;
@@ -212,9 +211,6 @@ const Header = () => {
         <HeaderStyles className={darkTheme ? 'bg-black/80' : ''}>
           <div className="container">
             <div className="header-main">
-              <button onClick={() => setOpen(true)} className="sidebarBtn">
-                <IconMenu></IconMenu>
-              </button>
               <NavLink to="/">
                 <img src="/logo.png" alt="react-blogging" className="logo" />
               </NavLink>
@@ -271,10 +267,14 @@ const Header = () => {
                 number2="4"
               ></Sidebar>
 
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between flex-1">
+                <button onClick={() => setOpen(true)} className="sidebarBtn">
+                  <IconMenu></IconMenu>
+                </button>
+
                 <Search></Search>
 
-                <div className="avatar group" onClick={() => setMenu(!menu)}>
+                <div className="avatar relative group" onClick={() => setMenu(!menu)}>
                   <img
                     src={userInfo.avatar ? userInfo.avatar : '/avatar.jpg'}
                     alt="avatar"
@@ -282,7 +282,7 @@ const Header = () => {
                   />
 
                   {menu && userInfo.email && (
-                    <ul className="z-10 absolute whitespace-nowrap mt-1 right-3 text-sm transition-all rounded bg-slate-600 text-white font-semibold">
+                    <ul className="z-10 absolute whitespace-nowrap mt-2 right-3 text-sm transition-all rounded bg-slate-600 text-white font-semibold">
                       <li
                         onClick={() =>
                           navigate(`${PATH.dashboard.account_infomation}${userInfo.username}`)
@@ -325,7 +325,7 @@ const Header = () => {
                   )}
 
                   {menu && userInfo.length === 0 && (
-                    <ul className="z-10 absolute whitespace-nowrap mt-1 right-3 text-sm transition-all rounded bg-slate-600 text-white font-semibold">
+                    <ul className="z-10 absolute whitespace-nowrap mt-2 right-3 text-sm transition-all rounded bg-slate-600 text-white font-semibold">
                       <li
                         onClick={() => navigate(PATH.sign_in)}
                         className="p-2 hover:bg-slate-300 hover:text-green-600"

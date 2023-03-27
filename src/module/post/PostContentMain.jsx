@@ -7,8 +7,12 @@ const PostContentMainStyles = styled.div`
   h1 {
     font-weight: 700;
     margin-bottom: 30px;
-    font-size: calc(1em + 1vw);
+    font-size: 20px;
     color: #404040;
+  }
+  p {
+    font-size: 18px;
+    line-height: 35px;
   }
 `
 

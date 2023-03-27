@@ -64,6 +64,12 @@ const HomeNewestStyles = styled.div`
         flex-direction: row;
       }
     }
+    
+    @media (max-width: 540px){
+      .container{
+        width: 90vw;
+      }
+    }
 `
 
 const HomeNewest = () => {

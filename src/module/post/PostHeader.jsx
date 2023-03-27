@@ -1,4 +1,3 @@
-import { useDarkTheme } from 'contexts/theme-context'
 import PostCategory from 'module/post/PostCategory'
 import PostImage from 'module/post/PostImage'
 import PostMeta from 'module/post/PostMeta'
@@ -11,7 +10,7 @@ const PostHeaderStyles = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 40px;
-  margin: 40px 0px;
+  padding-top: 20px;
   .post {
     &-image {
       width: 100%;
@@ -24,10 +23,13 @@ const PostHeaderStyles = styled.div`
       max-width: 640px;
     }
     &-category {
-      color: #909090;
+      cursor: pointer;
+      background-color: rgb(29, 192, 113);
       margin-bottom: 8px;
-      padding: 6px 10px;
       font-size: 18px;
+      a {
+        color: white;
+      }
     }
     &-title {
       a {
@@ -48,26 +50,28 @@ const PostHeaderStyles = styled.div`
   @media (max-width: 1024px) {
     flex-direction: column;
     .post {
-      &-category {
-        color: #909090;
-        margin-bottom: 8px;
-        padding: 6px 10px;
-        font-size: 14px;
-      }
       &-title {
         margin-bottom: 8px;
       }
       &-meta {
         color: #a0a0a0;
-        font-size: 12px;
+        font-size: 13px;
         margin-bottom: 8px;
+      }
+      &-author {
+        font-size: 13px;
+      }
+      &-image {
+        max-width: 100%;
+      }
+      &-info {
+        max-width: 100%;
       }
     }
   }
 `
 
 const PostHeader = ({ data }) => {
-  const { darkTheme } = useDarkTheme()
   const time = data?.createdAt?.seconds ? new Date(data?.createdAt?.seconds * 1000) : new Date()
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 

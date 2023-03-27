@@ -31,8 +31,12 @@ const PostRelatedItemStyles = styled.div`
     &-category {
       margin-right: auto;
       margin-left: 15px;
-      background-color: white;
       margin-bottom: 15px;
+      background-color: rgb(29, 192, 113);
+      a {
+        color: white;
+        font-size: 15px;
+      }
     }
     &-title {
       margin-right: auto;
@@ -54,7 +58,7 @@ const PostRelatedItemStyles = styled.div`
     }
     &-meta {
       color: #a0a0a0;
-      font-size: 12px;
+      font-size: 13px;
       margin-bottom: 10px;
       margin-left: 15px;
       margin-right: auto;
@@ -62,6 +66,9 @@ const PostRelatedItemStyles = styled.div`
         color: ${(props) => props.theme.secondary};
         transition: all 0.1s linear;
       }
+    }
+    &-author {
+      font-size: 13px;
     }
     &-dot {
       width: 10px;

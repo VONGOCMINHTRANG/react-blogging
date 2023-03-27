@@ -17,7 +17,7 @@ const HomeBannerStyles = styled.div`
   -webkit-box-align: center;
   align-items: center;
   .wrapper {
-    margin-bottom: 4em;
+    padding-bottom: 4em;
   }
 
   .container-fluid {
@@ -40,7 +40,6 @@ const HomeBannerStyles = styled.div`
     align-items: center;
     -webkit-box-align: center;
     position: relative;
-    z-index: 10;
   }
   .banner-content {
     width: min(500px, 60vw);
@@ -50,12 +49,12 @@ const HomeBannerStyles = styled.div`
     margin-right: min(4em, 7vw);
   }
   h1 {
-    font-size: calc(1.5em + 1.2vw);
+    font-size: 30px;
     margin-bottom: 0.6em;
   }
   p {
-    font-size: min(0.9em, 3vw);
-    line-height: min(28px, 4vw);
+    font-size: 15px;
+    line-height: 25px;
   }
   .button {
     color: ${(props) => props.theme.secondary};
@@ -65,8 +64,16 @@ const HomeBannerStyles = styled.div`
     margin-left: 0px;
   }
   @media (max-width: 540px) {
+    width: 100%;
+    padding: 0;
+    display: block;
+    border-radius: 0;
     .container-fluid {
-      padding: 0px 10px;
+      width: 100%;
+      border-radius: 0;
+    }
+    .banner {
+      padding: 1em;
     }
   }
 `

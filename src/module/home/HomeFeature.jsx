@@ -42,7 +42,11 @@ const HomeFeatureStyles = styled.div`
         height: 20px;
         background-color: rgb(58, 16, 151);
     }
-
+    @media (max-width: 540px){
+      .container{
+        width: 90vw;
+      }
+    }
 `
 
 const HomeFeature = () => {

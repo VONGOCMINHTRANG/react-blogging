@@ -7,7 +7,7 @@ import styled from 'styled-components'
 const FooterStyles = styled.div`
   .wrapper {
     background-color: rgb(243, 237, 255);
-    width: 80vw;
+    width: calc(10em + 70vw);
     margin-left: auto;
     margin-right: auto;
     border-top-left-radius: 16px;
@@ -36,6 +36,13 @@ const FooterStyles = styled.div`
     .container {
       display: flex;
       flex-direction: column;
+    }
+  }
+  @media (max-width: 540px) {
+    .wrapper {
+      width: 100%;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 `

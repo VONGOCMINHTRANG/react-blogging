@@ -4,7 +4,7 @@ const PostMetaStyles = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: ${(props) => props.fontSize || 'calc(0.5em + 0.2vw)'};
+  font-size: ${(props) => props.fontSize || '13px'};
   font-weight: bold;
   color: ${(props) => props.color || 'white'};
   .post {
@@ -16,7 +16,7 @@ const PostMetaStyles = styled.div`
       border-radius: 100rem;
     }
     &-author {
-      font-size: calc(0.5em + 0.5vw);
+      font-size: 13px;
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;

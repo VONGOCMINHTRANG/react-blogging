@@ -156,7 +156,7 @@ const DashboardLayout = () => {
                 <span className={darkTheme ? 'text-white' : ''}>{userInfo?.email}</span>
                 <div>
                   <IconArrowDown></IconArrowDown>
-                  <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
+                  <ul className="hidden group-hover:block absolute mt-2 whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
                     <li
                       onClick={() =>
                         navigate(`${PATH.dashboard.account_infomation}${userInfo.username}`)

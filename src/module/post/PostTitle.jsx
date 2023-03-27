@@ -1,3 +1,4 @@
+import { useDarkTheme } from 'contexts/theme-context'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -12,9 +13,13 @@ const PostTitleStyles = styled.h3`
 `
 
 const PostTitle = ({ children, to = '/detail-post', ...props }) => {
+  const { darkTheme } = useDarkTheme()
+
   return (
     <PostTitleStyles className="post-title" {...props}>
-      <NavLink to={to}>{children}</NavLink>
+      <NavLink className={darkTheme ? 'text-green-500' : ''} to={to}>
+        {children}
+      </NavLink>
     </PostTitleStyles>
   )
 }

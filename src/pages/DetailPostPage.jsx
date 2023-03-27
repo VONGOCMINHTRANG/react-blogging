@@ -24,6 +24,11 @@ const DetailPostPageStyles = styled.div`
   .post-info {
     width: 100%;
   }
+  @media (max-width: 540px) {
+    .container {
+      width: 90vw;
+    }
+  }
 `
 
 const DetailPostPage = () => {

@@ -45,6 +45,12 @@ const BlogPageStyles = styled.div`
     &-item {
       height: 275px;
     }
+    &-category {
+      background-color: rgb(29, 192, 113);
+      a {
+        color: white;
+      }
+    }
   }
   h1 {
     position: fixed;

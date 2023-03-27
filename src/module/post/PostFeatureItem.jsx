@@ -27,6 +27,12 @@ const PostFeatureItemStyles = styled.div`
       align-items: center;
       margin-bottom: 16px;
     }
+    &-category {
+      background-color: rgb(29, 192, 113);
+      a {
+        color: white;
+      }
+    }
     &-title: hover {
       color: ${(props) => props.theme.secondary};
       transition: all 0.1s linear;
@@ -48,7 +54,7 @@ const PostFeatureItemStyles = styled.div`
         display: flex;
         flex-direction: column;
         align-items: start;
-        gap: 7px;
+        gap: 12px;
       }
       &-category {
         padding: 5px 13px;
