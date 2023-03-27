@@ -75,6 +75,7 @@ const HomeBanner = () => {
       isLoading(false)
     }, 250)
   }, [])
+
   return (
     <AuthProvider>
       {loading && <LoadingSkeletonHomeBanner></LoadingSkeletonHomeBanner>}

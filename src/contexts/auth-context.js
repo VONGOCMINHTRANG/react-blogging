@@ -2,7 +2,6 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '../firebase/firebase-config'
 import { useContext, useState, createContext, useEffect } from 'react'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import NotFoundPage from 'pages/NotFoundPage'
 
 const AuthContext = createContext()
 function AuthProvider(props) {

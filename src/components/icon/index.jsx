@@ -19,6 +19,8 @@ import IconActionEdit from './IconActionEdit'
 import IconActionView from './IconActionView'
 import IconMinus from './IconMinus'
 import IconPencil from './IconPencil'
+import IconDark from './IconDark'
+import IconLight from './iconLight'
 
 export {
   IconEyeOpen,
@@ -42,4 +44,6 @@ export {
   IconActionView,
   IconActionEdit,
   IconPencil,
+  IconDark,
+  IconLight,
 }
