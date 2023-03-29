@@ -1,13 +1,24 @@
+import { Button } from 'components/button'
 import { IconHome } from 'components/icon'
 import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
 import Search from 'components/search/Search'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  limit,
+  onSnapshot,
+  query,
+  startAfter,
+  where,
+} from 'firebase/firestore'
 import { debounce } from 'lodash'
 import PostItem from 'module/post/PostItem'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase/firebase-config'
+
+const POST_PER_PAGE = 6
 
 const BlogPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -23,9 +34,6 @@ const BlogPageStyles = styled.div`
   }
   .search {
     z-index: 20;
-  }
-  .search-input {
-    margin: 20px 0;
   }
   .container {
     display: flex;
@@ -51,6 +59,9 @@ const BlogPageStyles = styled.div`
         color: white;
       }
     }
+    &-title {
+      width: fit-content;
+    }
   }
   h1 {
     position: fixed;
@@ -73,6 +84,13 @@ const BlogPageStyles = styled.div`
     z-index: 100;
     color: white;
   }
+  .load-more {
+    color: white;
+    margin: 4rem auto;
+    font-size: 15px;
+    padding: 12px 40px;
+    width: fit-content;
+  }
   @media (max-width: 767px) {
     .blog-item {
       display: flex;
@@ -85,24 +103,62 @@ const BlogPage = () => {
   const [loading, isLoading] = useState(false)
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState('')
+  const [total, setTotal] = useState(0)
+  const [lastDoc, setLastDoc] = useState()
 
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value)
   }, 500)
 
-  useEffect(() => {
-    const colRef = collection(db, 'posts')
-    const q = filter
-      ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-      : colRef
-    onSnapshot(q, (snapshot) => {
-      try {
-        isLoading(true)
+  const handleLoadMore = async () => {
+    try {
+      const nextRef = query(collection(db, 'posts'), startAfter(lastDoc), limit(POST_PER_PAGE))
+
+      onSnapshot(nextRef, (snapshot) => {
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
             id: doc.id,
             ...doc.data(),
+          })
+        })
+        setPosts([...posts, ...results])
+      })
+      const documentSnapshots = await getDocs(nextRef)
+      const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+      setLastDoc(lastVisible)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        isLoading(true)
+        const colRef = collection(db, 'posts')
+
+        onSnapshot(colRef, (snapshot) => {
+          setTotal(snapshot.size)
+        })
+
+        const newRef = filter
+          ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
+          : query(colRef, limit(10))
+
+        const documentSnapshots = await getDocs(newRef)
+        const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        // console.log(documentSnapshots.docs[0].id)
+        // console.log('last', lastVisible)
+        setLastDoc(lastVisible)
+
+        onSnapshot(newRef, (snapshot) => {
+          let results = []
+          snapshot.docs.forEach((doc) => {
+            results.push({
+              id: doc.id,
+              ...doc.data(),
+            })
           })
           setTimeout(() => {
             isLoading(false)
@@ -110,10 +166,11 @@ const BlogPage = () => {
           }, 150)
         })
       } catch (error) {
-        isLoading(true)
         console.log(error)
+        isLoading(false)
       }
-    })
+    }
+    fetchPostData()
   }, [filter])
 
   return (
@@ -123,7 +180,10 @@ const BlogPage = () => {
       {!loading && (
         <BlogPageStyles className="blog-page">
           <div className="wrapper">
-            <Search onChange={handleInputFilter}></Search>
+            <div className="py-5">
+              <Search onChange={handleInputFilter} placeholder="Search post in blog..."></Search>
+            </div>
+
             <div className="container">
               <div className="blog-item">
                 {posts?.length > 0 &&
@@ -131,6 +191,12 @@ const BlogPage = () => {
               </div>
             </div>
             <h1>BLOG</h1>
+
+            {total > posts.length && (
+              <Button type="button" className="load-more" onClick={handleLoadMore}>
+                Load more
+              </Button>
+            )}
             <Link to="/" className="icon-home">
               <IconHome></IconHome>
             </Link>

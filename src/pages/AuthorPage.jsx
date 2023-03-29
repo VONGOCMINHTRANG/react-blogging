@@ -24,9 +24,9 @@ const AuthorPageStyles = styled.div`
   .search {
     z-index: 20;
   }
-  .search-input {
+  /* .search-input {
     margin: 20px 0;
-  }
+  } */
   .container {
     display: flex;
     justify-content: center;
@@ -50,6 +50,9 @@ const AuthorPageStyles = styled.div`
       a {
         color: white;
       }
+    }
+    &-title {
+      width: fit-content;
     }
   }
   h1 {
@@ -117,11 +120,11 @@ const AuthorPage = () => {
             id: doc.id,
             ...doc.data(),
           })
-          setTimeout(() => {
-            isLoading(false)
-            setPosts(results)
-          }, 150)
         })
+        setTimeout(() => {
+          isLoading(false)
+          setPosts(results)
+        }, 150)
       } catch (error) {
         isLoading(true)
         console.log(error)
@@ -136,7 +139,10 @@ const AuthorPage = () => {
       {!loading && (
         <AuthorPageStyles className="category-page">
           <div className="wrapper">
-            <Search onChange={handleInputFilter}></Search>
+            <div className="py-5">
+              <Search onChange={handleInputFilter} placeholder="Search post in author..."></Search>
+            </div>
+
             <div className="container">
               <div className="blog-item">
                 {posts?.length > 0 &&

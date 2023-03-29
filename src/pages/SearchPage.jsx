@@ -1,15 +1,13 @@
 import { IconHome } from 'components/icon'
-import Search from 'components/search/Search'
-import { db } from '../firebase/firebase-config'
+import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import PostItem from 'module/post/PostItem'
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { debounce } from 'lodash'
-import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
+import { db } from '../firebase/firebase-config'
 
-const CategoryPageStyles = styled.div`
+const SearchPageStyles = styled.div`
   background-image: url('/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -30,6 +28,18 @@ const CategoryPageStyles = styled.div`
     align-items: center;
     padding: 0px;
     width: 80vw;
+  }
+  .total-result {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  h3 {
+    padding-top: 4rem;
+    width: 80vw;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
   }
   .blog-item {
     display: grid;
@@ -52,16 +62,6 @@ const CategoryPageStyles = styled.div`
       width: fit-content;
     }
   }
-  h1 {
-    position: fixed;
-    top: 0;
-    left: 5rem;
-    color: rgba(0, 0, 0, 0.4);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: calc(5rem + 5vw);
-    pointer-events: none;
-    z-index: 10;
-  }
   .icon-home {
     position: fixed;
     bottom: 1em;
@@ -74,6 +74,9 @@ const CategoryPageStyles = styled.div`
     color: white;
   }
   @media (max-width: 767px) {
+    h3 {
+      font-size: 25px;
+    }
     .blog-item {
       display: flex;
       flex-direction: column;
@@ -81,34 +84,20 @@ const CategoryPageStyles = styled.div`
   }
 `
 
-const CategoryPage = () => {
-  const { slug } = useParams()
-  const [categoryId, setCategoryId] = useState('')
-  const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState('')
+const SearchPage = () => {
+  const { state } = useLocation()
   const [loading, isLoading] = useState(false)
-
-  const handleInputFilter = debounce((e) => {
-    setFilter(e.target.value)
-  }, 500)
-
-  useEffect(() => {
-    const docRef = query(collection(db, 'categories'), where('slug', '==', slug))
-    onSnapshot(docRef, (snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        setCategoryId(doc.id)
-      })
-    })
-  }, [slug])
+  const [posts, setPosts] = useState([])
+  const totalResult = useRef()
 
   useEffect(() => {
     const colRef = collection(db, 'posts')
-    const q = filter
-      ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-      : query(colRef, where('categoryId', '==', categoryId))
+    const q = query(colRef, where('title', '>=', state), where('title', '<=', state + 'utf8'))
+
     onSnapshot(q, (snapshot) => {
       try {
         isLoading(true)
+        totalResult.current = snapshot.size
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -121,40 +110,39 @@ const CategoryPage = () => {
           setPosts(results)
         }, 150)
       } catch (error) {
-        console.log(error)
         isLoading(true)
+        console.log(error)
       }
     })
-  }, [categoryId, filter])
+  }, [state])
 
   return (
     <>
       {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
+
       {!loading && (
-        <CategoryPageStyles className="category-page">
+        <SearchPageStyles className="blog-page">
           <div className="wrapper">
-            <div className="py-5">
-              <Search
-                onChange={handleInputFilter}
-                placeholder="Search post in category..."
-              ></Search>
+            <div className="total-result">
+              <h3>
+                {totalResult.current} results for '{state}'
+              </h3>
             </div>
 
             <div className="container">
               <div className="blog-item">
                 {posts?.length > 0 &&
-                  posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
+                  posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
               </div>
             </div>
-            <h1>{slug}</h1>
             <Link to="/" className="icon-home">
               <IconHome></IconHome>
             </Link>
           </div>
-        </CategoryPageStyles>
+        </SearchPageStyles>
       )}
     </>
   )
 }
 
-export default CategoryPage
+export default SearchPage

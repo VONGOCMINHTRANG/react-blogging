@@ -35,20 +35,41 @@ const SearchStyles = styled.div`
     color: #808080;
   }
   .search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 25px;
+    right: 0px;
+    width: 50px;
+    height: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    transition: all 0.1s linear;
+  }
+  .search-icon:hover {
+    background-color: #e0e0e0;
   }
 `
 
-const Search = ({ placeholder = 'Search post...', ...props }) => {
+const Search = ({
+  placeholder = 'Search post...',
+  setSearchQuery = () => {},
+  onClick = {},
+  handleSearch,
+  ...props
+}) => {
   return (
     <SearchStyles className="search">
-      <input type="text" placeholder={placeholder} className="search-input" {...props} />
-      <span className="search-icon cursor-pointer">
+      <input
+        type="text"
+        placeholder={placeholder}
+        className="search-input"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        {...props}
+      />
+      <div className="search-icon cursor-pointer" onClick={handleSearch}>
         <IconSearch></IconSearch>
-      </span>
+      </div>
     </SearchStyles>
   )
 }

@@ -3,6 +3,7 @@ export const PATH = {
   sign_up: '/sign-up',
   sign_in: '/sign-in',
   blog: '/blog',
+  search: '/search',
   not_found: '*',
 
   dashboard: {
