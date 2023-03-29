@@ -99,9 +99,6 @@ const HeaderStyles = styled.header`
           padding: 5px 10px;
           border-radius: 5px;
         }
-        .search-icon{
-          right: 10px;
-        }
     }
 
     @media (min-width: 950px){
@@ -156,7 +153,9 @@ const Header = () => {
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState(false)
   const [loading, isLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([])
+  console.log(userInfo)
 
   const handleLogout = () => {
     Swal.fire({
@@ -174,6 +173,10 @@ const Header = () => {
         navigate(0)
       }
     })
+  }
+
+  const handleSearch = () => {
+    navigate(PATH.search, { state: searchQuery })
   }
 
   useEffect(() => {
@@ -272,7 +275,7 @@ const Header = () => {
                   <IconMenu></IconMenu>
                 </button>
 
-                <Search></Search>
+                <Search setSearchQuery={setSearchQuery} handleSearch={handleSearch}></Search>
 
                 <div className="avatar relative group" onClick={() => setMenu(!menu)}>
                   <img

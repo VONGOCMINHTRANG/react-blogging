@@ -11,6 +11,7 @@ const SignUpPage = lazy(() => import('pages/SignUpPage'))
 const NotFoundPage = lazy(() => import('pages/NotFoundPage'))
 const Dashboard = lazy(() => import('module/dashboard/Dashboard'))
 const BlogPage = lazy(() => import('pages/BlogPage'))
+const SearchPage = lazy(() => import('pages/SearchPage'))
 
 /* Manage Post */
 const AddPost = lazy(() => import('module/post/AddPost'))
@@ -43,6 +44,7 @@ const MainRoutes = () => {
               <Route path={PATH.sign_up} element={<SignUpPage></SignUpPage>}></Route>
               <Route path={PATH.sign_in} element={<SignInPage></SignInPage>}></Route>
               <Route path={PATH.blog} element={<BlogPage></BlogPage>}></Route>
+              <Route path={PATH.search} element={<SearchPage></SearchPage>}></Route>
               <Route path={PATH.not_found} element={<NotFoundPage></NotFoundPage>}></Route>
 
               <Route
