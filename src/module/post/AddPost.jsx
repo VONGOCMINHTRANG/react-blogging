@@ -27,7 +27,7 @@ import { Dropdown } from 'components/dropdown'
 import { Content } from 'components/content'
 import { useAuth } from 'contexts/auth-context'
 import { toast } from 'react-toastify'
-import { Editor } from 'components/Editor'
+import { Editor } from 'components/editor'
 import { debounce } from 'lodash'
 
 const AddPostStyles = styled.div`
@@ -54,7 +54,7 @@ const AddPostStyles = styled.div`
 const AddPost = () => {
   const [categories, setCategories] = useState([])
   const [selectCategory, setSelectCategory] = useState('')
-  const [content, setContent] = useState('')
+  const [, setContent] = useState('')
   const { userInfo } = useAuth()
   const [admin, isAdmin] = useState(false)
 

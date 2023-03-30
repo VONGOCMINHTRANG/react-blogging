@@ -28,6 +28,7 @@ const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) 
     rules,
     defaultValue: '',
   })
+
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -57,6 +58,7 @@ const Editor = ({ name, value, control, rules, onChange = () => {}, ...props }) 
     }),
     []
   )
+
   return (
     <EditorStyles className="entry-content">
       <ReactQuill

@@ -155,7 +155,6 @@ const Header = () => {
   const [loading, isLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([])
-  console.log(userInfo)
 
   const handleLogout = () => {
     Swal.fire({
