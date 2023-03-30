@@ -27,7 +27,7 @@ import { Dropdown } from 'components/dropdown'
 import { Content } from 'components/content'
 import { useAuth } from 'contexts/auth-context'
 import { toast } from 'react-toastify'
-import { Editor } from 'components/editor'
+import { Editor } from 'components/Editor'
 import { debounce } from 'lodash'
 
 const AddPostStyles = styled.div`
