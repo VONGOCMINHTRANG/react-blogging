@@ -240,7 +240,7 @@ const AddPost = () => {
           <Field>
             <Label htmlFor="image">Image</Label>
             <div className="w-full flex flex-col gap-y-2">
-              {progress === 0 ? (
+              {/* {progress === 0 ? (
                 <ImageUpload
                   className="!h-[250px]"
                   onChange={handleSelectImage}
@@ -266,7 +266,20 @@ const AddPost = () => {
                     required: false,
                   }}
                 ></ImageUpload>
-              )}
+              )} */}
+
+              <ImageUpload
+                className="!h-[250px]"
+                onChange={handleSelectImage}
+                progress={progress}
+                name="image"
+                image={image}
+                handleDeleteImage={handleDeleteImage}
+                control={control}
+                rules={{
+                  required: progress === 0,
+                }}
+              ></ImageUpload>
 
               {errors?.image?.type === 'required' && progress === 0 && !errorFileType && (
                 <div className="text-red-500 text-sm italic">

@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+
 const PostMetaStyles = styled.div`
   display: flex;
   align-items: center;

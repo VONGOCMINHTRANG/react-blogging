@@ -80,6 +80,7 @@ const UpdatePost = () => {
   const watchStatus = watch('status')
   const imagePost = getValues('image')
   // console.log(imagePost)
+
   const handleEditor = debounce((e) => {
     setValue('editor', e.target.value)
   }, 1000)
