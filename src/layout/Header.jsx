@@ -190,16 +190,12 @@ const Header = () => {
               id: doc.id,
               ...doc.data(),
             })
-            isLoading(true)
-            setTimeout(() => {
-              isLoading(false)
-              setCategories(results)
-            }, 250)
+
+            setCategories(results)
           })
         })
       } catch (error) {
         console.log(error)
-        isLoading(true)
       }
     }
     fetchCategoryName()

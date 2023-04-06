@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import ReactDOM from 'react-dom'
+
 import { useDarkTheme } from 'contexts/theme-context'
 
 const NotFoundPageStyles = styled.div`
@@ -63,7 +63,7 @@ const NotFoundPage = () => {
       <NavLink to="/" className={'logo'}>
         <img srcSet="/logo.png" alt="react-blogging" />
       </NavLink>
-      <h1 className={`heading ${darkTheme ? '!text-white' : ''}`}>Oops! Page not found</h1>
+      <h1 className={`heading ${darkTheme ? '!text-green-500' : ''}`}>Oops! Page not found</h1>
       <NavLink className={'back'} to="/">
         Back to home
       </NavLink>
