@@ -152,7 +152,7 @@ const Header = () => {
   const { darkTheme, toggleDarkTheme } = useDarkTheme()
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState(false)
-  const [loading, isLoading] = useState(false)
+  const [loading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([])
 

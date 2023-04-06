@@ -1,10 +1,10 @@
+import { useDarkTheme } from 'contexts/theme-context'
 import styled from 'styled-components'
 
 const LoadingSkeletonHomeNewestStyles = styled.div`
- align-items: center;
+    align-items: center;
     display: flex;
     justify-content: center;
-    margin-bottom: 4em;
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
     .slick-slide {
@@ -114,8 +114,10 @@ const LoadingSkeletonHomeNewestStyles = styled.div`
 `
 
 const LoadingSkeletonHomeNewest = () => {
+  const { darkTheme } = useDarkTheme()
+
   return (
-    <LoadingSkeletonHomeNewestStyles>
+    <LoadingSkeletonHomeNewestStyles className={darkTheme ? 'bg-black/80' : ''}>
       <div className="container">
         <div className="content">
           <h2 className="heading"></h2>

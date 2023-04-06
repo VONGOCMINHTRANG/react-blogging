@@ -1,8 +1,9 @@
+import { useDarkTheme } from 'contexts/theme-context'
 import styled from 'styled-components'
 
 const LoadingSkeletonHomeBannerStyles = styled.div`
   position: relative;
-  margin-bottom: 4em;
+  padding-bottom: 4em;
   padding: 0px 3em;
   display: flex;
   -webkit-box-pack: center;
@@ -10,7 +11,9 @@ const LoadingSkeletonHomeBannerStyles = styled.div`
   -webkit-box-align: center;
   align-items: center;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
+  .wrapper {
+    padding-bottom: 4em;
+  }
   .container-fluid {
     background-color: ${(props) => props.theme.skeleton};
     height: min(520px, 100vh);
@@ -34,9 +37,13 @@ const LoadingSkeletonHomeBannerStyles = styled.div`
 `
 
 const LoadingSkeletonHomeBanner = () => {
+  const { darkTheme } = useDarkTheme()
+
   return (
-    <LoadingSkeletonHomeBannerStyles>
-      <div className="container-fluid"></div>
+    <LoadingSkeletonHomeBannerStyles className={darkTheme ? 'bg-black/80' : ''}>
+      <div className="wrapper">
+        <div className="container-fluid"></div>
+      </div>
     </LoadingSkeletonHomeBannerStyles>
   )
 }
