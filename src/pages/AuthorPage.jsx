@@ -106,7 +106,6 @@ const AuthorPage = () => {
   }, [slug])
 
   useEffect(() => {
-    console.log(userId)
     const colRef = collection(db, 'posts')
     const q = query(
       colRef,

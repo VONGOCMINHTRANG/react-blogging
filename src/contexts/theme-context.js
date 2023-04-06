@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 const ThemeContext = createContext()
 
@@ -6,8 +7,18 @@ function ThemeProvider(props) {
   const [darkTheme, setDarkTheme] = useState(false)
   const toggleDarkTheme = () => {
     setDarkTheme(!darkTheme)
+    localStorage.setItem('theme', !darkTheme ? 'dark' : 'light')
   }
-  const value = { darkTheme, toggleDarkTheme }
+
+  useEffect(() => {
+    if (localStorage.getItem('theme') === 'dark') {
+      setDarkTheme(true)
+    } else {
+      setDarkTheme(false)
+    }
+  }, [])
+
+  const value = { darkTheme, setDarkTheme, toggleDarkTheme }
   return <ThemeContext.Provider value={value} {...props}></ThemeContext.Provider>
 }
 
