@@ -1,6 +1,5 @@
 import { Button } from 'components/button'
 import { IconHome } from 'components/icon'
-import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
 import Search from 'components/search/Search'
 import {
   collection,
@@ -11,12 +10,13 @@ import {
   startAfter,
   where,
 } from 'firebase/firestore'
-import { debounce } from 'lodash'
 import PostItem from 'module/post/PostItem'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase/firebase-config'
+import { postStatus } from 'utils/constants'
+import { PATH } from 'utils/path'
 
 const POST_PER_PAGE = 6
 
@@ -100,15 +100,15 @@ const BlogPageStyles = styled.div`
 `
 
 const BlogPage = () => {
-  const [loading, isLoading] = useState(false)
+  const navigate = useNavigate()
   const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState('')
   const [total, setTotal] = useState(0)
   const [lastDoc, setLastDoc] = useState()
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const handleInputFilter = debounce((e) => {
-    setFilter(e.target.value)
-  }, 500)
+  const handleSearch = () => {
+    navigate(PATH.search, { state: searchQuery })
+  }
 
   const handleLoadMore = async () => {
     try {
@@ -135,16 +135,13 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        isLoading(true)
         const colRef = collection(db, 'posts')
 
         onSnapshot(colRef, (snapshot) => {
           setTotal(snapshot.size)
         })
 
-        const newRef = filter
-          ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-          : query(colRef, limit(10))
+        const newRef = query(colRef, limit(10), where('status', '==', postStatus.APPROVED))
 
         const documentSnapshots = await getDocs(newRef)
         const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
@@ -160,50 +157,44 @@ const BlogPage = () => {
               ...doc.data(),
             })
           })
-          setTimeout(() => {
-            isLoading(false)
-            setPosts(results)
-          }, 150)
+          setPosts(results)
         })
       } catch (error) {
         console.log(error)
-        isLoading(false)
       }
     }
     fetchPostData()
-  }, [filter])
+  }, [])
 
   return (
-    <>
-      {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
+    <BlogPageStyles className="blog-page">
+      <div className="wrapper">
+        <div className="py-5">
+          <Search
+            setSearchQuery={setSearchQuery}
+            handleSearch={handleSearch}
+            placeholder="Search post..."
+          ></Search>
+        </div>
 
-      {!loading && (
-        <BlogPageStyles className="blog-page">
-          <div className="wrapper">
-            <div className="py-5">
-              <Search onChange={handleInputFilter} placeholder="Search post in blog..."></Search>
-            </div>
-
-            <div className="container">
-              <div className="blog-item">
-                {posts?.length > 0 &&
-                  posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
-              </div>
-            </div>
-            <h1>BLOG</h1>
-
-            {total > posts.length && (
-              <Button type="button" className="load-more" onClick={handleLoadMore}>
-                Load more
-              </Button>
-            )}
-            <Link to="/" className="icon-home">
-              <IconHome></IconHome>
-            </Link>
+        <div className="container">
+          <div className="blog-item">
+            {posts?.length > 0 &&
+              posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
           </div>
-        </BlogPageStyles>
-      )}
-    </>
+        </div>
+        <h1>BLOG</h1>
+
+        {total > posts.length && (
+          <Button type="button" className="load-more" onClick={handleLoadMore}>
+            Load more
+          </Button>
+        )}
+        <Link to="/" className="icon-home">
+          <IconHome></IconHome>
+        </Link>
+      </div>
+    </BlogPageStyles>
   )
 }
 

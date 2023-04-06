@@ -4,10 +4,10 @@ import { db } from '../firebase/firebase-config'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import PostItem from 'module/post/PostItem'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { debounce } from 'lodash'
-import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
+import { postStatus } from 'utils/constants'
+import { PATH } from 'utils/path'
 
 const CategoryPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -83,14 +83,14 @@ const CategoryPageStyles = styled.div`
 
 const CategoryPage = () => {
   const { slug } = useParams()
+  const navigate = useNavigate()
   const [categoryId, setCategoryId] = useState('')
   const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState('')
-  const [loading, isLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const handleInputFilter = debounce((e) => {
-    setFilter(e.target.value)
-  }, 500)
+  const handleSearch = () => {
+    navigate(PATH.search, { state: searchQuery })
+  }
 
   useEffect(() => {
     const docRef = query(collection(db, 'categories'), where('slug', '==', slug))
@@ -103,12 +103,13 @@ const CategoryPage = () => {
 
   useEffect(() => {
     const colRef = collection(db, 'posts')
-    const q = filter
-      ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-      : query(colRef, where('categoryId', '==', categoryId))
+    const q = query(
+      colRef,
+      where('categoryId', '==', categoryId),
+      where('status', '==', postStatus.APPROVED)
+    )
     onSnapshot(q, (snapshot) => {
       try {
-        isLoading(true)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -116,44 +117,36 @@ const CategoryPage = () => {
             ...doc.data(),
           })
         })
-        setTimeout(() => {
-          isLoading(false)
-          setPosts(results)
-        }, 150)
+        setPosts(results)
       } catch (error) {
         console.log(error)
-        isLoading(true)
       }
     })
-  }, [categoryId, filter])
+  }, [categoryId])
 
   return (
-    <>
-      {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
-      {!loading && (
-        <CategoryPageStyles className="category-page">
-          <div className="wrapper">
-            <div className="py-5">
-              <Search
-                onChange={handleInputFilter}
-                placeholder="Search post in category..."
-              ></Search>
-            </div>
+    <CategoryPageStyles className="category-page">
+      <div className="wrapper">
+        <div className="py-5">
+          <Search
+            setSearchQuery={setSearchQuery}
+            handleSearch={handleSearch}
+            placeholder="Search post..."
+          ></Search>
+        </div>
 
-            <div className="container">
-              <div className="blog-item">
-                {posts?.length > 0 &&
-                  posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
-              </div>
-            </div>
-            <h1>{slug}</h1>
-            <Link to="/" className="icon-home">
-              <IconHome></IconHome>
-            </Link>
+        <div className="container">
+          <div className="blog-item">
+            {posts?.length > 0 &&
+              posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
           </div>
-        </CategoryPageStyles>
-      )}
-    </>
+        </div>
+        <h1>{slug}</h1>
+        <Link to="/" className="icon-home">
+          <IconHome></IconHome>
+        </Link>
+      </div>
+    </CategoryPageStyles>
   )
 }
 

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase/firebase-config'
+import { postStatus } from 'utils/constants'
 
 const SearchPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -92,11 +93,15 @@ const SearchPage = () => {
 
   useEffect(() => {
     const colRef = collection(db, 'posts')
-    const q = query(colRef, where('title', '>=', state), where('title', '<=', state + 'utf8'))
+    const q = query(
+      colRef,
+      where('title', '>=', state),
+      where('title', '<=', state + 'utf8'),
+      where('status', '==', postStatus.APPROVED)
+    )
 
     onSnapshot(q, (snapshot) => {
       try {
-        isLoading(true)
         totalResult.current = snapshot.size
         let results = []
         snapshot.docs.forEach((doc) => {
@@ -105,43 +110,33 @@ const SearchPage = () => {
             ...doc.data(),
           })
         })
-        setTimeout(() => {
-          isLoading(false)
-          setPosts(results)
-        }, 150)
+        setPosts(results)
       } catch (error) {
-        isLoading(true)
         console.log(error)
       }
     })
   }, [state])
 
   return (
-    <>
-      {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
+    <SearchPageStyles className="blog-page">
+      <div className="wrapper">
+        <div className="total-result">
+          <h3>
+            {totalResult.current} results : '{state}'
+          </h3>
+        </div>
 
-      {!loading && (
-        <SearchPageStyles className="blog-page">
-          <div className="wrapper">
-            <div className="total-result">
-              <h3>
-                {totalResult.current} results for '{state}'
-              </h3>
-            </div>
-
-            <div className="container">
-              <div className="blog-item">
-                {posts?.length > 0 &&
-                  posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
-              </div>
-            </div>
-            <Link to="/" className="icon-home">
-              <IconHome></IconHome>
-            </Link>
+        <div className="container">
+          <div className="blog-item">
+            {posts?.length > 0 &&
+              posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
           </div>
-        </SearchPageStyles>
-      )}
-    </>
+        </div>
+        <Link to="/" className="icon-home">
+          <IconHome></IconHome>
+        </Link>
+      </div>
+    </SearchPageStyles>
   )
 }
 

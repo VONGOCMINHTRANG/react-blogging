@@ -97,7 +97,11 @@ const UpdateUser = () => {
     try {
       if (!isValid) return
       const cloneValues = { ...values }
-      cloneValues.username = slugify(values.username || values.fullname, { lower: true })
+      cloneValues.username = slugify(values.username || values.fullname, {
+        lower: true,
+        replacement: '',
+        trim: true,
+      })
       cloneValues.status = Number(values.status)
       cloneValues.role = Number(values.role)
       cloneValues.avatar = image

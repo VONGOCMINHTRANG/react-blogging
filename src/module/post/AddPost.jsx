@@ -240,34 +240,6 @@ const AddPost = () => {
           <Field>
             <Label htmlFor="image">Image</Label>
             <div className="w-full flex flex-col gap-y-2">
-              {/* {progress === 0 ? (
-                <ImageUpload
-                  className="!h-[250px]"
-                  onChange={handleSelectImage}
-                  progress={progress}
-                  name="image"
-                  image={image}
-                  handleDeleteImage={handleDeleteImage}
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                ></ImageUpload>
-              ) : (
-                <ImageUpload
-                  className="!h-[250px]"
-                  onChange={handleSelectImage}
-                  progress={progress}
-                  name="image"
-                  image={image}
-                  handleDeleteImage={handleDeleteImage}
-                  control={control}
-                  rules={{
-                    required: false,
-                  }}
-                ></ImageUpload>
-              )} */}
-
               <ImageUpload
                 className="!h-[250px]"
                 onChange={handleSelectImage}

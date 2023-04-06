@@ -4,10 +4,10 @@ import { db } from '../firebase/firebase-config'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import PostItem from 'module/post/PostItem'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { debounce } from 'lodash'
-import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
+import { postStatus } from 'utils/constants'
+import { PATH } from 'utils/path'
 
 const AuthorPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -86,34 +86,35 @@ const AuthorPageStyles = styled.div`
 
 const AuthorPage = () => {
   const { slug } = useParams()
+  // console.log(slug)
+  const navigate = useNavigate()
   const [userId, setUserId] = useState('')
   const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState('')
-  const [loading, isLoading] = useState(false)
-  const slugSplit = slug.split('-')
-  const username = slugSplit.join('')
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const handleInputFilter = debounce((e) => {
-    setFilter(e.target.value)
-  }, 500)
+  const handleSearch = () => {
+    navigate(PATH.search, { state: searchQuery })
+  }
 
   useEffect(() => {
-    const docRef = query(collection(db, 'users'), where('username', '==', username))
+    const docRef = query(collection(db, 'users'), where('username', '==', slug))
     onSnapshot(docRef, (snapshot) => {
       snapshot.docs.forEach((doc) => {
         setUserId(doc.id)
       })
     })
-  }, [username])
+  }, [slug])
 
   useEffect(() => {
+    console.log(userId)
     const colRef = collection(db, 'posts')
-    const q = filter
-      ? query(colRef, where('title', '>=', filter), where('title', '<=', filter + 'utf8'))
-      : query(colRef, where('userId', '==', userId))
+    const q = query(
+      colRef,
+      where('userId', '==', userId),
+      where('status', '==', postStatus.APPROVED)
+    )
     onSnapshot(q, (snapshot) => {
       try {
-        isLoading(true)
         let results = []
         snapshot.docs.forEach((doc) => {
           results.push({
@@ -121,42 +122,36 @@ const AuthorPage = () => {
             ...doc.data(),
           })
         })
-        setTimeout(() => {
-          isLoading(false)
-          setPosts(results)
-        }, 150)
+        setPosts(results)
       } catch (error) {
-        isLoading(true)
         console.log(error)
       }
     })
-  }, [userId, filter])
+  }, [userId])
 
   return (
-    <>
-      {loading && <LoadingSkeletonBlogPage></LoadingSkeletonBlogPage>}
+    <AuthorPageStyles className="category-page">
+      <div className="wrapper">
+        <div className="py-5">
+          <Search
+            setSearchQuery={setSearchQuery}
+            handleSearch={handleSearch}
+            placeholder="Search post..."
+          ></Search>
+        </div>
 
-      {!loading && (
-        <AuthorPageStyles className="category-page">
-          <div className="wrapper">
-            <div className="py-5">
-              <Search onChange={handleInputFilter} placeholder="Search post in author..."></Search>
-            </div>
-
-            <div className="container">
-              <div className="blog-item">
-                {posts?.length > 0 &&
-                  posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
-              </div>
-            </div>
-            <h1>{slug}</h1>
-            <Link to="/" className="icon-home">
-              <IconHome></IconHome>
-            </Link>
+        <div className="container">
+          <div className="blog-item">
+            {posts?.length > 0 &&
+              posts.map((post) => <PostItem key={post.id} data={post}></PostItem>)}
           </div>
-        </AuthorPageStyles>
-      )}
-    </>
+        </div>
+        <h1>{slug}</h1>
+        <Link to="/" className="icon-home">
+          <IconHome></IconHome>
+        </Link>
+      </div>
+    </AuthorPageStyles>
   )
 }
 
