@@ -40,9 +40,6 @@ const CategoryPageStyles = styled.div`
     padding-top: 4rem;
   }
   .post {
-    &-item {
-      height: 275px;
-    }
     &-category {
       background-color: rgb(29, 192, 113);
       a {
