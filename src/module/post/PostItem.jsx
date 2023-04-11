@@ -50,7 +50,7 @@ const PostItem = ({ data, ...props }) => {
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
   return (
     <PostItemStyles
-      className="post-item transition-all ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 duration-300"
+      className="post-item transition-all ease-in-out hover:-translate-y-1 hover:scale-95 duration-300"
       {...props}
     >
       <PostImage to={`/detail-post/${data?.slug}`} src={data?.image}></PostImage>

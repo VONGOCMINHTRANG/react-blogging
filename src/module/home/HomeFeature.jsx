@@ -1,4 +1,4 @@
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import { Button } from 'components/button'
 import { useNavigate } from 'react-router-dom'
 import PostFeatureItem from 'module/post/PostFeatureItem'

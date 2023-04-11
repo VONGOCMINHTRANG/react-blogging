@@ -81,7 +81,7 @@ const PostRelatedItem = ({ post }) => {
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 
   return (
-    <PostRelatedItemStyles className="post-related-item transition-all ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 duration-300">
+    <PostRelatedItemStyles className="post-related-item transition-all ease-in-out hover:-translate-y-1 hover:scale-95 duration-300">
       <PostImage to={`/detail-post/${post?.slug}`} src={post.image}></PostImage>
       <PostCategory to={`/category/${post?.category?.slug}`}>{post?.category?.name}</PostCategory>
       <PostTitle to={`/detail-post/${post?.slug}`}>{post?.title}</PostTitle>

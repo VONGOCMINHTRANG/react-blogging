@@ -7,7 +7,7 @@ import { Sidebar } from 'components/sidebar'
 import Search from 'components/search/Search'
 import { IconDark, IconLight, IconMenu } from 'components/icon'
 import { Blur } from 'components/blur'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { auth, db } from '../firebase/firebase-config'
 import LoadingSkeletonHeader from 'components/loading/LoadingSkeletonHeader'
@@ -16,6 +16,7 @@ import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
 import Swal from 'sweetalert2'
 import { signOut } from 'firebase/auth'
+import useClickOutsite from 'hooks/useClickOutside'
 
 const HeaderStyles = styled.header`
     padding: 20px 0px;
@@ -105,6 +106,9 @@ const HeaderStyles = styled.header`
       .sidebar, .blur{
         display: none;
       }
+      .avatar{
+        display: none
+      }
     }
 
     /* Tablet */
@@ -139,11 +143,11 @@ const HeaderStyles = styled.header`
         }
     }
 
-    @media (min-width: 950px){
-      .avatar{
-        display: none
-      }
+    @media (max-width: 949px) {
+    .suggested-search {
+      top: 45px;
     }
+  }
 `
 
 const Header = () => {
@@ -155,6 +159,7 @@ const Header = () => {
   const [loading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([])
+  const { show, setShow, nodeRef } = useClickOutsite()
 
   const handleLogout = () => {
     Swal.fire({
@@ -215,19 +220,21 @@ const Header = () => {
               <ul className="menu">
                 {menuLinks.length > 0 &&
                   menuLinks.slice(0, 3).map((item) => (
-                    <li className="menu-item group transition-all" key={item.title}>
+                    <li className="menu-item group transition-all relative" key={item.title}>
                       <NavLink to={item.url} className="menu-link">
                         <span className={darkTheme ? 'text-white' : ''}>{item.title}</span>
                       </NavLink>
 
                       {item.title === 'Category' && (
-                        <div className="hidden group-hover:block bg-gray-100 border border-gray-200 rounded-sm absolute z-30 text-green-700 cursor-pointer delay-500 font-semibold">
+                        <div className="hidden group-hover:block w-auto bg-slate-200 border border-gray-200 right-0 whitespace-nowrap rounded-sm absolute z-30 cursor-pointer delay-500 font-semibold">
                           {categories?.length > 0 &&
                             categories?.map((category) => (
-                              <div key={category?.id} className="hover:bg-green-200 p-2">
-                                <NavLink to={`/category/${category?.slug}`}>
-                                  {category?.name}
-                                </NavLink>
+                              <div
+                                onClick={() => navigate(`/category/${category?.slug}`)}
+                                key={category?.id}
+                                className="hover:bg-slate-300 p-2 text-slate-700 hover:text-black/75 text-sm"
+                              >
+                                {category?.name}
                               </div>
                             ))}
                         </div>
@@ -270,7 +277,13 @@ const Header = () => {
                   <IconMenu></IconMenu>
                 </button>
 
-                <Search setSearchQuery={setSearchQuery} handleSearch={handleSearch}></Search>
+                <Search
+                  setSearchQuery={setSearchQuery}
+                  handleSearch={handleSearch}
+                  show={show}
+                  setShow={setShow}
+                  nodeRef={nodeRef}
+                ></Search>
 
                 <div className="avatar relative group" onClick={() => setMenu(!menu)}>
                   <img
@@ -289,14 +302,14 @@ const Header = () => {
                       >
                         Account Information
                       </li>
-                      <li
+                      {/* <li
                         onClick={() =>
                           navigate(`${PATH.dashboard.change_password}${userInfo.username}`)
                         }
                         className="p-2 hover:bg-slate-300 hover:text-green-600"
                       >
                         Change password
-                      </li>
+                      </li> */}
                       <li
                         onClick={toggleDarkTheme}
                         className="p-2 hover:bg-slate-300 hover:text-green-600 flex gap-2"

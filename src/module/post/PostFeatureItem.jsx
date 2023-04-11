@@ -75,7 +75,7 @@ const PostFeatureItem = ({ data }) => {
   if (!data || !data.id) return null
 
   return (
-    <PostFeatureItemStyles className="post-feature-item transition-all ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 duration-300">
+    <PostFeatureItemStyles className="post-feature-item transition-all ease-in-out hover:-translate-y-1 hover:scale-95 duration-300">
       <PostImage src={data.image}></PostImage>
       <Overlay></Overlay>
       <div className="post-content">

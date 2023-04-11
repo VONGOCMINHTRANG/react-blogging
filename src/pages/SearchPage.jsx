@@ -1,5 +1,4 @@
 import { IconHome } from 'components/icon'
-import LoadingSkeletonBlogPage from 'components/loading/LoadingSkeletonBlogPage'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import PostItem from 'module/post/PostItem'
 import { useEffect, useRef, useState } from 'react'
@@ -87,7 +86,6 @@ const SearchPageStyles = styled.div`
 
 const SearchPage = () => {
   const { state } = useLocation()
-  const [loading, isLoading] = useState(false)
   const [posts, setPosts] = useState([])
   const totalResult = useRef()
 

@@ -2,7 +2,7 @@ import { Button } from 'components/button'
 import Content from 'components/content/Content'
 import { Field } from 'components/field'
 import { ImageUpload } from 'components/image'
-import { Input, InputPasswordToggle } from 'components/input'
+import { Input } from 'components/input'
 import { Label } from 'components/label'
 import Radio from 'components/radio'
 import { db } from '../../firebase/firebase-config'
@@ -66,7 +66,6 @@ const UpdateUser = () => {
       dob: '',
       phone: '',
       email: '',
-      password: '',
       status: Number(userStatus.PENDING),
       role: Number(userRole.USER),
       createAt: new Date(),
@@ -122,7 +121,6 @@ const UpdateUser = () => {
         dob: '',
         phone: '',
         email: '',
-        password: '',
         status: Number(userStatus.PENDING),
         role: Number(userRole.USER),
         createAt: new Date(),
@@ -273,33 +271,8 @@ const UpdateUser = () => {
                   required: true,
                   pattern: /^\S+@\S+$/,
                 }}
+                disabled
               ></Input>
-              {errors?.email?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your email</div>
-              )}
-              {errors?.email?.type === 'pattern' && (
-                <div className="text-red-500 text-sm italic">Please enter valid email</div>
-              )}
-            </div>
-          </Field>
-          <Field>
-            <Label htmlFor="password">Password</Label>
-            <div className="flex flex-col gap-y-2 w-full">
-              <InputPasswordToggle
-                control={control}
-                rules={{
-                  required: true,
-                  minLength: 8,
-                }}
-              ></InputPasswordToggle>
-              {errors?.password?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your password</div>
-              )}
-              {errors?.password?.type === 'minLength' && (
-                <div className="text-red-500 text-sm italic">
-                  Your password must be at least 8 characters or greater
-                </div>
-              )}
             </div>
           </Field>
         </div>

@@ -73,7 +73,7 @@ const PostNewestItem = ({ data }) => {
   const formatDate = new Date(time).toLocaleDateString('vi-VI')
 
   return (
-    <PostNewestItemStyles className="post-newest-item transition-all ease-in-out delay-150 hover:-translate-y-1 hover:scale-95 duration-300">
+    <PostNewestItemStyles className="post-newest-item transition-all ease-in-out hover:-translate-y-1 hover:scale-95 duration-300">
       <PostImage to={`/detail-post/${data?.slug}`} src={data?.image}></PostImage>
       <div className="info-right">
         <PostCategory

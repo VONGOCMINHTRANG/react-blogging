@@ -77,7 +77,7 @@ const ChangePassword = () => {
     }
     try {
       await updatePassword(auth.currentUser, values.new_password)
-      toast.error(`Congrate ${userInfo?.fullname} change password successfully!!!`, {
+      toast.success(`Congrate ${userInfo?.fullname} change password successfully!!!`, {
         pauseOnHover: false,
         delay: 100,
       })
