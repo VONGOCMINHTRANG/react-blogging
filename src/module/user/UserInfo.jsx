@@ -130,89 +130,87 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
               </div>
             </div>
 
-            {!more && <Button onClick={() => setMore(true)}>Show more</Button>}
+            <div className={`transition-all delay-200 overflow-hidden ${more ? 'h-auto ' : 'h-0'}`}>
+              <div className="flex mb-4 p-1 items-center ">
+                <div
+                  className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                    darkTheme ? 'text-white' : ''
+                  }`}
+                >
+                  Mobile number
+                </div>
+                <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
+                  <span className="px-2">{phone}</span>
+                </div>
+              </div>
+              <div className="flex mb-4 p-1 items-center">
+                <div
+                  className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                    darkTheme ? 'text-white' : ''
+                  }`}
+                >
+                  Status
+                </div>
+                {Number(status) === userStatus.ACTIVE && (
+                  <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2">Active</span>
+                  </div>
+                )}
+                {Number(status) === userStatus.PENDING && (
+                  <div className="w-fit bg-orange-100 text-orange-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2">Pending</span>
+                  </div>
+                )}
+                {Number(status) === userStatus.BANNED && (
+                  <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2">Banned</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex mb-4 p-1 items-center">
+                <div
+                  className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                    darkTheme ? 'text-white' : ''
+                  }`}
+                >
+                  Role
+                </div>
+                {Number(role) === userRole.ADMIN && (
+                  <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2">Admin</span>
+                  </div>
+                )}
+                {Number(role) === userRole.EDITOR && (
+                  <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2">Editor</span>
+                  </div>
+                )}
+                {Number(role) === userRole.USER && (
+                  <div className="w-fit bg-purple-100 text-purple-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2 ">User</span>
+                  </div>
+                )}
+                {Number(role) === userRole.MODERATOR && (
+                  <div className="w-fit bg-orange-100 text-orange-500 outline-none p-1 overflow-x-auto">
+                    <span className="px-2">Moderator</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex mb-4 p-1 items-center">
+                <div
+                  className={`w-4/12 text-slate-700 font-semibold px-5 ${
+                    darkTheme ? 'text-white' : ''
+                  }`}
+                >
+                  CreatedAt
+                </div>
+                <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
+                  <span className="px-2">{time}</span>
+                </div>
+              </div>
+            </div>
 
-            {more && (
-              <>
-                <div className="flex mb-4 p-1 items-center">
-                  <div
-                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
-                      darkTheme ? 'text-white' : ''
-                    }`}
-                  >
-                    Mobile number
-                  </div>
-                  <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">{phone}</span>
-                  </div>
-                </div>
-                <div className="flex mb-4 p-1 items-center">
-                  <div
-                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
-                      darkTheme ? 'text-white' : ''
-                    }`}
-                  >
-                    Status
-                  </div>
-                  {Number(status) === userStatus.ACTIVE && (
-                    <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2">Active</span>
-                    </div>
-                  )}
-                  {Number(status) === userStatus.PENDING && (
-                    <div className="w-fit bg-orange-100 text-orange-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2">Pending</span>
-                    </div>
-                  )}
-                  {Number(status) === userStatus.BANNED && (
-                    <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2">Banned</span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex mb-4 p-1 items-center">
-                  <div
-                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
-                      darkTheme ? 'text-white' : ''
-                    }`}
-                  >
-                    Role
-                  </div>
-                  {Number(role) === userRole.ADMIN && (
-                    <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2">Admin</span>
-                    </div>
-                  )}
-                  {Number(role) === userRole.EDITOR && (
-                    <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2">Editor</span>
-                    </div>
-                  )}
-                  {Number(role) === userRole.USER && (
-                    <div className="w-fit bg-purple-100 text-purple-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2 ">User</span>
-                    </div>
-                  )}
-                  {Number(role) === userRole.MODERATOR && (
-                    <div className="w-fit bg-orange-100 text-orange-500 outline-none p-1 overflow-x-auto">
-                      <span className="px-2">Moderator</span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex mb-4 p-1 items-center">
-                  <div
-                    className={`w-4/12 text-slate-700 font-semibold px-5 ${
-                      darkTheme ? 'text-white' : ''
-                    }`}
-                  >
-                    CreatedAt
-                  </div>
-                  <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">{time}</span>
-                  </div>
-                </div>
-              </>
-            )}
+            <Button onClick={() => setMore(!more)}>{!more ? 'Show more' : 'Show less'}</Button>
           </div>
         </div>
       </UserInfoStyles>

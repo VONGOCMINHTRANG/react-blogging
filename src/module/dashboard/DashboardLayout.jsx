@@ -165,14 +165,14 @@ const DashboardLayout = () => {
                     >
                       Account Information
                     </li>
-                    <li
+                    {/* <li
                       onClick={() =>
                         navigate(`${PATH.dashboard.change_password}${userInfo.username}`)
                       }
                       className="p-2 hover:bg-slate-300 hover:text-green-600"
                     >
                       Change password
-                    </li>
+                    </li> */}
                     <li
                       onClick={toggleDarkTheme}
                       className="p-2 hover:bg-slate-300 hover:text-green-600 flex gap-2"

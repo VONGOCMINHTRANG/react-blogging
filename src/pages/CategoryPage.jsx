@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { postStatus } from 'utils/constants'
 import { PATH } from 'utils/path'
+import useClickOutsite from 'hooks/useClickOutside'
 
 const CategoryPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -87,6 +88,7 @@ const CategoryPage = () => {
   const [categoryId, setCategoryId] = useState('')
   const [posts, setPosts] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+  const { show, setShow, nodeRef } = useClickOutsite()
 
   const handleSearch = () => {
     navigate(PATH.search, { state: searchQuery })
@@ -132,6 +134,9 @@ const CategoryPage = () => {
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
             placeholder="Search post..."
+            nodeRef={nodeRef}
+            show={show}
+            setShow={setShow}
           ></Search>
         </div>
 

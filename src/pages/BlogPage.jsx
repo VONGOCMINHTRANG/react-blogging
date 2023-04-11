@@ -17,6 +17,7 @@ import styled from 'styled-components'
 import { db } from '../firebase/firebase-config'
 import { postStatus } from 'utils/constants'
 import { PATH } from 'utils/path'
+import useClickOutsite from 'hooks/useClickOutside'
 
 const POST_PER_PAGE = 6
 
@@ -105,6 +106,7 @@ const BlogPage = () => {
   const [total, setTotal] = useState(0)
   const [lastDoc, setLastDoc] = useState()
   const [searchQuery, setSearchQuery] = useState('')
+  const { show, setShow, nodeRef } = useClickOutsite()
 
   const handleSearch = () => {
     navigate(PATH.search, { state: searchQuery })
@@ -173,6 +175,9 @@ const BlogPage = () => {
           <Search
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
+            show={show}
+            setShow={setShow}
+            nodeRef={nodeRef}
             placeholder="Search post..."
           ></Search>
         </div>

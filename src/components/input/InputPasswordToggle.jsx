@@ -10,6 +10,7 @@ const InputPasswordToggle = ({
   name = 'password',
 }) => {
   const [togglePassword, setTogglePassword] = useState(false)
+
   return (
     <>
       <Input

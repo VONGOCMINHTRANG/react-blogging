@@ -1,6 +1,12 @@
 import { IconSearch } from 'components/icon'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { collection, limit, onSnapshot, query, where } from 'firebase/firestore'
+import { db } from '../../firebase/firebase-config'
+import { PATH } from 'utils/path'
+import { useNavigate } from 'react-router-dom'
 
 const SearchStyles = styled.div`
   margin-left: auto;
@@ -49,6 +55,15 @@ const SearchStyles = styled.div`
   .search-icon:hover {
     background-color: #e0e0e0;
   }
+  .suggested-search {
+    z-index: 40;
+    position: absolute;
+    width: 100%;
+    background-color: rgb(226 232 240);
+    border-radius: 0.375rem;
+    border-width: 1px;
+    top: 64px;
+  }
 `
 
 const Search = ({
@@ -56,8 +71,34 @@ const Search = ({
   setSearchQuery = () => {},
   onClick = {},
   handleSearch,
+  show,
+  setShow = () => {},
+  nodeRef,
   ...props
 }) => {
+  const [postName, setPostName] = useState([])
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const postsRef = collection(db, 'posts')
+    const fetchPostNameData = async () => {
+      try {
+        const q = query(postsRef, where('status', '==', 1), limit(5))
+        onSnapshot(q, (snapshot) => {
+          let results = []
+          snapshot.docs.forEach((doc) => {
+            results.push(doc.data().title)
+          })
+          setPostName(results)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchPostNameData()
+  }, [])
+
   return (
     <SearchStyles className="search">
       <input
@@ -65,11 +106,30 @@ const Search = ({
         placeholder={placeholder}
         className="search-input"
         onChange={(e) => setSearchQuery(e.target.value)}
+        ref={nodeRef}
         {...props}
+        onClick={() => setShow(!show)}
       />
       <div className="search-icon cursor-pointer" onClick={handleSearch}>
         <IconSearch></IconSearch>
       </div>
+
+      {show && (
+        <div className="suggested-search drop-shadow-lg top-16">
+          <ul className="text-sm text-slate-700">
+            {postName.length > 0 &&
+              postName?.map((name) => (
+                <li
+                  key={name}
+                  className="hover:bg-slate-300 cursor-pointer py-2 px-4 hover:text-black/75"
+                  onClick={() => navigate(PATH.search, { state: name })}
+                >
+                  {name}
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
     </SearchStyles>
   )
 }

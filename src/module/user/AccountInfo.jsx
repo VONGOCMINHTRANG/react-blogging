@@ -268,13 +268,8 @@ const AccountInfo = () => {
                   required: true,
                   pattern: /^\S+@\S+$/,
                 }}
+                disabled
               ></Input>
-              {errors?.email?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your email</div>
-              )}
-              {errors?.email?.type === 'pattern' && (
-                <div className="text-red-500 text-sm italic">Please enter valid email</div>
-              )}
             </div>
           </Field>
         </div>
