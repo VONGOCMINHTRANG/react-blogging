@@ -19,7 +19,8 @@ const Logout = () => {
       if (result.isConfirmed) {
         Swal.fire('Login successfully', '', 'success')
         signOut(auth)
-        navigate('/')
+        localStorage.removeItem('userInfo')
+        navigate(0)
       }
     })
   }

@@ -73,6 +73,7 @@ const CategoryUpdate = () => {
   }, [categoryId])
 
   if (!categoryId) return null
+
   return (
     <AddCategoryStyles>
       <Content title="Update category" desc={`Update your category id : ${categoryId}`}></Content>

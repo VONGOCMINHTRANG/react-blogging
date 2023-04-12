@@ -10,6 +10,7 @@ function AuthProvider(props) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        const { accessToken, email, uid } = user
         const docRef = query(collection(db, 'users'), where('email', '==', user.email))
         onSnapshot(docRef, (snapshot) => {
           snapshot.forEach((doc) => {
@@ -17,9 +18,18 @@ function AuthProvider(props) {
               ...user,
               ...doc.data(),
             })
-            // console.log(userInfo)
           })
         })
+
+        localStorage.setItem(
+          'userInfo',
+          JSON.stringify({
+            email: email,
+            userId: uid,
+          })
+        )
+
+        localStorage.setItem('userToken', accessToken)
       }
     })
   }, [])

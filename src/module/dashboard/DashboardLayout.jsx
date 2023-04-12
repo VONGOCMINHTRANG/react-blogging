@@ -109,10 +109,12 @@ const DashboardLayout = () => {
       confirmButtonText: 'Yes, log out!',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire('Login successfully', '', 'success')
+        Swal.fire('Logout successfully', '', 'success')
         signOut(auth)
         window.location.reload()
         navigate(0)
+        localStorage.removeItem('userInfo')
+        localStorage.removeItem('userToken')
       }
     })
   }
