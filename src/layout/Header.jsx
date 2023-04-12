@@ -160,6 +160,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([])
   const { show, setShow, nodeRef } = useClickOutsite()
+  const [checkUser, setCheckUser] = useState(false)
 
   const handleLogout = () => {
     Swal.fire({
@@ -171,10 +172,12 @@ const Header = () => {
       confirmButtonText: 'Yes, log out!',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire('Login successfully', '', 'success')
+        Swal.fire('Logout successfully', '', 'success')
         signOut(auth)
         window.location.reload()
         navigate(0)
+        localStorage.removeItem('userInfo')
+        localStorage.removeItem('userToken')
       }
     })
   }
@@ -205,6 +208,19 @@ const Header = () => {
     }
     fetchCategoryName()
   }, [])
+
+  useEffect(() => {
+    try {
+      if (userInfo.length === 0) {
+        setCheckUser(false)
+      }
+      if (userInfo.email) {
+        setCheckUser(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [userInfo])
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 const AuthenticationPageStyles = styled.div`
   min-height: 100vh;
@@ -22,9 +22,11 @@ const AuthenticationPageStyles = styled.div`
 
 const AuthenticationPage = ({ children }) => {
   const navigate = useNavigate()
+  const { darkTheme } = useTheme()
+  console.log(darkTheme)
 
   return (
-    <AuthenticationPageStyles>
+    <AuthenticationPageStyles className={darkTheme ? 'bg-black/70' : ''}>
       <div className="container">
         <img
           className="logo"
