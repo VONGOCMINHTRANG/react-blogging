@@ -3,7 +3,7 @@ import NotFoundPage from 'pages/NotFoundPage'
 import styled from 'styled-components'
 import DashboardMenu from './DashboardMenu'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { IconArrowDown, IconDark, IconHome, IconLight } from 'components/icon'
+import { IconArrowDown, IconDark, IconHome, IconLight, IconNotification } from 'components/icon'
 import { Suspense, useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { signOut } from 'firebase/auth'
@@ -56,8 +56,8 @@ const DashboardLayoutStyles = styled.div`
     background-color: white;
   }
   .header-avatar {
-    width: 52px;
-    height: 52px;
+    width: 40px;
+    height: 40px;
     position: relative;
 
     img {
@@ -150,6 +150,12 @@ const DashboardLayout = () => {
               <button className="sidebarBtn" onClick={() => setOpen(true)}>
                 <IconMenu></IconMenu>
               </button>
+
+              <div className="relative cursor-pointer">
+                <IconNotification></IconNotification>
+
+                <div className="absolute z-10 rounded-full bg-orange-500 w-3 h-3 top-0 right-0"></div>
+              </div>
 
               <div className="header-avatar">
                 <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />

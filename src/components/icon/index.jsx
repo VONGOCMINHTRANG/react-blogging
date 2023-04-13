@@ -22,6 +22,7 @@ import IconPencil from './IconPencil'
 import IconDark from './IconDark'
 import IconLight from './iconLight'
 import IconArrowDown from './IconArrowDown'
+import IconNotification from './IconNotification'
 
 export {
   IconEyeOpen,
@@ -48,4 +49,5 @@ export {
   IconPencil,
   IconDark,
   IconLight,
+  IconNotification,
 }
