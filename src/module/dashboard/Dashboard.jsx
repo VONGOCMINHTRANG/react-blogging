@@ -1,5 +1,4 @@
 import Content from 'components/content/Content'
-import { useDarkTheme } from 'contexts/theme-context'
 import styled from 'styled-components'
 
 const DashboardStyles = styled.div`
@@ -37,6 +36,19 @@ const DashboardStyles = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @media (max-width: 767px) {
+    .dashboard-image {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    img {
+      max-height: 400px;
+      height: auto;
+      object-fit: ;
+    }
   }
 `
 
