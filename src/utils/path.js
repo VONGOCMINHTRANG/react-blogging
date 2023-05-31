@@ -18,8 +18,8 @@ export const PATH = {
     add_user: 'manage/add-user',
     users: '/manage/users',
     update_user: '/manage/update-user',
-    account_infomation: '/manage/account-information/:userId',
-    change_password: '/account-information/change-password/:userId',
+    account_infomation: '/manage/account-information/:name',
+    change_password: '/manage/change-password/:name',
 
     // Category Manage
     add_category: '/manage/add-category',

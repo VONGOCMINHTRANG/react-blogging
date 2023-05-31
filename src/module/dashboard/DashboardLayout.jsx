@@ -166,21 +166,17 @@ const DashboardLayout = () => {
                   <IconArrowDown></IconArrowDown>
                   <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
                     <li
-                      onClick={() =>
-                        navigate(`${PATH.dashboard.account_infomation}${userInfo.username}`)
-                      }
+                      onClick={() => navigate(`/manage/account-information/${userInfo.username}`)}
                       className="p-2 hover:bg-slate-300 hover:text-green-600"
                     >
                       Account Information
                     </li>
-                    {/* <li
-                      onClick={() =>
-                        navigate(`${PATH.dashboard.change_password}${userInfo.username}`)
-                      }
+                    <li
+                      onClick={() => navigate(`/manage/change-password/${userInfo.username}`)}
                       className="p-2 hover:bg-slate-300 hover:text-green-600"
                     >
                       Change password
-                    </li> */}
+                    </li>
                     <li
                       onClick={toggleDarkTheme}
                       className="p-2 hover:bg-slate-300 hover:text-green-600 flex gap-2"
