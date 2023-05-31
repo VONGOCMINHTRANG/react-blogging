@@ -4,11 +4,12 @@ import { Field } from 'components/field'
 import { InputPasswordToggle } from 'components/input'
 import { Label } from 'components/label'
 import { useAuth } from 'contexts/auth-context'
-import { auth } from '../../firebase/firebase-config'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import { toast } from 'react-toastify'
-import { reauthenticateWithCredential, updatePassword } from 'firebase/auth'
+import { getAuth, signOut, updatePassword } from 'firebase/auth'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const ChangePasswordStyles = styled.div`
   margin-bottom: 2.5rem;
@@ -58,8 +59,9 @@ const ChangePassword = () => {
       confirm: '',
     },
   })
+  const navigate = useNavigate()
 
-  const handleUpdatePassword = async (values) => {
+  const handleUpdatePassword = (values) => {
     if (!isValid) return
     if (values.password !== userInfo?.password) {
       toast.error('Your current password is not correct!', {
@@ -76,14 +78,26 @@ const ChangePassword = () => {
       return
     }
     try {
-      await updatePassword(auth.currentUser, values.new_password)
-      toast.success(`Congrate ${userInfo?.fullname} change password successfully!!!`, {
-        pauseOnHover: false,
-        delay: 100,
-      })
-      console.log(values)
+      const auth = getAuth()
+      updatePassword(auth.currentUser, values.new_password)
+        .then(() => {
+          console.log('success')
+          Swal.fire('Your password has been updated!', '', 'success')
+          navigate('/')
+        })
+        .catch((error) => {
+          // console.log(error)
+          if (error.code == 'auth/requires-recent-login') {
+            signOut(auth)
+            navigate('/sign-in')
+          }
+        })
     } catch (error) {
-      reauthenticateWithCredential()
+      Swal.fire({
+        title: 'Oops!',
+        text: 'Something went wrong!',
+        icon: 'error',
+      })
     }
   }
 
