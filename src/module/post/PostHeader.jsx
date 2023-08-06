@@ -11,6 +11,7 @@ const PostHeaderStyles = styled.div`
   align-items: center;
   gap: 40px;
   padding-top: 20px;
+
   .post {
     &-image {
       width: 100%;

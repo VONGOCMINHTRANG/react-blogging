@@ -1,13 +1,14 @@
 import { Title } from 'components/title'
-import { useDarkTheme } from 'contexts/theme-context'
 import FooterLeft from 'module/footer/FooterLeft'
 import FooterRight from 'module/footer/FooterRight'
 import styled from 'styled-components'
 
 const FooterStyles = styled.div`
+  width: 100%;
+  background-color: rgb(243, 237, 255);
+
   .wrapper {
-    background-color: rgb(243, 237, 255);
-    width: calc(10em + 70vw);
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     border-top-left-radius: 16px;
@@ -48,10 +49,8 @@ const FooterStyles = styled.div`
 `
 
 const Footer = () => {
-  const { darkTheme } = useDarkTheme()
-
   return (
-    <FooterStyles className={darkTheme ? '!bg-black/80' : ''}>
+    <FooterStyles>
       <div className="wrapper">
         <div className="container">
           <div className="flex flex-col justify-center gap-y-2">

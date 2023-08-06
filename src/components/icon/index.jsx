@@ -23,12 +23,16 @@ import IconDark from './IconDark'
 import IconLight from './iconLight'
 import IconArrowDown from './IconArrowDown'
 import IconNotification from './IconNotification'
+import IconSetting from './IconSetting'
+import IconRight from './IconRight'
 
 export {
   IconEyeOpen,
   IconEyeClose,
   IconArrowLeft,
   IconArrowRight,
+  IconRight,
+  IconSetting,
   IconArrowDown,
   IconMenu,
   IconSearch,

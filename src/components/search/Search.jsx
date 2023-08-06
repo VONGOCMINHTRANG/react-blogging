@@ -7,6 +7,7 @@ import { collection, limit, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../../firebase/firebase-config'
 import { PATH } from 'utils/path'
 import { useNavigate } from 'react-router-dom'
+import useClickOutsite from 'hooks/useClickOutside'
 
 const SearchStyles = styled.div`
   margin-left: auto;
@@ -71,13 +72,11 @@ const Search = ({
   setSearchQuery = () => {},
   onClick = {},
   handleSearch,
-  show,
-  setShow = () => {},
-  nodeRef,
   ...props
 }) => {
   const [postName, setPostName] = useState([])
   const navigate = useNavigate()
+  const { show, setShow, nodeRef } = useClickOutsite()
 
   useEffect(() => {
     const postsRef = collection(db, 'posts')
@@ -100,7 +99,7 @@ const Search = ({
   }, [])
 
   return (
-    <SearchStyles className="search">
+    <SearchStyles className="search" ref={nodeRef}>
       <input
         type="text"
         placeholder={placeholder}
