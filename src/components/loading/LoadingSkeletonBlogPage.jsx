@@ -83,17 +83,6 @@ const LoadingSkeletonBlogPage = () => {
             <div className="post-item"></div>
           </div>
         </div>
-        {/* <Search onChange={handleInputFilter}></Search>
-        <div className="container">
-          <div className="blog-item">
-            {posts?.length > 0 &&
-              posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
-          </div>
-        </div>
-        <h1>BLOG</h1>
-        <Link to="/" className="icon-home">
-          <IconHome></IconHome>
-        </Link> */}
       </div>
     </LoadingSkeletonBlogPageStyles>
   )

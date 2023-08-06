@@ -1,7 +1,7 @@
-import { FiSun } from 'react-icons/fi'
+import { BiSun } from 'react-icons/bi'
 
 const IconLight = () => {
-  return <FiSun className="w-5 h-5"></FiSun>
+  return <BiSun className="w-5 h-5"></BiSun>
 }
 
 export default IconLight

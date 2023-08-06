@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-export default function useClickOutsite(dom = 'button') {
+
+const useClickOutside = () => {
   const [show, setShow] = useState(false)
   const nodeRef = useRef()
 
   useEffect(() => {
     const handleClickOut = (e) => {
-      if (nodeRef.current && !nodeRef.current.contains(e.target) && !e.target.matches(dom)) {
-        // console.log('click outsite')
+      if (nodeRef.current && !nodeRef.current.contains(e.target)) {
         setShow(false)
       } else {
-        // console.log('click inside')
         setShow(true)
       }
     }
@@ -25,3 +24,5 @@ export default function useClickOutsite(dom = 'button') {
     nodeRef,
   }
 }
+
+export default useClickOutside

@@ -9,46 +9,43 @@ import { useDarkTheme } from 'contexts/theme-context'
 
 const HomeBannerStyles = styled.div`
   position: relative;
-  padding-bottom: 4em;
-  padding: 0px 3em;
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  .wrapper {
-    padding-bottom: 4em;
-  }
+  padding: 0 0 4em 0;
 
+  .wrapper {
+    display: flex;
+    justify-content: center;
+  }
   .container-fluid {
     background-image: url('/background.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     height: min(520px, 100vh);
-    width: calc(10em + 70vw);
-    padding: 0px 20px;
+    max-width: calc(100vw);
+    width: 100%;
     position: relative;
-    border-radius: 10px;
     display: flex;
     align-items: center;
     -webkit-box-align: center;
+    justify-content: center;
   }
   .banner {
     display: flex;
-    padding: 3em;
     align-items: center;
     -webkit-box-align: center;
     position: relative;
+    width: 100%;
+    max-width: 1280px;
   }
   .banner-content {
-    width: min(500px, 60vw);
+    max-width: 700px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     color: white;
-    margin-right: min(4em, 7vw);
   }
   h1 {
+    white-space: nowrap;
     font-size: 30px;
     margin-bottom: 0.6em;
   }
@@ -65,7 +62,6 @@ const HomeBannerStyles = styled.div`
   }
   @media (max-width: 540px) {
     width: 100%;
-    padding: 0;
     display: block;
     border-radius: 0;
     .container-fluid {
@@ -73,7 +69,12 @@ const HomeBannerStyles = styled.div`
       border-radius: 0;
     }
     .banner {
-      padding: 1em;
+      padding: 0 2em;
+    }
+  }
+  @media (min-width: 541px) and (max-width: 1309px) {
+    .banner-content {
+      padding: 0 2rem;
     }
   }
 `

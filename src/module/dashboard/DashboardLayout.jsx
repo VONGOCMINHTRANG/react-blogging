@@ -3,15 +3,13 @@ import NotFoundPage from 'pages/NotFoundPage'
 import styled from 'styled-components'
 import DashboardMenu from './DashboardMenu'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { IconArrowDown, IconDark, IconHome, IconLight, IconNotification } from 'components/icon'
+import { IconArrowDown, IconHome, IconNotification } from 'components/icon'
 import { Suspense, useEffect, useState } from 'react'
-import Swal from 'sweetalert2'
-import { signOut } from 'firebase/auth'
-import { auth } from '../../firebase/firebase-config'
 import { Blur } from 'components/blur'
 import { IconMenu } from 'components/icon'
-import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
+import MenuUser from 'components/menu/menuUser'
+import useClickOutside from 'hooks/useClickOutside'
 
 const DashboardLayoutStyles = styled.div`
   display: flex;
@@ -94,30 +92,10 @@ const DashboardLayoutStyles = styled.div`
 
 const DashboardLayout = () => {
   const { userInfo } = useAuth()
-  const { darkTheme, toggleDarkTheme } = useDarkTheme()
-  const navigate = useNavigate()
+  const { darkTheme } = useDarkTheme()
+  const { show, nodeRef } = useClickOutside()
   const [open, setOpen] = useState(false)
   const [checkUser, setCheckUser] = useState(true)
-
-  const handleLogout = () => {
-    Swal.fire({
-      title: 'Are you sure?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'rgb(29, 192, 113)',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, log out!',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Logout successfully', '', 'success')
-        signOut(auth)
-        window.location.reload()
-        navigate(0)
-        localStorage.removeItem('userInfo')
-        localStorage.removeItem('userToken')
-      }
-    })
-  }
 
   useEffect(() => {
     try {
@@ -160,47 +138,10 @@ const DashboardLayout = () => {
               <div className="header-avatar">
                 <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />
               </div>
-              <div className="header-email group">
+              <div className="header-email" ref={nodeRef}>
                 <span className={darkTheme ? 'text-white' : ''}>{userInfo?.email}</span>
-                <div>
-                  <IconArrowDown></IconArrowDown>
-                  <ul className="hidden group-hover:block absolute whitespace-nowrap right-3 text-sm transition-all rounded bg-slate-600 text-white">
-                    <li
-                      onClick={() => navigate(`/manage/account-information/${userInfo.username}`)}
-                      className="p-2 hover:bg-slate-300 hover:text-green-600"
-                    >
-                      Account Information
-                    </li>
-                    <li
-                      onClick={() => navigate(`/manage/change-password/${userInfo.username}`)}
-                      className="p-2 hover:bg-slate-300 hover:text-green-600"
-                    >
-                      Change password
-                    </li>
-                    <li
-                      onClick={toggleDarkTheme}
-                      className="p-2 hover:bg-slate-300 hover:text-green-600 flex gap-2"
-                    >
-                      {darkTheme ? (
-                        <>
-                          Light theme
-                          <IconLight></IconLight>
-                        </>
-                      ) : (
-                        <>
-                          Dark theme
-                          <IconDark></IconDark>
-                        </>
-                      )}
-                    </li>
-                    <li
-                      onClick={handleLogout}
-                      className="p-2 hover:bg-slate-300 hover:text-green-600"
-                    >
-                      Logout
-                    </li>
-                  </ul>
-                </div>
+                <IconArrowDown></IconArrowDown>
+                {show && <MenuUser className="mt-6 right-3" />}
               </div>
             </div>
             <div className={`dashboard-children ${darkTheme ? '!bg-black/80' : ''}`}>

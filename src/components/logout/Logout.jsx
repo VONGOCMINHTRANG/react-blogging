@@ -1,29 +1,8 @@
 import { IconLogout } from 'components/icon'
-import { signOut } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import { auth } from '../../firebase/firebase-config'
+import useLogout from 'hooks/useLogout'
 
 const Logout = () => {
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    Swal.fire({
-      title: 'Are you sure?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'rgb(29, 192, 113)',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, log out!',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Login successfully', '', 'success')
-        signOut(auth)
-        localStorage.removeItem('userInfo')
-        navigate(0)
-      }
-    })
-  }
+  const { handleLogout } = useLogout()
 
   return (
     <div className="flex justify-end px-5 items-center">
