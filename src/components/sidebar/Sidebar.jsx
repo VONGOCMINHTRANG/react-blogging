@@ -1,6 +1,5 @@
 import { IconAdd, IconArrowLeft, IconLogout, IconMinus } from 'components/icon'
 import styled from 'styled-components'
-import { SidebarData } from './SidebarData'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
@@ -10,10 +9,12 @@ import Language from 'components/language'
 import { useDarkTheme } from 'contexts/theme-context'
 import { useAuth } from 'contexts/auth-context'
 import useLogout from 'hooks/useLogout'
+import SidebarData from './SidebarData'
+import { useTranslation } from 'react-i18next'
 
 const SidebarStyles = styled.ul`
   position: fixed;
-  width: 250px;
+  width: 300px;
   height: 100vh;
   top: 0px;
   left: 0px;
@@ -94,6 +95,8 @@ const SidebarStyles = styled.ul`
  */
 
 const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = '0' }) => {
+  const { t } = useTranslation()
+  const { menuSidebar } = SidebarData()
   const { darkTheme, toggleDarkTheme } = useDarkTheme()
   const { handleLogout } = useLogout()
   const { userInfo } = useAuth()
@@ -131,13 +134,13 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
         </div>
 
         <div className="mt-5">
-          <div className="bg-white px-4 mx-4 flex justify-between items-center py-1 rounded-md">
-            Chế độ: {darkTheme ? 'Tối' : 'Sáng'}
+          <div className="bg-white px-4 mx-4 flex text-sm justify-between items-center py-1 rounded-md whitespace-nowrap">
+            {t(`Theme`)}: {darkTheme ? t('Dark') : t('Light')}
             <button
               onClick={toggleDarkTheme}
-              className="bg-green-500 text-white px-3 py-2 rounded-full"
+              className="bg-green-500 text-white px-3 py-2 ml-2 rounded-full"
             >
-              Đổi
+              {t(`Change`)}
             </button>
           </div>
 
@@ -146,8 +149,8 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
           </div>
 
           <div className="mt-5">
-            {SidebarData.length > 0 &&
-              SidebarData.slice(number1, number2).map((item) => (
+            {menuSidebar.length > 0 &&
+              menuSidebar.slice(number1, number2).map((item) => (
                 <div className="flex flex-col" key={item.title}>
                   <div className="menu-item">
                     <div className="flex items-center gap-x-4 relative w-full">
@@ -155,7 +158,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                       <Link to={item.url}>{item.title}</Link>
                     </div>
 
-                    {item.title === 'Category' && (
+                    {item.title === t('Category') && (
                       <>
                         <div
                           className={`transition-transform duration-500 absolute right-3 z-10 ${
@@ -172,7 +175,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                       </>
                     )}
 
-                    {item.title === 'Account' && (
+                    {item.title === t('Account') && (
                       <div
                         className={`transition-transform duration-500 absolute right-3 z-10 ${
                           checkAccount ? 'rotate-180' : 'rotate-0'
@@ -188,7 +191,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                     )}
                   </div>
 
-                  {item.title === 'Category' && (
+                  {item.title === t('Category') && (
                     <div
                       className={`list-item mx-4 ${
                         checkCate
@@ -209,7 +212,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                     </div>
                   )}
 
-                  {item.title === 'Account' && (
+                  {item.title === t('Account') && (
                     <div
                       className={`list-item mx-4 ${
                         checkAccount
@@ -219,7 +222,6 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
                     >
                       {item.subMenu.map((subItem) => (
                         <Link className="account-item" to={subItem.url} key={subItem.title}>
-                          {subItem.icon}
                           {subItem.title}
                         </Link>
                       ))}
@@ -231,7 +233,7 @@ const Sidebar = ({ className = '', setOpen = () => {}, number1 = '0', number2 = 
             {userInfo.email && (
               <div className="menu-item flex gap-x-4 hover:bg-gray-500" onClick={handleLogout}>
                 <IconLogout />
-                <div className="flex-1">Đăng xuất</div>
+                <div className="flex-1">{t(`Log out`)}</div>
               </div>
             )}
           </div>

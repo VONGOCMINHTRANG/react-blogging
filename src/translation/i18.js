@@ -18,8 +18,8 @@ i18n.use(LanguageDetector).init({
     },
   },
   // if you're using a language detector, do not define the lng option
-  lng: localStorage.getItem('NEXT_LOCALE') ?? 'vi',
-  fallbackLng: 'vi',
+  lng: localStorage.getItem('language') ?? 'en',
+  fallbackLng: 'en',
   interpolation: {
     // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     escapeValue: false,
@@ -27,7 +27,7 @@ i18n.use(LanguageDetector).init({
   detection: {
     order: ['localStorage', 'navigator'],
     lookupQuerystring: 'lng',
-    lookupLocalStorage: 'NEXT_LOCALE',
+    lookupLocalStorage: 'language',
     caches: ['localStorage'],
   },
 })

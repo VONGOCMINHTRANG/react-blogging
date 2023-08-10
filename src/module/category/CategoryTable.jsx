@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { useRef, useState } from 'react'
 import CategoryInfo from './CategoryInfo'
 import { PATH } from 'utils/path'
+import { useTranslation } from 'react-i18next'
 
 const CategoryTableStyles = styled.div`
   overflow-x: auto;
@@ -32,23 +33,24 @@ const CategoryTableStyles = styled.div`
 `
 
 const CategoryTable = ({ data }) => {
+  const { t } = useTranslation()
+  const dataCategory = useRef([])
   const navigate = useNavigate()
   const [info, setInfo] = useState(false)
-  const dataCategory = useRef([])
 
   const handleDeleteCategory = async (docId) => {
     const colRef = doc(db, 'categories', docId)
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this category!",
+      title: t('Are you sure?'),
+      text: t("You won't be able to revert this category!"),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: t('Yes, delete it!'),
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
+        Swal.fire(t('Deleted!'), t('Your file has been deleted.'), 'success')
         await deleteDoc(colRef)
       }
     })
@@ -64,11 +66,11 @@ const CategoryTable = ({ data }) => {
       <Table>
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Slug</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>{t(`Id`)}</th>
+            <th>{t(`Name`)}</th>
+            <th>{t(`Slug`)}</th>
+            <th>{t(`Status`)}</th>
+            <th>{t(`Actions`)}</th>
           </tr>
         </thead>
         <tbody>
@@ -82,9 +84,9 @@ const CategoryTable = ({ data }) => {
                 </td>
                 <td>
                   {Number(category?.status) === categoryStatus.APPROVED ? (
-                    <LabelStatus type="success">Approved</LabelStatus>
+                    <LabelStatus type="success">{t(`Approved`)}</LabelStatus>
                   ) : (
-                    <LabelStatus type="danger">Unapproved</LabelStatus>
+                    <LabelStatus type="danger">{t(`Unapproved`)}</LabelStatus>
                   )}
                 </td>
                 <td>

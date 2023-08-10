@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { userRole, userStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
+import TitleInfo from 'components/title/TitleInfo'
 
 const UserInfoStyles = styled.div`
   width: calc(100vw - 50%);
@@ -48,6 +50,7 @@ const UserInfoStyles = styled.div`
 `
 
 const UserInfo = ({ info, setInfo = () => {}, data }) => {
+  const { t } = useTranslation()
   const { darkTheme } = useDarkTheme()
   const [more, setMore] = useState(false)
   const { avatar, dob, email, fullname, id, phone, role, status, username, createdAt } =
@@ -59,7 +62,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
       {info && <Blur onClick={() => setInfo(false)}></Blur>}
       <UserInfoStyles className={`hide-scrollbar ${darkTheme ? '!bg-gray-700' : ''}`} id="info">
         <div className="user-info">
-          <div className="title">User Information</div>
+          <TitleInfo onClick={() => setInfo(false)} title="User Information" />
 
           <div className="avatar">
             <img
@@ -75,7 +78,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Id
+                {t(`Id`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{id}</span>
@@ -87,7 +90,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Email
+                {t(`Email`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{email}</span>
@@ -99,7 +102,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Username
+                {t(`Username`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{username}</span>
@@ -111,7 +114,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Fullname
+                {t(`Fullname`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{fullname}</span>
@@ -123,7 +126,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Date of birth
+                {t(`Date of birth`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{dob}</span>
@@ -137,7 +140,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                     darkTheme ? 'text-white' : ''
                   }`}
                 >
-                  Mobile number
+                  {t(`Mobile number`)}
                 </div>
                 <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                   <span className="px-2">{phone}</span>
@@ -149,21 +152,21 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                     darkTheme ? 'text-white' : ''
                   }`}
                 >
-                  Status
+                  {t(`Status`)}
                 </div>
                 {Number(status) === userStatus.ACTIVE && (
                   <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">Active</span>
+                    <span className="px-2">{t(`Active`)}</span>
                   </div>
                 )}
                 {Number(status) === userStatus.PENDING && (
                   <div className="w-fit bg-orange-100 text-orange-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">Pending</span>
+                    <span className="px-2">{t(`Pending`)}</span>
                   </div>
                 )}
                 {Number(status) === userStatus.BANNED && (
                   <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">Banned</span>
+                    <span className="px-2">{t(`Banned`)}</span>
                   </div>
                 )}
               </div>
@@ -173,26 +176,26 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                     darkTheme ? 'text-white' : ''
                   }`}
                 >
-                  Role
+                  {t(`Role`)}
                 </div>
                 {Number(role) === userRole.ADMIN && (
                   <div className="w-fit bg-red-100 text-red-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">Admin</span>
+                    <span className="px-2">{t(`Admin`)}</span>
                   </div>
                 )}
                 {Number(role) === userRole.EDITOR && (
                   <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">Editor</span>
+                    <span className="px-2">{t(`Editor`)}</span>
                   </div>
                 )}
                 {Number(role) === userRole.USER && (
                   <div className="w-fit bg-purple-100 text-purple-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2 ">User</span>
+                    <span className="px-2 ">{t(`User`)}</span>
                   </div>
                 )}
                 {Number(role) === userRole.MODERATOR && (
                   <div className="w-fit bg-orange-100 text-orange-500 outline-none p-1 overflow-x-auto">
-                    <span className="px-2">Moderator</span>
+                    <span className="px-2">{t(`Moderator`)}</span>
                   </div>
                 )}
               </div>
@@ -202,7 +205,7 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
                     darkTheme ? 'text-white' : ''
                   }`}
                 >
-                  CreatedAt
+                  {t(`CreatedAt`)}
                 </div>
                 <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                   <span className="px-2">{time}</span>
@@ -210,7 +213,9 @@ const UserInfo = ({ info, setInfo = () => {}, data }) => {
               </div>
             </div>
 
-            <Button onClick={() => setMore(!more)}>{!more ? 'Show more' : 'Show less'}</Button>
+            <Button onClick={() => setMore(!more)}>
+              {!more ? t('Show more') : t('Show less')}
+            </Button>
           </div>
         </div>
       </UserInfoStyles>

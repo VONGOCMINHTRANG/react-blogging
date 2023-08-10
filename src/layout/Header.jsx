@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { menuLinks } from './HeaderData'
+import HeaderData from './HeaderData'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from 'contexts/auth-context'
 import { Sidebar } from 'components/sidebar'
@@ -15,7 +15,8 @@ import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
 import useClickOutsite from 'hooks/useClickOutside'
 import Language from 'components/language'
-import MenuUser from 'components/menu/menuUser'
+import MenuUser from 'components/menu/MenuUser'
+import { useTranslation } from 'react-i18next'
 
 const HeaderStyles = styled.header`
     padding: 20px;
@@ -164,6 +165,8 @@ const HeaderStyles = styled.header`
 `
 
 const Header = () => {
+  const { t } = useTranslation()
+  const { menuLinks } = HeaderData()
   const { userInfo } = useAuth()
   const navigate = useNavigate()
   const { darkTheme, toggleDarkTheme } = useDarkTheme()
@@ -235,7 +238,7 @@ const Header = () => {
                         <span className={darkTheme ? 'text-white' : ''}>{item.title}</span>
                       </NavLink>
 
-                      {item.title === 'Category' && (
+                      {item.title === t('Category') && (
                         <div className="hidden group-hover:block w-auto bg-slate-200 border border-gray-200 right-0 whitespace-nowrap rounded-sm absolute z-30 cursor-pointer delay-500 font-semibold">
                           {categories?.length > 0 &&
                             categories?.map((category) => (
@@ -283,7 +286,7 @@ const Header = () => {
                   onClick={toggleDarkTheme}
                   className="theme bg-green-500 cursor-pointer px-3 py-2 gap-1 text-white rounded-md flex items-center"
                 >
-                  {darkTheme ? 'Dark theme' : 'Light theme'}
+                  {darkTheme ? t('Dark') : t('Light')}
                 </div>
 
                 <Language />

@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import LoadingSkeletonDetailPost from 'components/loading/LoadingSkeletonDetailPost'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const DetailPostPageStyles = styled.div`
   .container {
@@ -32,9 +33,10 @@ const DetailPostPageStyles = styled.div`
 `
 
 const DetailPostPage = () => {
+  const { t } = useTranslation()
+  const { slug } = useParams()
   const { darkTheme } = useDarkTheme()
   const [loading, isLoading] = useState(false)
-  const { slug } = useParams()
   const [postInfo, setPostInfo] = useState({})
 
   useEffect(() => {
@@ -75,7 +77,7 @@ const DetailPostPage = () => {
                 <PostHeader data={postInfo}></PostHeader>
                 <PostContent data={postInfo}></PostContent>
                 <div className="post-related">
-                  <Title>Related Posts</Title>
+                  <Title>{t(`Related Posts`)}</Title>
                   <PostRelated categoryId={postInfo?.categoryId}></PostRelated>
                 </div>
               </div>

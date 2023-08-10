@@ -8,7 +8,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { Blur } from 'components/blur'
 import { IconMenu } from 'components/icon'
 import { useDarkTheme } from 'contexts/theme-context'
-import MenuUser from 'components/menu/menuUser'
+import MenuUser from 'components/menu/MenuUser'
 import useClickOutside from 'hooks/useClickOutside'
 
 const DashboardLayoutStyles = styled.div`
@@ -88,6 +88,15 @@ const DashboardLayoutStyles = styled.div`
       width: 100%;
     }
   }
+
+  @media (max-width: 540px) {
+    .user-email {
+      display: none;
+    }
+    .menu-user {
+      top: 30px;
+    }
+  }
 `
 
 const DashboardLayout = () => {
@@ -129,9 +138,8 @@ const DashboardLayout = () => {
                 <IconMenu></IconMenu>
               </button>
 
-              <div className="relative cursor-pointer">
+              <div className="notification relative cursor-pointer">
                 <IconNotification></IconNotification>
-
                 <div className="absolute z-10 rounded-full bg-orange-500 w-3 h-3 top-0 right-0"></div>
               </div>
 
@@ -139,7 +147,9 @@ const DashboardLayout = () => {
                 <img src={userInfo?.avatar ? userInfo?.avatar : '/avatar.jpg'} alt="avatar" />
               </div>
               <div className="header-email" ref={nodeRef}>
-                <span className={darkTheme ? 'text-white' : ''}>{userInfo?.email}</span>
+                <span className={`user-email ${darkTheme ? 'text-white' : ''}`}>
+                  {userInfo?.email}
+                </span>
                 <IconArrowDown></IconArrowDown>
                 {show && <MenuUser className="mt-6 right-3" />}
               </div>

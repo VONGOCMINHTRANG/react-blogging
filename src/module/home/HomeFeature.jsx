@@ -11,6 +11,7 @@ import { db } from '../../firebase/firebase-config'
 import LoadingSkeletonHomeFeature from 'components/loading/LoadingSkeletonHomeFeature'
 import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const HomeFeatureStyles = styled.div`
     align-items: center;
@@ -50,10 +51,11 @@ const HomeFeatureStyles = styled.div`
 `
 
 const HomeFeature = () => {
-  const [posts, setPosts] = useState([])
+  const { t } = useTranslation()
   const navigate = useNavigate()
-  const [loading, isLoading] = useState(false)
   const { darkTheme } = useDarkTheme()
+  const [posts, setPosts] = useState([])
+  const [loading, isLoading] = useState(false)
 
   function NextArrow({ onClick }) {
     return (
@@ -138,9 +140,9 @@ const HomeFeature = () => {
         <HomeFeatureStyles className={darkTheme ? 'bg-black/80' : ''}>
           <div className="container">
             <div className="content">
-              <Title>Feature</Title>
+              <Title>{t(`Feature`)}</Title>
               <Button type="button" className="view-all" onClick={() => navigate(PATH.blog)}>
-                View all
+                {t(`View all`)}
               </Button>
             </div>
             <div className="grid-layout">

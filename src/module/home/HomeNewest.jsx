@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import LoadingSkeletonHomeNewest from 'components/loading/LoadingSkeletonHomeNewest'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const HomeNewestStyles = styled.div`
     align-items: center;
@@ -73,10 +74,11 @@ const HomeNewestStyles = styled.div`
 `
 
 const HomeNewest = () => {
-  const [posts, setPosts] = useState([])
-  const [loading, isLoading] = useState(false)
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { darkTheme } = useDarkTheme()
+  const [posts, setPosts] = useState([])
+  const [loading, isLoading] = useState(false)
 
   useEffect(() => {
     const postsRef = collection(db, 'posts')
@@ -113,9 +115,9 @@ const HomeNewest = () => {
         <HomeNewestStyles className={darkTheme ? 'bg-black/80' : ''}>
           <div className="container">
             <div className="content">
-              <Title>Newest Update</Title>
+              <Title>{t(`Newest Update`)}</Title>
               <Button type="button" className="view-all" onClick={() => navigate('/blog')}>
-                View all
+                {t(`View all`)}
               </Button>
             </div>
 

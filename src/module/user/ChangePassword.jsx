@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import { getAuth, signOut, updatePassword } from 'firebase/auth'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const ChangePasswordStyles = styled.div`
   margin-bottom: 2.5rem;
@@ -46,6 +47,7 @@ const ChangePasswordStyles = styled.div`
 `
 
 const ChangePassword = () => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const {
     handleSubmit,
@@ -64,14 +66,14 @@ const ChangePassword = () => {
   const handleUpdatePassword = (values) => {
     if (!isValid) return
     if (values.password !== userInfo?.password) {
-      toast.error('Your current password is not correct!', {
+      toast.error(t('Your current password is not correct'), {
         pauseOnHover: false,
         delay: 100,
       })
       return
     }
     if (values.new_password !== values.confirm) {
-      toast.error('Please confirm new password again!', {
+      toast.error(t('Please confirm new password again'), {
         pauseOnHover: false,
         delay: 100,
       })
@@ -82,7 +84,7 @@ const ChangePassword = () => {
       updatePassword(auth.currentUser, values.new_password)
         .then(() => {
           console.log('success')
-          Swal.fire('Your password has been updated!', '', 'success')
+          Swal.fire(t('Your password has been updated'), '', 'success')
           navigate('/')
         })
         .catch((error) => {
@@ -95,7 +97,7 @@ const ChangePassword = () => {
     } catch (error) {
       Swal.fire({
         title: 'Oops!',
-        text: 'Something went wrong!',
+        text: t('Something went wrong!'),
         icon: 'error',
       })
     }
@@ -104,15 +106,15 @@ const ChangePassword = () => {
   return (
     <ChangePasswordStyles>
       <Content
-        title="Change Password"
-        desc={`Update password of email : ${userInfo?.email}`}
+        title={t('Change Password')}
+        desc={`${t(`Update password of email`)}: ${userInfo?.email}`}
       ></Content>
       <form>
         <Field>
-          <Label htmlFor="password">Current password</Label>
+          <Label htmlFor="password">{t(`Current password`)}</Label>
           <div className="flex flex-col gap-y-2 w-full">
             <InputPasswordToggle
-              placeholder="Enter your current password"
+              placeholder={t('Enter your current password')}
               control={control}
               name="password"
               rules={{
@@ -121,42 +123,46 @@ const ChangePassword = () => {
               }}
             ></InputPasswordToggle>
             {errors?.password?.type === 'required' && (
-              <div className="text-red-500 text-sm italic">Please enter your current password</div>
+              <div className="text-red-500 text-sm italic">
+                {t(`Please enter your current password`)}
+              </div>
             )}
             {errors?.password?.type === 'minLength' && (
               <div className="text-red-500 text-sm italic">
-                Your current password must be at least 8 characters or greater
+                {t(`Your current password must be at least 8 characters or greater`)}
               </div>
             )}
           </div>
         </Field>
         <Field>
-          <Label htmlFor="new_password">New password</Label>
+          <Label htmlFor="new_password">{t(`New password`)}</Label>
           <div className="flex flex-col gap-y-2 w-full">
             <InputPasswordToggle
               control={control}
               name="new_password"
-              placeholder="Enter your new password"
+              placeholder={t('Enter your new password')}
               rules={{
                 required: true,
                 minLength: 8,
               }}
             ></InputPasswordToggle>
             {errors?.new_password?.type === 'required' && (
-              <div className="text-red-500 text-sm italic">Please enter your new password</div>
+              <div className="text-red-500 text-sm italic">
+                {t(`Please enter your new password`)}
+              </div>
             )}
             {errors?.new_password?.type === 'minLength' && (
               <div className="text-red-500 text-sm italic">
-                Your new password must be at least 8 characters or greater
+                {t(`Your new password must be at least 8 characters or greater`)}
               </div>
             )}
           </div>
         </Field>
         <Field>
-          <Label htmlFor="confirm">Confirm new password</Label>
+          <Label htmlFor="confirm">{t(`Confirm new password`)}</Label>
           <div className="flex flex-col gap-y-2 w-full">
             <InputPasswordToggle
-              placeholder="Confirm your new password"
+              placeholder={t('Confirm your new password')}
               control={control}
               name="confirm"
               rules={{
@@ -165,11 +171,13 @@ const ChangePassword = () => {
               }}
             ></InputPasswordToggle>
             {errors?.confirm?.type === 'required' && (
-              <div className="text-red-500 text-sm italic">Please confirm your new password</div>
+              <div className="text-red-500 text-sm italic">
+                {t(`Please confirm your new password`)}
+              </div>
             )}
             {errors?.confirm?.type === 'minLength' && (
               <div className="text-red-500 text-sm italic">
-                Confirm your new password must be at least 8 characters or greater
+                {t(`Confirm your new password must be at least 8 characters or greater`)}
               </div>
             )}
           </div>
@@ -181,7 +189,7 @@ const ChangePassword = () => {
           disabled={isSubmitting}
           onClick={handleSubmit(handleUpdatePassword)}
         >
-          Update password
+          {t(`Update password`)}
         </Button>
       </form>
     </ChangePasswordStyles>

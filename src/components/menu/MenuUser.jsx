@@ -2,8 +2,10 @@ import { useAuth } from 'contexts/auth-context'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from 'utils/path'
 import useLogout from 'hooks/useLogout'
+import { useTranslation } from 'react-i18next'
 
 const MenuUser = ({ className = '' }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { userInfo } = useAuth()
   const { handleLogout } = useLogout()
@@ -18,16 +20,16 @@ const MenuUser = ({ className = '' }) => {
             onClick={() => navigate(`/manage/account-information/${userInfo.username}`)}
             className="p-2 hover:bg-slate-300 hover:text-green-600"
           >
-            Account Information
+            {t(`Account Information`)}
           </li>
           <li
             onClick={() => navigate(`/manage/change-password/${userInfo.username}`)}
             className="p-2 hover:bg-slate-300 hover:text-green-600"
           >
-            Change password
+            {t(`Change password`)}
           </li>
           <li onClick={handleLogout} className="p-2 hover:bg-slate-300 hover:text-green-600">
-            Log out
+            {t(`Log out`)}
           </li>
         </>
       ) : (
@@ -36,13 +38,13 @@ const MenuUser = ({ className = '' }) => {
             onClick={() => navigate(PATH.sign_in)}
             className="p-2 hover:bg-slate-300 hover:text-green-600"
           >
-            Login
+            {t(`Log in`)}
           </li>
           <li
             onClick={() => navigate(PATH.sign_up)}
             className="p-2 hover:bg-slate-300 hover:text-green-600"
           >
-            Sign up
+            {t(`Sign up`)}
           </li>
         </>
       )}

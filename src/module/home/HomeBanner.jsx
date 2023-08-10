@@ -1,11 +1,12 @@
 import { Button } from 'components/button'
 import { Overlay } from 'components/overlay'
 import styled from 'styled-components'
-import { AuthProvider } from 'contexts/auth-context'
+import { AuthProvider, useAuth } from 'contexts/auth-context'
 import LoadingSkeletonHomeBanner from 'components/loading/LoadingSkeletonHomeBanner'
 import { useEffect, useState } from 'react'
 import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const HomeBannerStyles = styled.div`
   position: relative;
@@ -80,8 +81,11 @@ const HomeBannerStyles = styled.div`
 `
 
 const HomeBanner = () => {
-  const [loading, isLoading] = useState(false)
+  const { t } = useTranslation()
   const { darkTheme } = useDarkTheme()
+  const { userInfo } = useAuth()
+  console.log(userInfo)
+  const [loading, isLoading] = useState(false)
 
   useEffect(() => {
     isLoading(true)
@@ -102,15 +106,20 @@ const HomeBanner = () => {
                 <div className="banner-content">
                   <h1>React blogging</h1>
                   <p>
-                    Welcome to React Blogging. You can post your blogs, write your feeling and
-                    sharing interesting things with other people. Click the button to explore
-                    something new.
+                    {t(`Welcome to React Blogging. `)}
+                    {t(
+                      `You can post your blogs, write your feeling and sharing interesting things with other people. `
+                    )}
+                    {userInfo.length === 0 && t(` Click the button to explore something new.`)}
                   </p>
-                  <a href={PATH.sign_up} className="inline-block">
-                    <Button type="button" to={PATH.sign_up} className="button mt-">
-                      Get Started
-                    </Button>
-                  </a>
+
+                  {userInfo.length === 0 && (
+                    <a href={PATH.sign_up} className="inline-block">
+                      <Button type="button" to={PATH.sign_up} className="button mt-">
+                        {t(`Get Started`)}
+                      </Button>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

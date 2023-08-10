@@ -21,6 +21,7 @@ import { userRole } from 'utils/constants'
 import NotFoundPage from 'pages/NotFoundPage'
 import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const CategoryStyles = styled.div`
   .button {
@@ -79,6 +80,7 @@ const CategoryStyles = styled.div`
 const CATEGORY_PER_PAGE = 1
 
 const Category = () => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const { darkTheme } = useDarkTheme()
   const [categoryList, setCategoryList] = useState([])
@@ -157,22 +159,22 @@ const Category = () => {
 
   return (
     <CategoryStyles>
-      <Content title="Categories" desc="Here is our categories"></Content>
+      <Content title={t('Category')} desc={t('Here is our categories')}></Content>
       <div className="utilities">
         <div className="flex gap-10 w-full">
           <Link to={PATH.dashboard.add_category}>
-            <Button type="button">Create category</Button>
+            <Button type="button">{t(`Create category`)}</Button>
           </Link>
-          <Search placeholder="Search category..." onChange={handleInputFilter}></Search>
+          <Search placeholder={t('Search category...')} onChange={handleInputFilter}></Search>
         </div>
       </div>
       <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>
-        Total of categories : {total}
+        {t(`Total of category`)}: {total}
       </div>
       <CategoryTable data={categoryList}></CategoryTable>
       {total > categoryList.length && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>
-          Load more
+          {t(`Load more`)}
         </Button>
       )}
     </CategoryStyles>

@@ -14,6 +14,7 @@ import { db } from '../../firebase/firebase-config'
 import slugify from 'slugify'
 import { toast } from 'react-toastify'
 import { PATH } from 'utils/path'
+import { useTranslation } from 'react-i18next'
 
 const AddCategoryStyles = styled.div`
   .button {
@@ -28,6 +29,7 @@ const AddCategoryStyles = styled.div`
   }
 `
 const CategoryUpdate = () => {
+  const { t } = useTranslation()
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const {
@@ -52,10 +54,10 @@ const CategoryUpdate = () => {
         slug: slugify(values.slug || values.name, { lower: true }),
         status: Number(values.status),
       })
-      toast.success('Update category successfully')
+      toast.success(t('Update category successfully'))
       navigate(PATH.dashboard.categories)
     } catch (error) {
-      toast.error('Something wrong!', {
+      toast.error(t('Something wrong!'), {
         pauseOnHover: false,
         delay: 100,
       })
@@ -76,34 +78,44 @@ const CategoryUpdate = () => {
 
   return (
     <AddCategoryStyles>
-      <Content title="Update category" desc={`Update your category id : ${categoryId}`}></Content>
+      <Content
+        title={t('Update category')}
+        desc={`${t(`Update your category id`)}: ${categoryId}`}
+      ></Content>
       <form>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">{t(`Name`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="name"
                 type="text"
-                placeholder="Enter your category name"
+                placeholder={t('Enter your category name')}
                 rules={{
                   required: true,
                 }}
               ></Input>
               {errors?.name?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your category name</div>
+                <div className="text-red-500 text-sm italic">
+                  {t(`Please enter your category name`)}
+                </div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="slug">Slug</Label>
-            <Input control={control} name="slug" type="text" placeholder="Enter your slug"></Input>
+            <Label htmlFor="slug">{t(`Slug`)}</Label>
+            <Input
+              control={control}
+              name="slug"
+              type="text"
+              placeholder={t('Enter your slug')}
+            ></Input>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">{t(`Status`)}</Label>
             <div className="flex flex-wrap gap-5">
               <Radio
                 name="status"
@@ -111,7 +123,7 @@ const CategoryUpdate = () => {
                 checked={Number(watchStatus) === categoryStatus.APPROVED}
                 value={categoryStatus.APPROVED}
               >
-                Approved
+                {t(`Approved`)}
               </Radio>
               <Radio
                 name="status"
@@ -119,7 +131,7 @@ const CategoryUpdate = () => {
                 checked={Number(watchStatus) === categoryStatus.UNAPPROVED}
                 value={categoryStatus.UNAPPROVED}
               >
-                Unapproved
+                {t(`Unapproved`)}
               </Radio>
             </div>
           </Field>
@@ -130,7 +142,7 @@ const CategoryUpdate = () => {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Update category
+          {t(`Update category`)}
         </Button>
       </form>
     </AddCategoryStyles>

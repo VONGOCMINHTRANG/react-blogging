@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Input from './Input'
 import { IconEyeClose, IconEyeOpen } from 'components/icon'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 
 const InputPasswordToggle = ({
   control,
@@ -9,13 +10,14 @@ const InputPasswordToggle = ({
   placeholder = 'Enter your password',
   name = 'password',
 }) => {
+  const { t } = useTranslation()
   const [togglePassword, setTogglePassword] = useState(false)
 
   return (
     <>
       <Input
         type={togglePassword ? 'text' : 'password'}
-        placeholder={placeholder}
+        placeholder={t(placeholder)}
         name={name}
         control={control}
         rules={rules}

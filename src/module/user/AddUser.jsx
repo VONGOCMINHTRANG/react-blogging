@@ -14,6 +14,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import { auth, db } from '../../firebase/firebase-config'
+import { useTranslation } from 'react-i18next'
 
 const AddUserStyles = styled.div`
   margin-bottom: 2.5rem;
@@ -37,6 +38,7 @@ const AddUserStyles = styled.div`
 `
 
 const AddUser = () => {
+  const { t } = useTranslation()
   const {
     handleSubmit,
     control,
@@ -72,8 +74,6 @@ const AddUser = () => {
   const handleAddUser = async (values) => {
     try {
       if (!isValid) return
-      // const cloneValues = { ...values }
-      // console.log(cloneValues)
       await createUserWithEmailAndPassword(auth, values.email, values.password)
       await addDoc(collection(db, 'users'), {
         fullname: values.fullname,
@@ -89,7 +89,7 @@ const AddUser = () => {
         role: Number(values.role),
         createdAt: serverTimestamp(),
       })
-      toast.success(`Create new user with email : ${values.email} successfully !!!`, {
+      toast.success(`${t(`Create new user with email`)}: ${values.email} ${t(`success`)}`, {
         pauseOnHover: false,
         delay: 100,
       })
@@ -108,7 +108,7 @@ const AddUser = () => {
       setProgress(0)
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        toast.error('The email address is already in use', {
+        toast.error(t('The email address is already in use'), {
           pauseOnHover: false,
           delay: 100,
         })
@@ -120,10 +120,10 @@ const AddUser = () => {
 
   return (
     <AddUserStyles>
-      <Content title="New user" desc="Add new user to system"></Content>
+      <Content title={t('New user')} desc={t('Add new user to system')}></Content>
       <form>
         <Field>
-          <Label htmlFor="avatar">Avatar</Label>
+          <Label htmlFor="avatar">{t(`Avatar`)}</Label>
           <div className="w-full flex flex-col gap-y-2 mb-10">
             <div className="w-[200px] mx-auto">
               {progress === 0 ? (
@@ -158,12 +158,12 @@ const AddUser = () => {
 
             {errors?.avatar?.type === 'required' && progress === 0 && !errorFileType && (
               <div className="text-red-500 text-sm italic flex justify-center">
-                Please choose avatar for your user
+                {t(`Please choose avatar for your user`)}
               </div>
             )}
             {errorFileType && (
               <div className="text-red-500 text-sm italic flex justify-center">
-                Please choose avatar has format *.png, *.jpg, *.jpeg, *.avif
+                {t(`Please choose avatar has format`)} *.png, *.jpg, *.jpeg, *.avif
               </div>
             )}
           </div>
@@ -171,62 +171,64 @@ const AddUser = () => {
 
         <div className="form-layout">
           <Field>
-            <Label htmlFor="fullname">Fullname</Label>
+            <Label htmlFor="fullname">{t(`Fullname`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="fullname"
                 type="text"
-                placeholder="Enter your fullname"
+                placeholder={t('Enter your fullname')}
                 rules={{
                   required: true,
                   pattern: /[A-Za-z]/,
                 }}
               ></Input>
               {errors?.fullname?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your fullname</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter your fullname`)}</div>
               )}
               {errors?.fullname?.type === 'pattern' && (
-                <div className="text-red-500 text-sm italic">Please enter valid fullname</div>
+                <div className="text-red-500 text-sm italic">
+                  {t(`Please enter valid fullname`)}
+                </div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username">{t(`Username`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="username"
                 type="text"
-                placeholder="Enter your username"
+                placeholder={t('Enter your username')}
               ></Input>
             </div>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t(`Email`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="email"
                 type="text"
-                placeholder="Enter your email"
+                placeholder={t('Enter your email')}
                 rules={{
                   required: true,
                   pattern: /^\S+@\S+$/,
                 }}
               ></Input>
               {errors?.email?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your email</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter your email`)}</div>
               )}
               {errors?.email?.type === 'pattern' && (
-                <div className="text-red-500 text-sm italic">Please enter valid email</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter valid email`)}</div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t(`Password`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <InputPasswordToggle
                 control={control}
@@ -236,11 +238,11 @@ const AddUser = () => {
                 }}
               ></InputPasswordToggle>
               {errors?.password?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your password</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter your password`)}</div>
               )}
               {errors?.password?.type === 'minLength' && (
                 <div className="text-red-500 text-sm italic">
-                  Your password must be at least 8 characters or greater
+                  {t(`Your password must be at least 8 characters or greater`)}
                 </div>
               )}
             </div>
@@ -248,7 +250,7 @@ const AddUser = () => {
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">{t(`Status`)}</Label>
             <div className="radio-list flex flex-wrap gap-5">
               <Radio
                 name="status"
@@ -256,7 +258,7 @@ const AddUser = () => {
                 checked={Number(watchStatus) === userStatus.ACTIVE}
                 value={userStatus.ACTIVE}
               >
-                Active
+                {t(`Active`)}
               </Radio>
               <Radio
                 name="status"
@@ -264,7 +266,7 @@ const AddUser = () => {
                 checked={Number(watchStatus) === userStatus.PENDING}
                 value={userStatus.PENDING}
               >
-                Pending
+                {t(`Pending`)}
               </Radio>
               <Radio
                 name="status"
@@ -272,12 +274,12 @@ const AddUser = () => {
                 checked={Number(watchStatus) === userStatus.BANNED}
                 value={userStatus.BANNED}
               >
-                Banned
+                {t(`Banned`)}
               </Radio>
             </div>
           </Field>
           <Field>
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="role">{t(`Role`)}</Label>
             <div className="role-list flex flex-wrap gap-5">
               <Radio
                 name="role"
@@ -285,7 +287,7 @@ const AddUser = () => {
                 checked={Number(watchRole) === userRole.ADMIN}
                 value={userRole.ADMIN}
               >
-                Admin
+                {t(`Admin`)}
               </Radio>
               <Radio
                 name="role"
@@ -293,7 +295,7 @@ const AddUser = () => {
                 checked={Number(watchRole) === userRole.MODERATOR}
                 value={userRole.MODERATOR}
               >
-                Moderator
+                {t(`Moderator`)}
               </Radio>
               <Radio
                 name="role"
@@ -301,7 +303,7 @@ const AddUser = () => {
                 checked={Number(watchRole) === userRole.EDITOR}
                 value={userRole.EDITOR}
               >
-                Editor
+                {t(`Editor`)}
               </Radio>
               <Radio
                 name="role"
@@ -309,7 +311,7 @@ const AddUser = () => {
                 checked={Number(watchRole) === userRole.USER}
                 value={userRole.USER}
               >
-                User
+                {t(`User`)}
               </Radio>
             </div>
           </Field>
@@ -320,7 +322,7 @@ const AddUser = () => {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Add user
+          {t(`Add user`)}
         </Button>
       </form>
     </AddUserStyles>

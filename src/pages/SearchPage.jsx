@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase/firebase-config'
 import { postStatus } from 'utils/constants'
+import { useTranslation } from 'react-i18next'
 
 const SearchPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -82,6 +83,7 @@ const SearchPageStyles = styled.div`
 `
 
 const SearchPage = () => {
+  const { t } = useTranslation()
   const { state } = useLocation()
   const [posts, setPosts] = useState([])
   const totalResult = useRef()
@@ -117,7 +119,7 @@ const SearchPage = () => {
       <div className="wrapper">
         <div className="total-result">
           <h3>
-            {totalResult.current} results : '{state}'
+            {totalResult.current} {t(`result for`)} '{state}'
           </h3>
         </div>
 

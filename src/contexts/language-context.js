@@ -28,8 +28,8 @@ function LanguageProvider(props) {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('NEXT_LOCALE')) {
-      switch (localStorage.getItem('NEXT_LOCALE')) {
+    if (localStorage.getItem('language')) {
+      switch (localStorage.getItem('language')) {
         case 'vi':
           setDefaultLanguage(1)
           break
@@ -40,7 +40,7 @@ function LanguageProvider(props) {
           setDefaultLanguage(3)
           break
         default:
-          setDefaultLanguage(1)
+          setDefaultLanguage(2)
           break
       }
     }

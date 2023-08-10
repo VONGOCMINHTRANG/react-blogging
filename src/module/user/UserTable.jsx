@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react'
 import UserInfo from './UserInfo'
 import { useAuth } from 'contexts/auth-context'
 import { PATH } from 'utils/path'
+import { useTranslation } from 'react-i18next'
 
 const UserTableStyles = styled.div`
   overflow-x: auto;
@@ -37,6 +38,7 @@ const UserTableStyles = styled.div`
 `
 
 const UserTable = ({ data }) => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const [admin, isAdmin] = useState(false)
   const navigate = useNavigate()
@@ -46,16 +48,17 @@ const UserTable = ({ data }) => {
   const handleDeleteUser = async (user) => {
     const colRef = doc(db, 'users', user)
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this user!",
+      title: t('Are you sure?'),
+      text: t("You won't be able to revert this user!"),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: t('Yes, delete it!'),
+      cancelButtonText: t('Cancel'),
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your user has been deleted.', 'success')
+        Swal.fire(t('Deleted!'), t('Your user has been deleted.'), 'success')
         await deleteDoc(colRef)
       }
     })
@@ -81,11 +84,11 @@ const UserTable = ({ data }) => {
       <Table>
         <thead>
           <tr>
-            <th>Info</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Role</th>
-            <th>Actions</th>
+            <th>{t(`Info`)}</th>
+            <th>{t(`Email`)}</th>
+            <th>{t(`Status`)}</th>
+            <th>{t(`Role`)}</th>
+            <th>{t(`Actions`)}</th>
           </tr>
         </thead>
         <tbody>
@@ -110,27 +113,27 @@ const UserTable = ({ data }) => {
                 <td title={user?.email}>{user?.email.slice(0, 5) + '...'}</td>
                 <td>
                   {Number(user?.status) === userStatus.ACTIVE && (
-                    <LabelStatus type="success">Active</LabelStatus>
+                    <LabelStatus type="success">{t(`Active`)}</LabelStatus>
                   )}
                   {Number(user?.status) === userStatus.PENDING && (
-                    <LabelStatus type="warning">Pending</LabelStatus>
+                    <LabelStatus type="warning">{t(`Pending`)}</LabelStatus>
                   )}
                   {Number(user?.status) === userStatus.BANNED && (
-                    <LabelStatus type="danger">Banned</LabelStatus>
+                    <LabelStatus type="danger">{t(`Banned`)}</LabelStatus>
                   )}
                 </td>
                 <td>
                   {Number(user?.role) === userRole.ADMIN && (
-                    <LabelStatus type="danger">Admin</LabelStatus>
+                    <LabelStatus type="danger">{t(`Admin`)}</LabelStatus>
                   )}
                   {Number(user?.role) === userRole.MODERATOR && (
-                    <LabelStatus type="warning">Moderator</LabelStatus>
+                    <LabelStatus type="warning">{t(`Moderator`)}</LabelStatus>
                   )}
                   {Number(user?.role) === userRole.EDITOR && (
-                    <LabelStatus type="success">Editor</LabelStatus>
+                    <LabelStatus type="success">{t(`Editor`)}</LabelStatus>
                   )}
                   {Number(user?.role) === userRole.USER && (
-                    <LabelStatus type="alert">User</LabelStatus>
+                    <LabelStatus type="alert">{t(`User`)}</LabelStatus>
                   )}
                 </td>
                 <td>

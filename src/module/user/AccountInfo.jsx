@@ -15,6 +15,7 @@ import styled from 'styled-components'
 import { useAuth } from 'contexts/auth-context'
 import NotFoundPage from 'pages/NotFoundPage'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const AccountInfoStyles = styled.div`
   margin-bottom: 2.5rem;
@@ -51,6 +52,7 @@ const AccountInfoStyles = styled.div`
 `
 
 const AccountInfo = () => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const navigate = useNavigate()
   const [userId, setUserId] = useState('')
@@ -103,21 +105,23 @@ const AccountInfo = () => {
       cloneValues.role = Number(values.role)
       cloneValues.avatar = image
       const colRef = doc(db, 'users', userId)
-      // console.log(cloneValues)
       await updateDoc(colRef, {
         ...values,
         avatar: image,
       })
-      toast.success(`Update information with email : ${values.email} successfully !!!`, {
-        pauseOnHover: false,
-        delay: 100,
-      })
+      toast.success(
+        `${t(`Update account information with email`)}: ${values.email} ${t(`success`)}`,
+        {
+          pauseOnHover: false,
+          delay: 100,
+        }
+      )
       setImage(image)
       setProgress(0)
       navigate('/')
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        toast.error('The email address is already in use', {
+        toast.error(t('The email address is already in use'), {
           pauseOnHover: false,
           delay: 100,
         })
@@ -148,14 +152,14 @@ const AccountInfo = () => {
     <AccountInfoStyles>
       <div className="flex gap-x-5">
         <Content
-          title="Account Information"
-          desc={`Update account information with email : ${userInfo.email}`}
+          title={t('Account Information')}
+          desc={`${t(`Update account information with email`)}: ${userInfo.email}`}
         ></Content>
       </div>
 
       <form>
         <Field>
-          <Label htmlFor="avatar">Avatar</Label>
+          <Label htmlFor="avatar">{t(`Avatar`)}</Label>
           <div className="w-full flex flex-col gap-y-2 mb-10">
             <div className="w-[200px] mx-auto">
               {progress === 0 ? (
@@ -191,12 +195,12 @@ const AccountInfo = () => {
 
             {errors?.avatar?.type === 'required' && progress === 0 && !errorFileType && (
               <div className="text-red-500 text-sm italic flex justify-center">
-                Please choose avatar for your user
+                {t(`Please choose avatar for your user`)}
               </div>
             )}
             {errorFileType && (
               <div className="text-red-500 text-sm italic flex justify-center">
-                Please choose avatar has format *.png, *.jpg, *.jpeg, *.avif
+                {t(`Please choose avatar has format`)} *.png, *.jpg, *.jpeg, *.avif
               </div>
             )}
           </div>
@@ -204,66 +208,68 @@ const AccountInfo = () => {
 
         <div className="form-layout">
           <Field>
-            <Label htmlFor="fullname">Fullname</Label>
+            <Label htmlFor="fullname">{t(`Fullname`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="fullname"
                 type="text"
-                placeholder="Enter your fullname"
+                placeholder={t('Enter your fullname')}
                 rules={{
                   required: true,
                   pattern: /[A-Za-z]/,
                 }}
               ></Input>
               {errors?.fullname?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your fullname</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter your fullname`)}</div>
               )}
               {errors?.fullname?.type === 'pattern' && (
-                <div className="text-red-500 text-sm italic">Please enter valid fullname</div>
+                <div className="text-red-500 text-sm italic">
+                  {t(`Please enter valid fullname`)}
+                </div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username">{t(`Username`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="username"
                 type="text"
-                placeholder="Enter your username"
+                placeholder={t('Enter your username')}
               ></Input>
             </div>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="dob">Date of birth</Label>
+            <Label htmlFor="dob">{t(`Date of birth`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
-              <Input control={control} name="dob" type="text" placeholder="dd/mm/yy"></Input>
+              <Input control={control} name="dob" type="text" placeholder={t('dd/mm/yy')}></Input>
             </div>
           </Field>
           <Field>
-            <Label htmlFor="phone">Mobile number</Label>
+            <Label htmlFor="phone">{t(`Mobile number`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="phone"
                 type="text"
-                placeholder="Enter your mobile number"
+                placeholder={t('Enter your mobile number')}
               ></Input>
             </div>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t(`Email`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 control={control}
                 name="email"
                 type="text"
-                placeholder="Enter your email"
+                placeholder={t('Enter your email')}
                 rules={{
                   required: true,
                   pattern: /^\S+@\S+$/,
@@ -280,7 +286,7 @@ const AccountInfo = () => {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Update user
+          {t(`Update user`)}
         </Button>
       </form>
     </AccountInfoStyles>

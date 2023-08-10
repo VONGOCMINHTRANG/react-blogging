@@ -20,6 +20,7 @@ import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
 import { PATH } from 'utils/path'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const PostsStyles = styled.div`
   .button {
@@ -76,6 +77,7 @@ const PostsStyles = styled.div`
 const POST_PER_PAGE = 5
 
 const Posts = () => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const { darkTheme } = useDarkTheme()
   const [postList, setPostList] = useState([])
@@ -171,20 +173,24 @@ const Posts = () => {
 
   return (
     <PostsStyles>
-      <Content title="Post" desc="Manage all posts."></Content>
+      <Content title={t('Post')} desc={t('Manage all posts.')}></Content>
       <div className="utilities">
         <div className="flex gap-10 w-full">
           <Link to={PATH.dashboard.add_post}>
-            <Button type="button">Create post</Button>
+            <Button type="button">{t(`Create post`)}</Button>
           </Link>
-          {admin && <Search placeholder="Search post..." onChange={handleInputFilter}></Search>}
+          {admin && (
+            <Search placeholder={t('Search post...')} onChange={handleInputFilter}></Search>
+          )}
         </div>
       </div>
-      <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>Total of posts : {total}</div>
+      <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>
+        {t(`Total of post`)}: {total}
+      </div>
       <PostTable data={postList}></PostTable>
       {total > postList.length && admin && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>
-          Load more
+          {t(`Load more`)}
         </Button>
       )}
     </PostsStyles>

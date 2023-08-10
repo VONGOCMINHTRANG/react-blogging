@@ -8,6 +8,7 @@ import { db } from '../../firebase/firebase-config'
 import { PATH } from 'utils/path'
 import { useNavigate } from 'react-router-dom'
 import useClickOutsite from 'hooks/useClickOutside'
+import { useTranslation } from 'react-i18next'
 
 const SearchStyles = styled.div`
   margin-left: auto;
@@ -74,6 +75,7 @@ const Search = ({
   handleSearch,
   ...props
 }) => {
+  const { t } = useTranslation()
   const [postName, setPostName] = useState([])
   const navigate = useNavigate()
   const { show, setShow, nodeRef } = useClickOutsite()
@@ -102,7 +104,7 @@ const Search = ({
     <SearchStyles className="search" ref={nodeRef}>
       <input
         type="text"
-        placeholder={placeholder}
+        placeholder={t(placeholder)}
         className="search-input"
         onChange={(e) => setSearchQuery(e.target.value)}
         ref={nodeRef}

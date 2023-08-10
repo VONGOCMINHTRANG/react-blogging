@@ -5,8 +5,11 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore'
 
 const AuthContext = createContext()
 function AuthProvider(props) {
-  const [userInfo, setUserInfo] = useState([])
+  const [userInfo, setUserInfo] = useState(
+    localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : []
+  )
   const value = { userInfo, setUserInfo }
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {

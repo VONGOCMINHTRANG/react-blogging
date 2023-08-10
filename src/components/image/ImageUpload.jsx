@@ -2,6 +2,7 @@ import { IconTrash } from 'components/icon'
 import { LoadingSpinner } from 'components/loading'
 import { useController } from 'react-hook-form'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 
 const ImageUpload = ({
   control,
@@ -18,6 +19,7 @@ const ImageUpload = ({
     rules,
     name,
   })
+  const { t } = useTranslation()
 
   return (
     <label
@@ -42,7 +44,7 @@ const ImageUpload = ({
       {!image && (
         <div className="flex flex-col items-center text-center pointer-event-none ">
           <img src="/upload-img.png" alt="upload-img" className="max-w-[80px] mb-5" />
-          <p className="font-semibold">Choose photo</p>
+          <p className="font-semibold">{t(`Choose photo`)}</p>
         </div>
       )}
       {image && (

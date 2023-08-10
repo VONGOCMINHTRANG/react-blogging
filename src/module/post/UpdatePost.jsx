@@ -28,6 +28,7 @@ import { postStatus } from 'utils/constants'
 import { toast } from 'react-toastify'
 import slugify from 'slugify'
 import { debounce } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 const AddPostStyles = styled.div`
   .image-content {
@@ -51,10 +52,11 @@ const AddPostStyles = styled.div`
 `
 
 const UpdatePost = () => {
-  const [categories, setCategories] = useState([])
-  const [selectCategory, setSelectCategory] = useState('')
+  const { t } = useTranslation()
   const [params] = useSearchParams()
   const postId = params.get('id')
+  const [categories, setCategories] = useState([])
+  const [selectCategory, setSelectCategory] = useState('')
   const {
     handleSubmit,
     control,
@@ -79,14 +81,12 @@ const UpdatePost = () => {
   const watchHot = watch('hot')
   const watchStatus = watch('status')
   const imagePost = getValues('image')
-  // console.log(imagePost)
 
   const handleEditor = debounce((e) => {
     setValue('editor', e.target.value)
   }, 1000)
 
   const handleClickOption = async (item) => {
-    // setValue('categoryId', item.id)
     const colRef = doc(db, 'categories', item.id)
     const docData = await getDoc(colRef)
     setValue('category', {
@@ -104,7 +104,7 @@ const UpdatePost = () => {
       cloneValues.status = Number(values.status)
       cloneValues.image = image
       const colRef = doc(db, 'posts', postId)
-      // console.log(cloneValues)
+
       await updateDoc(colRef, {
         title: cloneValues.title,
         slug: cloneValues.slug,
@@ -119,7 +119,7 @@ const UpdatePost = () => {
         createdAt: serverTimestamp(),
         editor: cloneValues.editor,
       })
-      toast.success(`Update post with id : ${postId} successfully !!!`, {
+      toast.success(`${t(`Update post with id`)}: ${postId} ${t(`success`)}`, {
         pauseOnHover: false,
         delay: 100,
       })
@@ -139,7 +139,7 @@ const UpdatePost = () => {
       setProgress(0)
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        toast.error('The email address is already in use', {
+        toast.error(t('The email address is already in use'), {
           pauseOnHover: false,
           delay: 100,
         })
@@ -157,7 +157,6 @@ const UpdatePost = () => {
         const querySnapshot = await getDocs(q)
         let result = []
         querySnapshot.forEach((doc) => {
-          // console.log(doc.id, ' => ', doc.data())
           result.push({
             id: doc.id,
             ...doc.data(),
@@ -194,34 +193,42 @@ const UpdatePost = () => {
 
   return (
     <AddPostStyles>
-      <Content title="Update Post" desc={`Update your post information id : ${postId}`}></Content>
+      <Content
+        title={t('Update Post')}
+        desc={`${t(`Update your post information id`)}: ${postId}`}
+      ></Content>
       <form>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">{t(`Title`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 name="title"
                 type="text"
-                placeholder="Enter your title"
+                placeholder={t('Enter your title')}
                 control={control}
                 rules={{
                   required: true,
                 }}
               ></Input>
               {errors?.title?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your title</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter your title`)}</div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="slug">Slug</Label>
-            <Input name="slug" type="text" placeholder="Enter your slug" control={control}></Input>
+            <Label htmlFor="slug">{t(`Slug`)}</Label>
+            <Input
+              name="slug"
+              type="text"
+              placeholder={t('Enter your slug')}
+              control={control}
+            ></Input>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="image">Image</Label>
+            <Label htmlFor="image">{t(`Image`)}</Label>
             <div className="w-full flex flex-col gap-y-2">
               {progress === 0 ? (
                 <ImageUpload
@@ -255,18 +262,18 @@ const UpdatePost = () => {
 
               {errors?.image?.type === 'required' && progress === 0 && !errorFileType && (
                 <div className="text-red-500 text-sm italic">
-                  Please choose picture for your post
+                  {t(`Please choose picture for your post`)}
                 </div>
               )}
               {errorFileType && (
                 <div className="text-red-500 text-sm italic">
-                  Please choose picture has format *.png, *.jpg, *.jpeg, *.avif
+                  {t(`Please choose picture has format`)} *.png, *.jpg, *.jpeg, *.avif
                 </div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category">{t(`Category`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Dropdown>
                 {!selectCategory.name && (
@@ -275,7 +282,7 @@ const UpdatePost = () => {
                       name="dropdown"
                       control={control}
                       rules={{ required: true }}
-                      placeholder="Select your category"
+                      placeholder={t('Select your category')}
                     ></Dropdown.Select>
                     <Dropdown.List>
                       {categories.length > 0 &&
@@ -308,7 +315,9 @@ const UpdatePost = () => {
                 )}
               </Dropdown>
               {errors?.dropdown?.type === 'required' && !selectCategory.name && (
-                <div className="text-red-500 text-sm italic">Please select your category</div>
+                <div className="text-red-500 text-sm italic">
+                  {t(`Please select your category`)}
+                </div>
               )}
             </div>
 
@@ -320,7 +329,7 @@ const UpdatePost = () => {
           </Field>
         </div>
         <Field>
-          <Label htmlFor="content">Content</Label>
+          <Label htmlFor="content">{t(`Content`)}</Label>
           <div className="w-full flex flex-col gap-y-2">
             <Editor
               onChange={handleEditor}
@@ -332,18 +341,18 @@ const UpdatePost = () => {
               }}
             ></Editor>
             {errors?.editor?.type === 'required' && (
-              <div className="text-red-500 text-sm italic">Please enter your content</div>
+              <div className="text-red-500 text-sm italic">{t(`Please enter your content`)}</div>
             )}
             {errors?.editor?.type === 'minLength' && (
               <div className="text-red-500 text-sm italic">
-                Your content must be at least 50 characters
+                {t(`Your content must be at least 50 characters`)}
               </div>
             )}
           </div>
         </Field>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="feature-post">Feature post</Label>
+            <Label htmlFor="feature-post">{t(`Feature`)}</Label>
             <label>
               <Toggle
                 on={watchHot === true}
@@ -353,7 +362,7 @@ const UpdatePost = () => {
             </label>
           </Field>
           <Field>
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status">{t(`Status`)}</Label>
             <div className="flex flex-col lg:flex-row gap-5">
               <Radio
                 name="status"
@@ -361,7 +370,7 @@ const UpdatePost = () => {
                 checked={Number(watchStatus) === postStatus.APPROVED}
                 value={postStatus.APPROVED}
               >
-                Approved
+                {t(`Approved`)}
               </Radio>
               <Radio
                 name="status"
@@ -369,7 +378,7 @@ const UpdatePost = () => {
                 checked={Number(watchStatus) === postStatus.PENDING}
                 value={postStatus.PENDING}
               >
-                Pending
+                {t(`Pending`)}
               </Radio>
               <Radio
                 name="status"
@@ -377,7 +386,7 @@ const UpdatePost = () => {
                 checked={Number(watchStatus) === postStatus.REJECT}
                 value={postStatus.REJECT}
               >
-                Reject
+                {t(`Reject`)}
               </Radio>
             </div>
           </Field>
@@ -388,7 +397,7 @@ const UpdatePost = () => {
           disabled={isSubmitting}
           onClick={handleSubmit(handleUpdatePost)}
         >
-          Update post
+          {t(`Update post`)}
         </Button>
       </form>
     </AddPostStyles>

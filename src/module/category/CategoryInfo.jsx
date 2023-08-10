@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { categoryStatus } from 'utils/constants'
 import PropTypes from 'prop-types'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
+import TitleInfo from 'components/title/TitleInfo'
 
 const CategoryInfoStyles = styled.div`
   width: calc(100vw - 50%);
@@ -33,6 +35,9 @@ const CategoryInfoStyles = styled.div`
     height: 40px;
     font-size: 14px;
   }
+  .icon-close {
+    margin-top: 0;
+  }
   @media (max-width: 949px) {
     width: 100vw;
     .layout {
@@ -42,6 +47,7 @@ const CategoryInfoStyles = styled.div`
 `
 
 const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
+  const { t } = useTranslation()
   const { darkTheme } = useDarkTheme()
   const { createdAt, id, name, slug, status } = data.current
   const time = new Date(createdAt?.seconds * 1000).toLocaleDateString('vi-VI')
@@ -52,7 +58,8 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
 
       <CategoryInfoStyles className={`hide-scrollbar ${darkTheme ? '!bg-gray-700' : ''}`} id="info">
         <div className="category-info">
-          <div className="title">Category Information</div>
+          <TitleInfo onClick={() => setInfo(false)} title="Category Information" />
+
           <div className="layout">
             <div className="flex mb-4 p-1 items-center">
               <div
@@ -60,7 +67,7 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Id
+                {t(`Id`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{id}</span>
@@ -72,7 +79,7 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Name
+                {t(`Name`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{name}</span>
@@ -84,7 +91,7 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Slug
+                {t(`Slug`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{slugify(slug)}</span>
@@ -96,16 +103,16 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                Status
+                {t(`Status`)}
               </div>
               {Number(status) === categoryStatus.APPROVED && (
                 <div className="w-fit bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
-                  <span className="px-2">Approved</span>
+                  <span className="px-2">{t(`Approved`)}</span>
                 </div>
               )}
               {Number(status) === categoryStatus.UNAPPROVED && (
                 <div className="w-fit bg-orange-100 text-red-500 outline-none p-1 overflow-x-auto">
-                  <span className="px-2">Unapproved</span>
+                  <span className="px-2">{t(`Unapproved`)}</span>
                 </div>
               )}
             </div>
@@ -116,7 +123,7 @@ const CategoryInfo = ({ info, setInfo = () => {}, data }) => {
                   darkTheme ? 'text-white' : ''
                 }`}
               >
-                CreatedAt
+                {t(`CreatedAt`)}
               </div>
               <div className="w-8/12 bg-green-100 text-green-500 outline-none p-1 overflow-x-auto">
                 <span className="px-2">{time}</span>

@@ -18,6 +18,7 @@ import { db } from '../firebase/firebase-config'
 import { postStatus } from 'utils/constants'
 import { PATH } from 'utils/path'
 import useClickOutsite from 'hooks/useClickOutside'
+import { useTranslation } from 'react-i18next'
 
 const POST_PER_PAGE = 6
 
@@ -98,6 +99,7 @@ const BlogPageStyles = styled.div`
 `
 
 const BlogPage = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [posts, setPosts] = useState([])
   const [total, setTotal] = useState(0)
@@ -175,7 +177,7 @@ const BlogPage = () => {
             show={show}
             setShow={setShow}
             nodeRef={nodeRef}
-            placeholder="Search post..."
+            placeholder={t('Search post...')}
           ></Search>
         </div>
 
@@ -185,11 +187,11 @@ const BlogPage = () => {
               posts.map((post) => <PostItem data={post} key={post.id}></PostItem>)}
           </div>
         </div>
-        <h1>BLOG</h1>
+        <h1>{t(`BLOG`)}</h1>
 
         {total > posts.length && (
           <Button type="button" className="load-more" onClick={handleLoadMore}>
-            Load more
+            {t(`Load more`)}
           </Button>
         )}
         <Link to="/" className="icon-home">

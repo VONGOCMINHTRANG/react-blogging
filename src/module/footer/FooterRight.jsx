@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { FaFacebookSquare, FaInstagram, FaPinterestSquare, FaTwitterSquare } from 'react-icons/fa'
 import { BsLinkedin } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const FooterRightStyles = styled.div`
   p {
@@ -19,13 +20,16 @@ const FooterRightStyles = styled.div`
 `
 
 const FooterRight = () => {
+  const { t } = useTranslation()
+
   return (
     <FooterRightStyles className="footer-right">
       <p>
-        Welcome to React Blogging.
+        {t(`Welcome to React Blogging.`)}
         <br />
-        You can post your blogs, write your feeling and sharing interesting things with other
-        people.
+        {t(
+          `You can post your blogs, write your feeling and sharing interesting things with other people.`
+        )}
       </p>
       <div className="social-media">
         <Link to="/#">

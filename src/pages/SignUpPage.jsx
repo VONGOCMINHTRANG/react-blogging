@@ -15,6 +15,9 @@ import { Link } from 'components/link'
 import AuthenticationPage from './AuthenticationPage'
 import slugify from 'slugify'
 import { userRole, userStatus } from 'utils/constants'
+import defaultAvatar from '../assets/images/default.avif'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from 'contexts/auth-context'
 
 const schema = yup.object({
   fullname: yup.string().required('Please enter you fullname'),
@@ -29,6 +32,8 @@ const schema = yup.object({
 })
 
 const SignUpPage = () => {
+  const { t } = useTranslation()
+  const { userInfo } = useAuth()
   const navigate = useNavigate()
   const {
     control,
@@ -47,16 +52,14 @@ const SignUpPage = () => {
       await createUserWithEmailAndPassword(auth, values.email, values.password)
       await updateProfile(auth.currentUser, {
         displayName: values.fullname,
-        photoURL:
-          'https://images.unsplash.com/photo-1614281325348-7423b62aeb7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHN1biUyMGZsb3dlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+        photoURL: defaultAvatar,
       })
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         fullname: values.fullname,
         email: values.email,
         password: values.password,
         username: slugify(values.fullname, { lower: true }),
-        avatar:
-          'https://images.unsplash.com/photo-1614281325348-7423b62aeb7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHN1biUyMGZsb3dlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+        avatar: defaultAvatar,
         status: userStatus.ACTIVE,
         role: userRole.USER,
         createdAt: serverTimestamp(),
@@ -66,14 +69,14 @@ const SignUpPage = () => {
       //     email: values.email,
       //     password: values.password,
       //   })
-      toast.success('Register successfully !!!', {
+      toast.success(t('Register successfully'), {
         pauseOnHover: false,
         delay: 100,
       })
       navigate('/')
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        toast.error('The email address is already in use', {
+        toast.error(t('The email address is already in use'), {
           pauseOnHover: false,
           delay: 100,
         })
@@ -83,10 +86,14 @@ const SignUpPage = () => {
     }
   }
 
+  if (localStorage.getItem('userToken') || localStorage.getItem('userInfo')) {
+    navigate('/')
+  }
+
   useEffect(() => {
     const arrErrors = Object.values(errors)
     if (arrErrors.length > 0) {
-      toast.error(arrErrors[0].message, {
+      toast.error(t(arrErrors[0].message), {
         pauseOnHover: false,
         delay: 100,
       })
@@ -97,20 +104,25 @@ const SignUpPage = () => {
     <AuthenticationPage>
       <form className="max-w-[600px] my-0 mx-auto">
         <Field>
-          <Label htmlFor="fullname">Fullname</Label>
-          <Input type="text" placeholder="Enter your fullname" name="fullname" control={control} />
+          <Label htmlFor="fullname">{t(`Fullname`)}</Label>
+          <Input
+            type="text"
+            placeholder={t('Enter your fullname')}
+            name="fullname"
+            control={control}
+          />
         </Field>
         <Field>
-          <Label htmlFor="email">Email address</Label>
+          <Label htmlFor="email">{t(`Email address`)}</Label>
           <Input
             type="email"
-            placeholder="Enter your email address"
+            placeholder={t('Enter your email address')}
             name="email"
             control={control}
           />
         </Field>
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t(`Password`)}</Label>
           <InputPasswordToggle control={control}></InputPasswordToggle>
         </Field>
         <Button
@@ -120,10 +132,10 @@ const SignUpPage = () => {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Sign Up
+          {t(`Sign Up`)}
         </Button>
-        <Link link="/sign-in" name="Login">
-          Already a member?
+        <Link link="/sign-in" name={t('Login')}>
+          {t(`Already a member?`)}
         </Link>
       </form>
     </AuthenticationPage>

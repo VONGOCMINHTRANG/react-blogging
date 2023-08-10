@@ -7,10 +7,11 @@ import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import { useAuth } from 'contexts/auth-context'
 import { useEffect, useRef, useState } from 'react'
-import { postStatus, userRole } from 'utils/constants'
+import { userRole } from 'utils/constants'
 import PostUserInfo from './PostUserInfo'
 import PropTypes from 'prop-types'
 import { PATH } from 'utils/path'
+import { useTranslation } from 'react-i18next'
 
 const PostTableStyles = styled.div`
   width: 100%;
@@ -37,6 +38,7 @@ const PostTableStyles = styled.div`
 `
 
 const PostTable = ({ data }) => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const [admin, isAdmin] = useState(false)
   const navigate = useNavigate()
@@ -46,16 +48,17 @@ const PostTable = ({ data }) => {
   const handleDeletePost = async (post) => {
     const colRef = doc(db, 'posts', post)
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this post!",
+      title: t('Are you sure?'),
+      text: t("You won't be able to revert this post!"),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: t('Yes, delete it!'),
+      cancelButtonText: t('Cancel'),
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your post has been deleted.', 'success')
+        Swal.fire(t('Deleted!'), t('Your post has been deleted.'), 'success')
         await deleteDoc(colRef)
       }
     })
@@ -81,11 +84,11 @@ const PostTable = ({ data }) => {
       <Table>
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Post</th>
-            <th>Category</th>
-            <th>Author</th>
-            <th>Actions</th>
+            <th>{t(`Id`)}</th>
+            <th>{t(`Post`)}</th>
+            <th>{t(`Category`)}</th>
+            <th>{t(`Author`)}</th>
+            <th>{t(`Actions`)}</th>
           </tr>
         </thead>
         <tbody>

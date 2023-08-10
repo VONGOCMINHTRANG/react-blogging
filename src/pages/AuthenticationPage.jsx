@@ -23,7 +23,6 @@ const AuthenticationPageStyles = styled.div`
 const AuthenticationPage = ({ children }) => {
   const navigate = useNavigate()
   const { darkTheme } = useTheme()
-  console.log(darkTheme)
 
   return (
     <AuthenticationPageStyles className={darkTheme ? 'bg-black/70' : ''}>

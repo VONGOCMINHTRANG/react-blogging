@@ -29,6 +29,7 @@ import { useAuth } from 'contexts/auth-context'
 import { toast } from 'react-toastify'
 import { Editor } from 'components/editor'
 import { debounce } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 const AddPostStyles = styled.div`
   .image-content {
@@ -52,12 +53,12 @@ const AddPostStyles = styled.div`
 `
 
 const AddPost = () => {
+  const { t } = useTranslation()
+  const { userInfo } = useAuth()
   const [categories, setCategories] = useState([])
   const [selectCategory, setSelectCategory] = useState('')
   const [, setContent] = useState('')
-  const { userInfo } = useAuth()
   const [admin, isAdmin] = useState(false)
-
   const {
     handleSubmit,
     control,
@@ -89,12 +90,12 @@ const AddPost = () => {
   } = useFirebaseImage(setValue, getValues)
   const watchStatus = watch('status')
   const watchHot = watch('hot')
+
   const handleEditor = debounce((contentState) => {
     setContent('editor', contentState)
   }, 1000)
 
   const handleClickOption = async (item) => {
-    // setValue('categoryId', item.id)
     const colRef = doc(db, 'categories', item.id)
     const docData = await getDoc(colRef)
     setValue('category', {
@@ -109,8 +110,8 @@ const AddPost = () => {
       const cloneValues = { ...values }
       cloneValues.slug = slugify(values.slug || values.title, { lower: true })
       cloneValues.status = Number(values.status)
-      // console.log(cloneValues)
       const colRef = collection(db, 'posts')
+
       await addDoc(colRef, {
         title: cloneValues.title,
         slug: cloneValues.slug,
@@ -126,12 +127,12 @@ const AddPost = () => {
         editor: cloneValues.editor,
       })
       if (admin) {
-        toast.success('Create new post successfully', {
+        toast.success(t('Create new post successfully'), {
           pauseOnHover: false,
           delay: 100,
         })
       } else {
-        toast.success('Congrats! Your post will wait to be approved', {
+        toast.success(t('Congrats! Your post will wait to be approved'), {
           pauseOnHover: false,
           delay: 100,
         })
@@ -151,10 +152,9 @@ const AddPost = () => {
       setImage('')
       setProgress(0)
       setSelectCategory('')
-      // console.log(cloneValues)
     } catch (error) {
       console.log(error)
-      toast.error('Something wrong!', {
+      toast.error(t('Something wrong!'), {
         pauseOnHover: false,
         delay: 100,
       })
@@ -197,7 +197,6 @@ const AddPost = () => {
       const querySnapshot = await getDocs(q)
       let result = []
       querySnapshot.forEach((doc) => {
-        // console.log(doc.id, ' => ', doc.data())
         result.push({
           id: doc.id,
           ...doc.data(),
@@ -210,35 +209,40 @@ const AddPost = () => {
 
   return (
     <AddPostStyles>
-      <Content title="Add post" desc="Add new post"></Content>
+      <Content title={t('Add post')} desc={t('Add new post')}></Content>
       <form>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">{t(`Title`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Input
                 name="title"
                 type="text"
-                placeholder="Enter your title"
+                placeholder={t('Enter your title')}
                 control={control}
                 rules={{
                   required: true,
                 }}
               ></Input>
               {errors?.title?.type === 'required' && (
-                <div className="text-red-500 text-sm italic">Please enter your title</div>
+                <div className="text-red-500 text-sm italic">{t(`Please enter your title`)}</div>
               )}
             </div>
           </Field>
 
           <Field>
-            <Label htmlFor="slug">Slug</Label>
-            <Input name="slug" type="text" placeholder="Enter your slug" control={control}></Input>
+            <Label htmlFor="slug">{t(`Slug`)}</Label>
+            <Input
+              name="slug"
+              type="text"
+              placeholder={t('Enter your slug')}
+              control={control}
+            ></Input>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="image">Image</Label>
+            <Label htmlFor="image">{t(`Image`)}</Label>
             <div className="w-full flex flex-col gap-y-2">
               <ImageUpload
                 className="!h-[250px]"
@@ -255,18 +259,18 @@ const AddPost = () => {
 
               {errors?.image?.type === 'required' && progress === 0 && !errorFileType && (
                 <div className="text-red-500 text-sm italic">
-                  Please choose picture for your post
+                  {t(`Please choose picture for your post`)}
                 </div>
               )}
               {errorFileType && (
                 <div className="text-red-500 text-sm italic">
-                  Please choose picture has format *.png, *.jpg, *.jpeg, *.avif
+                  {t(`Please choose picture has format`)} *.png, *.jpg, *.jpeg, *.avif
                 </div>
               )}
             </div>
           </Field>
           <Field>
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category">{t(`Category`)}</Label>
             <div className="flex flex-col gap-y-2 w-full">
               <Dropdown>
                 {!selectCategory.name && (
@@ -275,7 +279,7 @@ const AddPost = () => {
                       name="dropdown"
                       control={control}
                       rules={{ required: true }}
-                      placeholder="Select your category"
+                      placeholder={t('Select your category')}
                     ></Dropdown.Select>
                     <Dropdown.List>
                       {categories.length > 0 &&
@@ -308,7 +312,9 @@ const AddPost = () => {
                 )}
               </Dropdown>
               {errors?.dropdown?.type === 'required' && !selectCategory.name && (
-                <div className="text-red-500 text-sm italic">Please select your category</div>
+                <div className="text-red-500 text-sm italic">
+                  {t(`Please select your category`)}
+                </div>
               )}
             </div>
 
@@ -320,7 +326,7 @@ const AddPost = () => {
           </Field>
         </div>
         <Field>
-          <Label htmlFor="content">Content</Label>
+          <Label htmlFor="content">{t(`Content`)}</Label>
           <Editor
             onChange={handleEditor}
             control={control}
@@ -331,18 +337,18 @@ const AddPost = () => {
             }}
           ></Editor>
           {errors?.editor?.type === 'required' && (
-            <div className="text-red-500 text-sm italic">Please enter your content</div>
+            <div className="text-red-500 text-sm italic">{t(`Please enter your content`)}</div>
           )}
           {errors?.editor?.type === 'minLength' && (
             <div className="text-red-500 text-sm italic">
-              Your content must be at least 50 characters
+              {t(`Your content must be at least 50 characters`)}
             </div>
           )}
         </Field>
         {admin && (
           <div className="form-layout">
             <Field>
-              <Label htmlFor="feature-post">Feature post</Label>
+              <Label htmlFor="feature-post">{t(`Feature`)}</Label>
               <label>
                 <Toggle
                   on={watchHot === true}
@@ -352,7 +358,7 @@ const AddPost = () => {
               </label>
             </Field>
             <Field>
-              <Label htmlFor="status">Status</Label>
+              <Label htmlFor="status">{t(`Status`)}</Label>
               <div className="flex flex-col lg:flex-row gap-5">
                 <Radio
                   name="status"
@@ -360,7 +366,7 @@ const AddPost = () => {
                   checked={Number(watchStatus) === postStatus.APPROVED}
                   value={postStatus.APPROVED}
                 >
-                  Approved
+                  {t(`Approved`)}
                 </Radio>
                 <Radio
                   name="status"
@@ -368,7 +374,7 @@ const AddPost = () => {
                   checked={Number(watchStatus) === postStatus.PENDING}
                   value={postStatus.PENDING}
                 >
-                  Pending
+                  {t(`Pending`)}
                 </Radio>
                 <Radio
                   name="status"
@@ -376,7 +382,7 @@ const AddPost = () => {
                   checked={Number(watchStatus) === postStatus.REJECT}
                   value={postStatus.REJECT}
                 >
-                  Reject
+                  {t(`Reject`)}
                 </Radio>
               </div>
             </Field>
@@ -389,7 +395,7 @@ const AddPost = () => {
           disabled={isSubmitting}
           onClick={handleSubmit(handleAddPost)}
         >
-          Add new post
+          {t(`Add new post`)}
         </Button>
       </form>
     </AddPostStyles>

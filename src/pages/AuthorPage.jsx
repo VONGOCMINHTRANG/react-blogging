@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { postStatus } from 'utils/constants'
 import { PATH } from 'utils/path'
 import useClickOutsite from 'hooks/useClickOutside'
+import { useTranslation } from 'react-i18next'
 
 const AuthorPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -83,13 +84,13 @@ const AuthorPageStyles = styled.div`
 `
 
 const AuthorPage = () => {
+  const { t } = useTranslation()
   const { slug } = useParams()
-  // console.log(slug)
+  const { show, setShow, nodeRef } = useClickOutsite()
   const navigate = useNavigate()
   const [userId, setUserId] = useState('')
   const [posts, setPosts] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
-  const { show, setShow, nodeRef } = useClickOutsite()
 
   const handleSearch = () => {
     navigate(PATH.search, { state: searchQuery })
@@ -134,7 +135,7 @@ const AuthorPage = () => {
           <Search
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
-            placeholder="Search post..."
+            placeholder={t('Search post...')}
             show={show}
             setShow={setShow}
             nodeRef={nodeRef}

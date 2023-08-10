@@ -16,6 +16,6 @@ export const FooterLeftData = [
   {
     name: 'email',
     icon: <MdEmail className="text-green-500 h-6 w-6"></MdEmail>,
-    content: 'vnmt2712@gmail.com',
+    content: 'ReactBlogging@gmail.com',
   },
 ]

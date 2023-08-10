@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase/firebase-config'
 import { PATH } from 'utils/path'
+import { useTranslation } from 'react-i18next'
 
 const schema = yup.object({
   email: yup
@@ -27,7 +28,8 @@ const schema = yup.object({
 })
 
 const SignInPage = () => {
-  const { setUserInfo } = useAuth()
+  const { t } = useTranslation()
+  const { userInfo, setUserInfo } = useAuth()
   const navigate = useNavigate()
   const {
     handleSubmit,
@@ -44,20 +46,20 @@ const SignInPage = () => {
     try {
       const creditials = await signInWithEmailAndPassword(auth, values.email, values.password)
       setUserInfo(creditials)
-      toast.success('Login successfully', {
+      toast.success(t('Login successfully'), {
         pauseOnHover: false,
         delay: 100,
       })
       navigate('/')
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
-        toast.error('Your email is not registered', {
+        toast.error(t('Your email is not registered'), {
           pauseOnHover: false,
           delay: 100,
         })
       }
       if (error.code === 'auth/wrong-password') {
-        toast.error('Your password is not correct', {
+        toast.error(t('Your password is not correct'), {
           pauseOnHover: false,
           delay: 100,
         })
@@ -65,36 +67,41 @@ const SignInPage = () => {
     }
   }
 
+  if (localStorage.getItem('userToken') || localStorage.getItem('userInfo')) {
+    navigate('/')
+  }
+
   useEffect(() => {
     const arrErrors = Object.values(errors)
     if (arrErrors.length > 0) {
-      toast.error(arrErrors[0].message, {
+      toast.error(t(arrErrors[0].message), {
         pauseOnHover: false,
         delay: 100,
       })
     }
   }, [errors])
+
   return (
     <AuthenticationPage>
       <form className="max-w-[600px] my-0 mx-auto">
         <Field>
-          <Label htmlFor="email">Email address</Label>
+          <Label htmlFor="email">{t(`Email address`)}</Label>
           <Input
             type="email"
-            placeholder="Enter your email address"
+            placeholder={t('Enter your email address')}
             name="email"
             control={control}
           />
         </Field>
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t(`Password`)}</Label>
           <InputPasswordToggle control={control}></InputPasswordToggle>
         </Field>
         <Button type="submit" className="w-[200px]" onClick={handleSubmit(handleSignIn)}>
-          Sign In
+          {t(`Sign In`)}
         </Button>
-        <Link link={PATH.sign_up} name="Sign up here">
-          Not a memeber?
+        <Link link={PATH.sign_up} name={t('Sign up here')}>
+          {t(`Not a member?`)}
         </Link>
       </form>
     </AuthenticationPage>

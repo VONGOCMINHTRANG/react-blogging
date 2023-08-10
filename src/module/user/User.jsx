@@ -19,6 +19,7 @@ import { debounce } from 'lodash'
 import { useAuth } from 'contexts/auth-context'
 import { userRole } from 'utils/constants'
 import { useDarkTheme } from 'contexts/theme-context'
+import { useTranslation } from 'react-i18next'
 
 const UserStyles = styled.div`
   .button {
@@ -75,6 +76,7 @@ const UserStyles = styled.div`
 const USER_PER_PAGE = 5
 
 const User = () => {
+  const { t } = useTranslation()
   const { userInfo } = useAuth()
   const { darkTheme } = useDarkTheme()
   const [userList, setUserList] = useState([])
@@ -160,19 +162,19 @@ const User = () => {
 
   return (
     <UserStyles>
-      <Content title="User" desc="Manage your information."></Content>
+      <Content title={t('User')} desc={t('Manage your information.')}></Content>
       {admin && (
         <>
           <div className="utilities">
             <div className="flex gap-10 w-full">
               <Link to="/manage/add-user">
-                <Button type="button">Create user</Button>
+                <Button type="button">{t(`Create user`)}</Button>
               </Link>
-              <Search placeholder="Search user..." onChange={handleInputFilter}></Search>
+              <Search placeholder={t('Search user...')} onChange={handleInputFilter}></Search>
             </div>
           </div>
           <div className={`flex py-2 ${darkTheme ? 'text-white' : ''}`}>
-            Total of users : {total}
+            {t(`Total of user`)}: {total}
           </div>
         </>
       )}
@@ -180,7 +182,7 @@ const User = () => {
       <UserTable data={userList}></UserTable>
       {total > userList.length && admin && (
         <Button type="button" className="load-more" onClick={handleLoadMore}>
-          Load more
+          {t(`Load more`)}
         </Button>
       )}
     </UserStyles>

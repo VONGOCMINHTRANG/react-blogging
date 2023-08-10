@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { postStatus } from 'utils/constants'
 import { PATH } from 'utils/path'
 import useClickOutsite from 'hooks/useClickOutside'
+import { useTranslation } from 'react-i18next'
 
 const CategoryPageStyles = styled.div`
   background-image: url('/background.jpg');
@@ -80,6 +81,7 @@ const CategoryPageStyles = styled.div`
 `
 
 const CategoryPage = () => {
+  const { t } = useTranslation()
   const { slug } = useParams()
   const navigate = useNavigate()
   const [categoryId, setCategoryId] = useState('')
@@ -130,7 +132,7 @@ const CategoryPage = () => {
           <Search
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
-            placeholder="Search post..."
+            placeholder={t('Search post...')}
             nodeRef={nodeRef}
             show={show}
             setShow={setShow}
