@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { createPortal } from 'react-dom'
 
 /**
  * @param {*} onClick Handler onClick
@@ -7,11 +8,12 @@ import PropTypes from 'prop-types'
  */
 
 const Blur = ({ onClick = () => {} }) => {
-  return (
+  return createPortal(
     <div
-      className="blur fixed inset-0 bg-gray-600 bg-opacity-70 z-20 transition-opacity duration-300"
+      className="blur fixed inset-0 bg-gray-600 bg-opacity-50 z-20 transition-opacity duration-300"
       onClick={onClick}
-    ></div>
+    ></div>,
+    document.querySelector('body')
   )
 }
 

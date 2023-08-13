@@ -17,6 +17,7 @@ import useClickOutsite from 'hooks/useClickOutside'
 import Language from 'components/language'
 import MenuUser from 'components/menu/MenuUser'
 import { useTranslation } from 'react-i18next'
+import SearchAboveBlur from 'components/search/SearchAboveBlur'
 
 const HeaderStyles = styled.header`
     padding: 20px;
@@ -171,6 +172,7 @@ const Header = () => {
   const navigate = useNavigate()
   const { darkTheme, toggleDarkTheme } = useDarkTheme()
   const [open, setOpen] = useState(false)
+  const [openSearch, setOpenSearch] = useState(false)
   const [loading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([])
@@ -181,7 +183,9 @@ const Header = () => {
     navigate(PATH.search, { state: searchQuery })
   }
 
-  const handleOpenSearch = () => {}
+  const handleOpenSearch = () => {
+    setOpenSearch(true)
+  }
 
   useEffect(() => {
     const categoryRef = collection(db, 'categories')
@@ -256,12 +260,6 @@ const Header = () => {
                   ))}
               </ul>
 
-              {open && (
-                <>
-                  <Blur onClick={() => setOpen(false)}></Blur>
-                </>
-              )}
-
               <Sidebar
                 className={
                   open ? 'sidebar visible translate-x-0' : 'sidebar invisible -translate-x-full'
@@ -270,6 +268,12 @@ const Header = () => {
                 number1="0"
                 number2={userInfo.email ? '5' : '4'}
               ></Sidebar>
+
+              {open && (
+                <>
+                  <Blur onClick={() => setOpen(false)}></Blur>
+                </>
+              )}
 
               <div className="header-right">
                 <button onClick={() => setOpen(true)} className="sidebarBtn">
@@ -281,6 +285,14 @@ const Header = () => {
                 <div className="icon-search cursor-pointer" onClick={handleOpenSearch}>
                   <IconSearch />
                 </div>
+
+                <SearchAboveBlur
+                  onClick={() => setOpenSearch(false)}
+                  setSearchQuery={setSearchQuery}
+                  handleSearch={handleSearch}
+                  openSearch={openSearch}
+                  className={openSearch ? 'visible translate-x-0' : 'invisible -translate-x-full'}
+                />
 
                 <div
                   onClick={toggleDarkTheme}
