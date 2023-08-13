@@ -291,7 +291,7 @@ const Header = () => {
                   setSearchQuery={setSearchQuery}
                   handleSearch={handleSearch}
                   openSearch={openSearch}
-                  className={openSearch ? 'visible translate-x-0' : 'invisible -translate-x-full'}
+                  className={openSearch ? 'visible right-0' : 'invisible'}
                 />
 
                 <div

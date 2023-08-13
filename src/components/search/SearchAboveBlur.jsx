@@ -20,7 +20,6 @@ const SearchAboveBlurStyles = styled.div`
   position: absolute;
   margin-right: 20px;
   z-index: 30;
-  right: 0;
 
   input {
     border-radius: 8px;
@@ -110,10 +109,7 @@ const SearchAboveBlur = ({
         } fixed inset-0 bg-gray-600 bg-opacity-50 z-20`}
         onClick={onClick}
       ></div>
-      <SearchAboveBlurStyles
-        className={`search-above-blur transition-all ${className}`}
-        ref={nodeRef}
-      >
+      <SearchAboveBlurStyles className={`search-above-blur ${className}`} ref={nodeRef}>
         <input
           type="text"
           placeholder={t(placeholder)}
