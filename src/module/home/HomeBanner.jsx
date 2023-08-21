@@ -84,7 +84,6 @@ const HomeBanner = () => {
   const { t } = useTranslation()
   const { darkTheme } = useDarkTheme()
   const { userInfo } = useAuth()
-  console.log(userInfo)
   const [loading, isLoading] = useState(false)
 
   useEffect(() => {

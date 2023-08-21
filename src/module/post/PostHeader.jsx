@@ -46,6 +46,7 @@ const PostHeaderStyles = styled.div`
         color: ${(props) => props.theme.secondary};
         transition: all 0.1s linear;
       }
+      margin-bottom: 16px;
     }
   }
   @media (max-width: 1024px) {
