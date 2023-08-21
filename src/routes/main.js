@@ -12,6 +12,7 @@ const NotFoundPage = lazy(() => import('pages/NotFoundPage'))
 const Dashboard = lazy(() => import('module/dashboard/Dashboard'))
 const BlogPage = lazy(() => import('pages/BlogPage'))
 const SearchPage = lazy(() => import('pages/SearchPage'))
+const FavouritePage = lazy(() => import('pages/FavouritePage'))
 
 /* Manage Post */
 const AddPost = lazy(() => import('module/post/AddPost'))
@@ -40,61 +41,44 @@ const MainRoutes = () => {
         <AuthProvider>
           <Suspense>
             <Routes>
-              <Route path={PATH.main} element={<HomePage></HomePage>}></Route>
-              <Route path={PATH.sign_up} element={<SignUpPage></SignUpPage>}></Route>
-              <Route path={PATH.sign_in} element={<SignInPage></SignInPage>}></Route>
-              <Route path={PATH.blog} element={<BlogPage></BlogPage>}></Route>
-              <Route path={PATH.search} element={<SearchPage></SearchPage>}></Route>
-              <Route path={PATH.not_found} element={<NotFoundPage></NotFoundPage>}></Route>
+              <Route path={PATH.main} element={<HomePage />}></Route>
+              <Route path={PATH.sign_up} element={<SignUpPage />}></Route>
+              <Route path={PATH.sign_in} element={<SignInPage />}></Route>
+              <Route path={PATH.blog} element={<BlogPage />}></Route>
+              <Route path={PATH.search} element={<SearchPage />}></Route>
+              <Route path={PATH.not_found} element={<NotFoundPage />}></Route>
 
               <Route
                 element={
                   <Suspense>
-                    <DashboardLayout></DashboardLayout>
+                    <DashboardLayout />
                   </Suspense>
                 }
               >
-                <Route path={PATH.dashboard.dashboard} element={<Dashboard></Dashboard>}></Route>
+                <Route path={PATH.dashboard.dashboard} element={<Dashboard />}></Route>
 
                 {/* Manage Post */}
-                <Route path={PATH.dashboard.add_post} element={<AddPost></AddPost>}></Route>
-                <Route path={PATH.dashboard.posts} element={<Posts></Posts>}></Route>
-                <Route
-                  path={PATH.dashboard.update_post}
-                  element={<UpdatePost></UpdatePost>}
-                ></Route>
+                <Route path={PATH.dashboard.add_post} element={<AddPost />}></Route>
+                <Route path={PATH.dashboard.posts} element={<Posts />}></Route>
+                <Route path={PATH.dashboard.update_post} element={<UpdatePost />}></Route>
 
                 {/* Manage User */}
-                <Route path={PATH.dashboard.users} element={<User></User>}></Route>
-                <Route
-                  path={PATH.dashboard.update_user}
-                  element={<UpdateUser></UpdateUser>}
-                ></Route>
-                <Route path={PATH.dashboard.add_user} element={<AddUser></AddUser>}></Route>
-                <Route
-                  path={PATH.dashboard.account_infomation}
-                  element={<AccountInfo></AccountInfo>}
-                ></Route>
-                <Route
-                  path={PATH.dashboard.change_password}
-                  element={<ChangePassword></ChangePassword>}
-                ></Route>
+                <Route path={PATH.dashboard.users} element={<User />}></Route>
+                <Route path={PATH.dashboard.update_user} element={<UpdateUser />}></Route>
+                <Route path={PATH.dashboard.add_user} element={<AddUser />}></Route>
+                <Route path={PATH.dashboard.account_infomation} element={<AccountInfo />}></Route>
+                <Route path={PATH.dashboard.change_password} element={<ChangePassword />}></Route>
 
                 {/* Manage Category */}
-                <Route path={PATH.dashboard.categories} element={<Category></Category>}></Route>
-                <Route
-                  path={PATH.dashboard.add_category}
-                  element={<AddCategory></AddCategory>}
-                ></Route>
-                <Route
-                  path={PATH.dashboard.update_category}
-                  element={<CategoryUpdate></CategoryUpdate>}
-                ></Route>
+                <Route path={PATH.dashboard.categories} element={<Category />}></Route>
+                <Route path={PATH.dashboard.add_category} element={<AddCategory />}></Route>
+                <Route path={PATH.dashboard.update_category} element={<CategoryUpdate />}></Route>
               </Route>
 
-              <Route path={PATH.detail_post} element={<DetailPostPage></DetailPostPage>}></Route>
-              <Route path={PATH.author} element={<AuthorPage></AuthorPage>}></Route>
-              <Route path={PATH.category} element={<CategoryPage></CategoryPage>}></Route>
+              <Route path={PATH.detail_post} element={<DetailPostPage />}></Route>
+              <Route path={PATH.author} element={<AuthorPage />}></Route>
+              <Route path={PATH.category} element={<CategoryPage />}></Route>
+              <Route path={PATH.favourite} element={<FavouritePage />}></Route>
             </Routes>
           </Suspense>
         </AuthProvider>

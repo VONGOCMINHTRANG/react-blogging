@@ -28,6 +28,12 @@ const MenuUser = ({ className = '' }) => {
           >
             {t(`Change password`)}
           </li>
+          <li
+            onClick={() => navigate(PATH.favourite)}
+            className="p-2 hover:bg-slate-300 hover:text-green-600"
+          >
+            {t(`Favourite blogs`)}
+          </li>
           <li onClick={handleLogout} className="p-2 hover:bg-slate-300 hover:text-green-600">
             {t(`Log out`)}
           </li>
