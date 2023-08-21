@@ -30,4 +30,5 @@ export const PATH = {
   detail_post: '/detail-post/:slug',
   author: '/author/:slug',
   category: '/category/:slug',
+  favourite: '/favourite-blog',
 }
