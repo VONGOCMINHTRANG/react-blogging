@@ -2,7 +2,7 @@ import { LoadingSpinner } from 'components/loading'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-const ButtonStyles = styled.div`
+const ButtonStyles = styled.button`
   cursor: pointer;
   padding: calc(0.7em + 0.5vw);
   height: ${(props) => props.height || '56px'};
